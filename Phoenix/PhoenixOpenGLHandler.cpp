@@ -8,18 +8,18 @@
 #include "stdio.h"
 namespace PhoenixCore{
 
-void OpenGLHandler::BuildTexture(PhTexture* _pTexture)
+void OpenGLHandler::BuildTexture(Texture* _pTexture)
 {
+
 }
 
-void OpenGLHandler::BindTexture(PhTexture* _pTexture)
+void OpenGLHandler::BindTexture(int texture)
 {
-
+  glBindTexture(GL_TEXTURE_2D, texture);
   /*
   int depthType;
 
   glGenTextures(1, &(_pTexture->m_id));
-  glBindTexture(GL_TEXTURE_2D, _pTexture->GetTextureId());
 
   // Linear filters
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	
@@ -50,7 +50,7 @@ void OpenGLHandler::BindTexture(PhTexture* _pTexture)
 }
 
 
-void OpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos)
+void OpenGLHandler::DrawTexture2D(Texture* _pTexture, Vertex2& pos)
 {
   if (_pTexture != NULL){
   Vertex2 postopleft(pos.x - _pTexture->GetWidth() / 2,

@@ -7,7 +7,7 @@
 
 namespace PhoenixCore{
 
-class PhTexture;	//PhoenixTexture.h
+class Texture;	//PhoenixTexture.h
 class Color;		//PhoenixUtil.h
 class Vertex2;		//PhoenixUtil.h
 class Vertex3;    //PhoenixUtil.h
@@ -35,8 +35,8 @@ class IRenderer
     virtual void	ReSizeWindow(int width, int height) = 0;
     virtual void	KillWindow() = 0;
     virtual void	CloseRenderer() = 0;
-    virtual void	BindTexture(PhTexture* _pTexture) = 0;
-    virtual void  BuildTexture(PhTexture* _pTexture) = 0;
+    virtual void	BindTexture(int texture) = 0;
+    virtual void  BuildTexture(Texture* _pTexture) = 0;
     virtual int		ClearBuffer()=0;
     virtual int		SwapBuffer()=0;
     virtual void	BuildFont(void)=0;
@@ -57,7 +57,7 @@ class IRenderer
     virtual void	DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4)=0;
     virtual void  DrawCube(Vertex3& pos, float size, float rotation, Color& c) = 0;
     virtual void	DrawText(Vertex2 _pos, const TCHAR *fmt, ...)=0;
-    virtual void	DrawTexture2D(PhTexture* _pTexture, Vertex2& pos) = 0;
+    virtual void	DrawTexture2D(Texture* _pTexture, Vertex2& pos) = 0;
 
     virtual void  Push2D()=0;
     virtual void  Pop2D()=0;

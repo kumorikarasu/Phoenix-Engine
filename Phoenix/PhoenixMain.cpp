@@ -125,7 +125,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
     return (msg.wParam);							// Exit The Program
 
-  }catch(exception e){
+  }catch(const std::exception& e){
     delete Mod->pConsole;
     free(Mod);
   }
