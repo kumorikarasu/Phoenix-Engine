@@ -8,57 +8,33 @@
 
 namespace PhoenixCore{
 
-  class PhTexture;	//PhoenixTexture.h
-  class Console;	//PhoenixConsole.h
-  class IRenderer;	//PhoenixRenderer.h
+  class DataFactory;
 
-  class TextureManager
+  class Texture
   {
-  private:
-    IRenderer* pRenderer;
-
-    TextureLoader* TL;
-
-    std::map<std::wstring, PhTexture*> m_TextureMap;
-
-
-  public:
-
-    TextureManager(Console* _pConsole, IRenderer* _pRenderer);
-    ~TextureManager();
-
-    PhTexture* Texture(TCHAR *_filename);
-
-  };
-
-  class PhTexture
-  {
-
-    friend class TextureManager;
-
-    int	m_width;							// Image Width
-    int	m_height;							// Image Height
-    int	m_type;								// Image Type (GL_RGB, GL_RGBA)
-    int	m_bpp;								// Image Color Depth In Bits Per Pixel
+    friend class DataFactory;
+    
+    int	width;							// Image Width
+    int	height;							// Image Height
+    int	type;								// Image Type (GL_RGB, GL_RGBA)
+    int	bpp;								// Image Color Depth In Bits Per Pixel
 
     // Refrence counter (number of times texture has been accessed
-    unsigned int m_iRefCount;	
+    unsigned int refCount;	
 
   public:
 
     //has to be public cause of how OGL access it
-    unsigned int		m_id;		// texture id
-    eglTexType	m_texType;	// Texture Format
+    unsigned int		id;		// texture id
 
-    PhTexture() {};
-    ~PhTexture() {};
+    Texture() {};
+    ~Texture() {};
 
-    int GetBpp() const { return m_bpp; }
-    int GetWidth() const { return m_width; }
-    int GetHeight() const { return m_height; }
-    int GetTextureId() const { return m_id; }
+    int GetBpp() const { return bpp; }
+    int GetWidth() const { return width; }
+    int GetHeight() const { return height; }
+    int GetTextureId() const { return id; }
   };
-
 };
 
 #endif

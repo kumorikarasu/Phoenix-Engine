@@ -104,9 +104,9 @@
     <ClCompile Include="PhoenixEntityManager.cpp" />
     <ClCompile Include="AsInputBuffer.cpp" />
     <ClCompile Include="PhoenixUtil.cpp" />
-    <ClCompile Include="TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CImg.h" />
     <ClInclude Include="CircularList.h" />
     <ClInclude Include="dirent.h" />
     <ClInclude Include="LinkedList.h" />
@@ -127,7 +127,6 @@
     <ClInclude Include="AsInputBuffer.h" />
     <ClInclude Include="AsNetplay.h" />
     <ClInclude Include="AsProperties.h" />
-    <ClInclude Include="TextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
