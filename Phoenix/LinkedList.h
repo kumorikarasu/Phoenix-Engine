@@ -29,7 +29,8 @@
     */
 
 template <class _Ty>
-class Node{
+class Node
+{
 
   private:
     template <class _Ty> friend class LinkedList; //allows the list to access private varibles
@@ -39,7 +40,8 @@ class Node{
 
   public:
 
-    Node<_Ty>(){
+    Node<_Ty>()
+    {
       pNext=NULL;
       pPrev=NULL;
       pObject=NULL;
@@ -54,33 +56,39 @@ class Node{
 };
 
 template <class _Ty>
-class LinkedList{
+class LinkedList
+{
   private:
     Node<_Ty>* pHead;
     Node<_Ty>* pTail;
     int m_nSize;
   public:
 
-    LinkedList(){
+    LinkedList()
+    {
       Init();
     }
 
-    ~LinkedList(){
+    ~LinkedList()
+    {
       clear();
     }
 
-    void Init(){
+    void Init()
+    {
       pHead = new Node<_Ty>();
       pTail = pHead;
       m_nSize=0;
     }
     //Returns First Node
-    Node<_Ty>* first(){
+    Node<_Ty>* first()
+    {
       return pHead;
     } 
 
     //Adds a new element to the end of the list
-    void add(_Ty* _pObject){
+    void add(_Ty* _pObject)
+    {
       if (_pObject!=NULL){
         if (pTail -> pObject != NULL){
           pTail->pNext = new Node<_Ty>();
@@ -96,12 +104,14 @@ class LinkedList{
     }
 
     //returns the number of elements in the list
-    int getSize(){
+    int getSize()
+    {
       return m_nSize;
     }
 
     //Parses the node to be deleted
-    Node<_Ty>* remove(Node<_Ty>* _node){
+    Node<_Ty>* remove(Node<_Ty>* _node)
+    {
       if (_node == pTail){
         if (_node == pHead){
           delete pTail;
@@ -142,7 +152,8 @@ class LinkedList{
     }
 
     //permantly deletes everything inside the list
-    void clear(){
+    void clear()
+    {
       Node<_Ty>* clear = pHead;
       while(clear!=NULL){
         Node<_Ty>* remove = clear;

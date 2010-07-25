@@ -7,7 +7,8 @@
 #include <gl\gl.h>								// Header File For The OpenGL32 Library
 #include <gl\glu.h>								// Header File For The GLu32 Library
 
-class PhOpenGLHandler : public PhIRenderer {
+class PhOpenGLHandler : public PhIRenderer
+{
 
   private:
 

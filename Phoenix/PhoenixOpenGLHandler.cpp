@@ -6,7 +6,8 @@
 
 #include "stdio.h"
 
-void PhOpenGLHandler::BindTexture(PhTexture* _pTexture){
+void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
+{
 
   int depthType;
 
@@ -40,7 +41,8 @@ void PhOpenGLHandler::BindTexture(PhTexture* _pTexture){
 }
 
 
-void PhOpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos){
+void PhOpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos)
+{
 
   Vertex2 postopleft(pos.x - _pTexture->GetWidth() / 2,pos.y - _pTexture->GetHeight() / 2);
 
@@ -88,7 +90,8 @@ void PhOpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos){
 }
 
 
-void PhOpenGLHandler::DrawLine(Vertex2& pos1, Vertex2& pos2){
+void PhOpenGLHandler::DrawLine(Vertex2& pos1, Vertex2& pos2)
+{
   glBegin(GL_LINES);
   glColor3f(pos1.c.r,pos1.c.g,pos1.c.b);
   glVertex3f( (GLfloat) pos1.x, (GLfloat)  pos1.y, 0.0f);
@@ -99,7 +102,8 @@ void PhOpenGLHandler::DrawLine(Vertex2& pos1, Vertex2& pos2){
 }
 
 
-void PhOpenGLHandler::DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3){
+void PhOpenGLHandler::DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3)
+{
   glBegin(GL_TRIANGLES);
   glColor3f(pos1.c.r,pos1.c.g,pos1.c.b);
   glVertex3f( (GLfloat) pos1.x, (GLfloat)  pos1.y, 0.0f);
@@ -113,7 +117,8 @@ void PhOpenGLHandler::DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3){
 }
 
 
-void PhOpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4){
+void PhOpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4)
+{
   glBegin(GL_QUADS);
   glColor4f(pos1.c.r,pos1.c.g,pos1.c.b,pos1.c.a);
   glVertex3f( (GLfloat) pos1.x, (GLfloat)  pos1.y, 0.0f);
@@ -133,7 +138,8 @@ void PhOpenGLHandler::EnableBlendMode(){
   glEnable (GL_BLEND);
 }
 
-void PhOpenGLHandler::BlendMode(blend_mode bm){
+void PhOpenGLHandler::BlendMode(blend_mode bm)
+{
   if (bm == BM_ALPHA){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
@@ -143,12 +149,14 @@ void PhOpenGLHandler::BlendMode(blend_mode bm){
   }
 }
 
-void PhOpenGLHandler::DisableBlendMode(){
+void PhOpenGLHandler::DisableBlendMode()
+{
   glDisable(GL_BLEND);
 }
 
 
-int PhOpenGLHandler::ClearBuffer(){
+int PhOpenGLHandler::ClearBuffer()
+{
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
@@ -175,11 +183,13 @@ int PhOpenGLHandler::ClearBuffer(){
   return true;
 }
 
-int	PhOpenGLHandler::SwapBuffer(){
+int	PhOpenGLHandler::SwapBuffer()
+{
   return SwapBuffers(hDC);
 }
 
-int PhOpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height, int bits, bool fullscreenflag, int nCmdShow){
+int PhOpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height, int bits, bool fullscreenflag, int nCmdShow)
+{
 
   width = _width;
   height = _height;

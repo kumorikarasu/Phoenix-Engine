@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix", "Phoenix\Phoenix.vcproj", "{371097E1-10FD-4EAC-AB2A-6A1FB45FC59C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTestEngine", "UnitTestEngine\UnitTestEngine.vcproj", "{6063A934-9115-49AD-A63D-89021C3EB89B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{18CC5AD3-2677-4B95-BCA5-B4472E9AF80E}"
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
@@ -13,9 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Phoenix2.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
@@ -25,10 +20,6 @@ Global
 		{371097E1-10FD-4EAC-AB2A-6A1FB45FC59C}.Debug|Win32.Build.0 = Debug|Win32
 		{371097E1-10FD-4EAC-AB2A-6A1FB45FC59C}.Release|Win32.ActiveCfg = Release|Win32
 		{371097E1-10FD-4EAC-AB2A-6A1FB45FC59C}.Release|Win32.Build.0 = Release|Win32
-		{6063A934-9115-49AD-A63D-89021C3EB89B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6063A934-9115-49AD-A63D-89021C3EB89B}.Debug|Win32.Build.0 = Debug|Win32
-		{6063A934-9115-49AD-A63D-89021C3EB89B}.Release|Win32.ActiveCfg = Release|Win32
-		{6063A934-9115-49AD-A63D-89021C3EB89B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

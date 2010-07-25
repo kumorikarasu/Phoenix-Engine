@@ -11,7 +11,8 @@ class Vertex2;		//PhoenixUtil.h
 
 enum blend_mode{BM_ALPHA,BM_ADD,BM_SUBTRACT};
 
-class PhIRenderer{
+class PhIRenderer
+{
   protected:
 
 #ifdef WIN

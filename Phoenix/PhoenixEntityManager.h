@@ -5,7 +5,8 @@
 
 class PhEntity; //PhoenixEntity.h
 
-class PhEntityManager{
+class PhEntityManager
+{
   private:
     LinkedList<PhEntity>* EntityList;
 

@@ -1,5 +1,6 @@
 
-struct sAttackProp{
+struct sAttackProp
+{
   //Frame Data
   int		nHitStun;
   int		nBlockStun;
@@ -45,7 +46,8 @@ struct sAttackProp{
 };
 
 
-struct sPlayerProp{
+struct sPlayerProp
+{
   //the amount of life a player has
   int		nLife;
 

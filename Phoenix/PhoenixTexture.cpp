@@ -4,7 +4,8 @@
 
 using namespace std;
 
-int PhTextureManager::LoadTextureTGA(const std::string &_filename, PhTexture *_pTexture){
+int PhTextureManager::LoadTextureTGA(const std::string &_filename, PhTexture *_pTexture)
+{
 
   FILE *pFile = NULL;
 
@@ -201,12 +202,14 @@ int PhTextureManager::LoadTextureTGA(const std::string &_filename, PhTexture *_p
   }
 
 
-  PhTexture::~PhTexture(){
+  PhTexture::~PhTexture()
+  {
     if (this->m_data != NULL)
       delete this->m_data; //unload texture data from memory (very important, since textures can take alot of ram)
   }
 
-  PhTextureManager::~PhTextureManager(){
+  PhTextureManager::~PhTextureManager()
+  {
 
     //delete all textures that have been loaded
     map<string,PhTexture*>::iterator iter = m_TextureMap.begin();

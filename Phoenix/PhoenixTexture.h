@@ -9,7 +9,8 @@ class PhTexture;	//PhoenixTexture.h
 class PhConsole;	//PhoenixConsole.h
 class PhIRenderer;	//PhoenixRenderer.h
 
-class PhTextureManager{
+class PhTextureManager
+{
   private:
     PhConsole* pConsole;
     PhIRenderer* pRenderer;
@@ -28,7 +29,8 @@ class PhTextureManager{
 };
 
 
-class PhTexture{
+class PhTexture
+{
 
   friend class PhTextureManager;
 

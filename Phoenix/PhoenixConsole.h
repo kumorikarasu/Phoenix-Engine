@@ -13,13 +13,14 @@ class PhIRenderer;
 
 enum error_type {C_NORMAL, C_ERROR, C_WARNING};
 
-struct sMessageLine{
+struct sMessageLine
+{
   char m_text[256];
   int m_type;
 };
 
-class PhConsole{
-
+class PhConsole
+{
   bool m_btoggle;
   std::list<sMessageLine> m_lConsole;
   FILE *m_logfile;
