@@ -9,50 +9,50 @@
 
 class PhOpenGLHandler : public PhIRenderer {
 
-private:
-	
-	GLuint	base;				// Base Display List For The Font Set
+  private:
 
-public:
+    GLuint	base;				// Base Display List For The Font Set
 
-	//Universal Functions
-	int		CreateGameWindow(LPCWSTR title, int _width, int _height, int bits, bool fullscreenflag, int nCmdShow);
-	void	ReSizeWindow(int width, int height);
-	int		Init();
-	void	KillWindow();
-	void	CloseRenderer();
-	void	BindTexture(PhTexture* _pTexture);
-	int		ClearBuffer();
-	int		SwapBuffer();
-	void	BuildFont(void);
-	void	KillFont();
-	void	Begin2D();
-	void	Begin3D();
+  public:
 
-	//Blend Modes
-	void	EnableBlendMode();
-	void	BlendMode(blend_mode bm);
-	void	DisableBlendMode();
+    //Universal Functions
+    int		CreateGameWindow(LPCWSTR title, int _width, int _height, int bits, bool fullscreenflag, int nCmdShow);
+    void	ReSizeWindow(int width, int height);
+    int		Init();
+    void	KillWindow();
+    void	CloseRenderer();
+    void	BindTexture(PhTexture* _pTexture);
+    int		ClearBuffer();
+    int		SwapBuffer();
+    void	BuildFont(void);
+    void	KillFont();
+    void	Begin2D();
+    void	Begin3D();
 
-	//Draw Functions
-	void	DrawLine(Vertex2& pos1, Vertex2& pos2);
-	void	DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3);
-	void	DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4);
-	void	DrawTexture2D(PhTexture* _pTexture, Vertex2& pos);
-	void	DrawText(Vertex2 _pos, const char *fmt, ...);
+    //Blend Modes
+    void	EnableBlendMode();
+    void	BlendMode(blend_mode bm);
+    void	DisableBlendMode();
 
-
-	//functions that need to be filled in yet
-	void	Draw3DCube(Vertex2/*3*/& pos1);
+    //Draw Functions
+    void	DrawLine(Vertex2& pos1, Vertex2& pos2);
+    void	DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3);
+    void	DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4);
+    void	DrawTexture2D(PhTexture* _pTexture, Vertex2& pos);
+    void	DrawText(Vertex2 _pos, const char *fmt, ...);
 
 
-	PhOpenGLHandler(){
-		hRC=NULL;
-		hDC=NULL;
-		hWnd=NULL;
-	}
+    //functions that need to be filled in yet
+    void	Draw3DCube(Vertex2/*3*/& pos1);
 
-	~PhOpenGLHandler();
+
+    PhOpenGLHandler(){
+      hRC=NULL;
+      hDC=NULL;
+      hWnd=NULL;
+    }
+
+    ~PhOpenGLHandler();
 };
 
 #endif

@@ -14,29 +14,29 @@ class PhIRenderer;
 enum error_type {C_NORMAL, C_ERROR, C_WARNING};
 
 struct sMessageLine{
-	char m_text[256];
-	int m_type;
+  char m_text[256];
+  int m_type;
 };
 
 class PhConsole{
-		
-	bool m_btoggle;
-	std::list<sMessageLine> m_lConsole;
-	FILE *m_logfile;
 
-public:
-	void Line(const char* fmt, int _type, ...);	//Outputs a line to the console and textfile
-	void Log(const char* fmt, int _type, ...);	//Outputs a line to the TextFile
+  bool m_btoggle;
+  std::list<sMessageLine> m_lConsole;
+  FILE *m_logfile;
 
-	void Draw(PhIRenderer * GDI);
+  public:
+  void Line(const char* fmt, int _type, ...);	//Outputs a line to the console and textfile
+  void Log(const char* fmt, int _type, ...);	//Outputs a line to the TextFile
 
-	void On(){m_btoggle=1;}
-	void Off(){m_btoggle=0;}
-	
-	bool getToggle(){return m_btoggle;}
+  void Draw(PhIRenderer * GDI);
 
-	PhConsole();
-	~PhConsole();
+  void On(){m_btoggle=1;}
+  void Off(){m_btoggle=0;}
+
+  bool getToggle(){return m_btoggle;}
+
+  PhConsole();
+  ~PhConsole();
 };
 
 

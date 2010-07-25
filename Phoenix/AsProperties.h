@@ -1,69 +1,69 @@
 
 struct sAttackProp{
-	//Frame Data
-	int		nHitStun;
-	int		nBlockStun;
-	int		nCounterHit;
-	int		nStartup;
-	int		nRecovery;
-	int		nInvun;
-	int		nThrowInvun;
-	int		nSuperArmor;
-	int		nAutoGaurd;
+  //Frame Data
+  int		nHitStun;
+  int		nBlockStun;
+  int		nCounterHit;
+  int		nStartup;
+  int		nRecovery;
+  int		nInvun;
+  int		nThrowInvun;
+  int		nSuperArmor;
+  int		nAutoGaurd;
 
-	//Damage!
-	int		nDamage;
+  //Damage!
+  int		nDamage;
 
-	//Gaurd Crush
-	int		nGaurdLevel;
-	int		nGaurdCrush;
+  //Gaurd Crush
+  int		nGaurdLevel;
+  int		nGaurdCrush;
 
-	//Meter
-	int		nMeterGained;
-	int		nMeterCost;
+  //Meter
+  int		nMeterGained;
+  int		nMeterCost;
 
-	//Super Flash Object
-	void*	pFlash;
+  //Super Flash Object
+  void*	pFlash;
 
-	//Where it hits
-	char	fHitAttribute;	//location of where it hits (head/mid/foot)
-	char	fHitType;		//How it hits (high/mid/low) 0x0F = all 3
+  //Where it hits
+  char	fHitAttribute;	//location of where it hits (head/mid/foot)
+  char	fHitType;		//How it hits (high/mid/low) 0x0F = all 3
 
-	//location of what it would invince
-	char	fHitInvun;
+  //location of what it would invince
+  char	fHitInvun;
 
-	//Does it wallbounce or floorbounce?
-	bool	bWallBounce;
-	bool	bFloorBounce;
+  //Does it wallbounce or floorbounce?
+  bool	bWallBounce;
+  bool	bFloorBounce;
 
-	//% of the prorate amount
-	int		nProrate;
+  //% of the prorate amount
+  int		nProrate;
 
-	//Character Specific
-	int		nAspect;
+  //Character Specific
+  int		nAspect;
 
 };
 
 
 struct sPlayerProp{
-	//the amount of life a player has
-	int		nLife;
-	
-	//gaurd data
-	int		nGaurdType;
-	int		nGaurd;
+  //the amount of life a player has
+  int		nLife;
 
-	//super bar
-	int		nMeter;
+  //gaurd data
+  int		nGaurdType;
+  int		nGaurd;
 
-	//character specific bars
-	int		nAspect;
-	int		nInstall;
+  //super bar
+  int		nMeter;
 
-	//proration information
-	int		nProrate;
-	int		nComborate;
+  //character specific bars
+  int		nAspect;
+  int		nInstall;
 
-	//weight value (if applicable)
-	int		nWeight;
+  //proration information
+  int		nProrate;
+  int		nComborate;
+
+  //weight value (if applicable)
+  int		nWeight;
 };
