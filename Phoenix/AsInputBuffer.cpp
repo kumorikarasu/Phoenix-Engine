@@ -10,7 +10,8 @@
  *
  * takes the input and adds it to the buffer
  */
-void AsInputBuffer::pushInput(bool _input[256]){
+void AsInputBuffer::pushInput(bool _input[256])
+{
   nDirection[nDirectionLocation] = 5; //set the input to 5 (nuetral stick
 
   for (int i=0;i<256;i++){ //go throught every single possible input
@@ -41,7 +42,8 @@ void AsInputBuffer::pushInput(bool _input[256]){
  * 
  * Sets the table to the corosponding value
  */
-void AsInputBuffer::SetTable(int _location, int _value = 0){
+void AsInputBuffer::SetTable(int _location, int _value = 0)
+{
   nInputLUT[_location] = _value;
 }
 
@@ -50,16 +52,19 @@ void AsInputBuffer::SetTable(int _location, int _value = 0){
  *
  * sets the lookup table to a new one
  */
-void AsInputBuffer::SetTable(int _InputLUT[]){
+void AsInputBuffer::SetTable(int _InputLUT[])
+{
   memcpy(nInputLUT,_InputLUT,256 * sizeof(int)); //if i just set the array to goto the location of the other array (since arrays are pointers) i would be setting it into the stack... not good, so memcpy
 }
 
 
-AsInputBuffer::AsInputBuffer(){
+AsInputBuffer::AsInputBuffer()
+{
 
 
 }
 
-AsInputBuffer::~AsInputBuffer(){
+AsInputBuffer::~AsInputBuffer()
+{
 
 }

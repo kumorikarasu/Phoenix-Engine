@@ -6,7 +6,8 @@ class PhCollisionObject;		//PhoenixCollisionManager.h
 class PhIRenderer;				//PhoenixRenderer.h
 class Vertex2;					//PhoenixUtil.h
 
-class PhEntity{
+class PhEntity
+{
 
 public:
   const int			EntityID = 000;		//Entity ID Number

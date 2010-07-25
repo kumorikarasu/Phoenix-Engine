@@ -2,7 +2,8 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
-class Color{
+class Color
+{
   public:
     float r,g,b,a;
 
@@ -11,7 +12,8 @@ class Color{
     Color(float r, float g, float b){this->r = r; this->g=g; this->b=b; this->a=0;}
 };
 
-class Vertex2{
+class Vertex2
+{
 
   public:
     int x,y;

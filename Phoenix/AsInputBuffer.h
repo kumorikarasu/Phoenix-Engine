@@ -4,7 +4,8 @@
  * - Input Buffer
  * - Parses the buffer for the last command input
  */
-class AsInputBuffer{
+class AsInputBuffer
+{
 
   private:
     //since there is 2 possible inputs per frame, a direction and a button we create 2 lists of input

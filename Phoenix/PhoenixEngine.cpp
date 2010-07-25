@@ -6,7 +6,8 @@
 #include "PhoenixConsole.h"
 
 //everything!
-void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount){
+void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
+{
   fps = _fps;
   input = _input;
   nFrameCount = _nFrameCount;
@@ -26,7 +27,8 @@ void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount){
 
 
 //go throught the list of objects that need to be rendered and render them
-void PhEngine::Render(){
+void PhEngine::Render()
+{
   pRenderer->ClearBuffer(); //clear the screen
 
   pRenderer->EnableBlendMode();
@@ -86,7 +88,8 @@ void PhEngine::Render(){
 
 
 //constructor
-PhEngine::PhEngine(PhIRenderer* _renderer, PhConsole* _console){
+PhEngine::PhEngine(PhIRenderer* _renderer, PhConsole* _console)
+{
   pConsole = _console;
   pRenderer = _renderer;
   fps = 0;
@@ -94,7 +97,8 @@ PhEngine::PhEngine(PhIRenderer* _renderer, PhConsole* _console){
 }
 
 //destructor
-PhEngine::~PhEngine(){
+PhEngine::~PhEngine()
+{
 
   delete pTextureMan;
 }

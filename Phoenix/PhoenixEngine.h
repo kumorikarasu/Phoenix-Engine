@@ -8,7 +8,8 @@ class PhConsole;		//PhoenixConsol.h
 class PhTextureManager;	//PhoenixTexture.h
 
 //the main wrapper for the engine
-class PhEngine{
+class PhEngine
+{
   private:
     PhIRenderer*		pRenderer;
     PhConsole*			pConsole;

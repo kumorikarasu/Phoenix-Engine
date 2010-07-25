@@ -4,7 +4,8 @@
 #include "PhoenixRenderer.h"
 
 
-PhConsole::PhConsole(){
+PhConsole::PhConsole()
+{
   m_btoggle=false;
   m_logfile =	fopen("console_log.txt","a+");
   fprintf(m_logfile,"\n\nBuildVer: %d TimeStamp:%d\n",0,time(NULL));
@@ -12,11 +13,13 @@ PhConsole::PhConsole(){
 
 
 
-PhConsole::~PhConsole(){
+PhConsole::~PhConsole()
+{
   fclose(m_logfile);	
 }
 
-void PhConsole::Draw(PhIRenderer * GDI){
+void PhConsole::Draw(PhIRenderer * GDI)
+{
   if (this->m_btoggle){
     GDI->DrawRectangle(Vertex2(0,0,Color(0.5f,0.5f,0.5f,0.5f)),
                        Vertex2(GDI->getWidth(),0,Color(0.5f,0.5f,0.5f,0.5f)),
@@ -26,7 +29,8 @@ void PhConsole::Draw(PhIRenderer * GDI){
 }
 
 //outputs a line to ONLY the file log
-void PhConsole::Log(const char* fmt, int _type, ...){
+void PhConsole::Log(const char* fmt, int _type, ...)
+{
   sMessageLine line;
   va_list va;
 
@@ -46,7 +50,8 @@ void PhConsole::Log(const char* fmt, int _type, ...){
 
 
 //Outputs a line to both the screen console and the file console
-void PhConsole::Line(const char* fmt, int _type, ...){
+void PhConsole::Line(const char* fmt, int _type, ...)
+{
   sMessageLine line;
   va_list va;
 
