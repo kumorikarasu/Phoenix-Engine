@@ -1,0 +1,7 @@
+glob:*.svn/
+glob:Debug/*
+glob:Phoenix.ncb
+glob:LocalTestRun.testrunconfig
+glob:TestResults/*
+glob:UnitTestEngine/*
+glob:Phoenix2.vsmdi
