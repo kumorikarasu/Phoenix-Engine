@@ -5,3 +5,4 @@ glob:LocalTestRun.testrunconfig
 glob:TestResults/*
 glob:UnitTestEngine/*
 glob:Phoenix2.vsmdi
+glob:*.user

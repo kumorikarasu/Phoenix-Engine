@@ -6,16 +6,16 @@
 class PhEntity; //PhoenixEntity.h
 
 class PhEntityManager{
-private:
-	LinkedList<PhEntity>* EntityList;
+  private:
+    LinkedList<PhEntity>* EntityList;
 
-public:
-	
-	PhEntityManager();
-	~PhEntityManager();
+  public:
 
-	void AddEntity(PhEntity* _pEntity);
-	Node<PhEntity>* GetFirstNode();
+    PhEntityManager();
+    ~PhEntityManager();
+
+    void AddEntity(PhEntity* _pEntity);
+    Node<PhEntity>* GetFirstNode();
 
 };
 

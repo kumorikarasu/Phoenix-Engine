@@ -9,22 +9,22 @@ class PhTextureManager;	//PhoenixTexture.h
 
 //the main wrapper for the engine
 class PhEngine{
-private:
-	PhIRenderer*		pRenderer;
-	PhConsole*			pConsole;
-	PhTextureManager*	pTextureMan;
+  private:
+    PhIRenderer*		pRenderer;
+    PhConsole*			pConsole;
+    PhTextureManager*	pTextureMan;
 
-	bool* input;
-	long long nFrameCount;
-	float fps;
+    bool* input;
+    long long nFrameCount;
+    float fps;
 
-public:
-	PhEngine(){};
-	PhEngine(PhIRenderer* _renderer, PhConsole* _console);
-	~PhEngine();
+  public:
+    PhEngine(){};
+    PhEngine(PhIRenderer* _renderer, PhConsole* _console);
+    ~PhEngine();
 
-	void Step(float _fps,bool _input[256], long long _nFrameCount);
-	void Render();
+    void Step(float _fps,bool _input[256], long long _nFrameCount);
+    void Render();
 };
 
 

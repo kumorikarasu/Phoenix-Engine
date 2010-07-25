@@ -2,9 +2,9 @@
 
 class CPlayer{
 
-private:
-	sPlayerProp* m_pProp;
-	
+  private:
+    sPlayerProp* m_pProp;
+
 
 
 
