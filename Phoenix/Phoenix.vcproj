@@ -245,6 +245,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PhoenixModules.h"
+				>
+			</File>
+			<File
 				RelativePath=".\PhoenixTexture.h"
 				>
 			</File>
@@ -285,6 +289,10 @@
 				>
 				<File
 					RelativePath=".\AsInputBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AsNetplay.h"
 					>
 				</File>
 				<File

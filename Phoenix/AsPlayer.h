@@ -1,8 +1,9 @@
 #include "AsProperties.h"
 
-class CPlayer
-{
+namespace PhoenixFight{
 
+  class AsPlayer
+  {
   private:
     sPlayerProp* m_pProp;
 
@@ -12,4 +13,5 @@ class CPlayer
 
 
 
-};
+  };
+}

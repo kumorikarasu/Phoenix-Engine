@@ -1,12 +1,14 @@
 #ifndef _PHOENIXENTITYMANAGER_H_
 #define _PHOENIXENTITYMANAGER_H_
 
+namespace PhoenixCore{
+
 #include "LinkedList.h"
 
-class PhEntity; //PhoenixEntity.h
+  class PhEntity; //PhoenixEntity.h
 
-class PhEntityManager
-{
+  class PhEntityManager
+  {
   private:
     LinkedList<PhEntity>* EntityList;
 
@@ -18,7 +20,7 @@ class PhEntityManager
     void AddEntity(PhEntity* _pEntity);
     Node<PhEntity>* GetFirstNode();
 
-};
-
+  };
+}
 
 #endif _PHOENIXENTITYMANAGER_H_
