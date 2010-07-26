@@ -1,9 +1,7 @@
+#include "PhoenixModules.h"
 #include "AsInputBuffer.h"
-#include <string.h> //memcpy
 
-/// Input Lookup table
-
-
+using namespace PhoenixFight;
 
 /**
  * @param _input a bool array of input 256 values, corrosponding with the ascii value
@@ -17,6 +15,7 @@ void AsInputBuffer::pushInput(bool _input[256])
   for (int i=0;i<256;i++){ //go throught every single possible input
     if (_input[i] == 1){ //check if that input is set
       if (nInputLUT[i] > 10){ //check if that input is a button press
+        //SetTable(nAction[nActionLocation], nInputLUT[i]);
         nAction[nActionLocation] = nInputLUT[i];
 
       }else if (nInputLUT[i] > 0){ //check if that input is a directional input
@@ -54,7 +53,7 @@ void AsInputBuffer::SetTable(int _location, int _value = 0)
  */
 void AsInputBuffer::SetTable(int _InputLUT[])
 {
-  memcpy(nInputLUT,_InputLUT,256 * sizeof(int)); //if i just set the array to goto the location of the other array (since arrays are pointers) i would be setting it into the stack... not good, so memcpy
+  nInputLUT = _InputLUT;
 }
 
 
@@ -66,5 +65,13 @@ AsInputBuffer::AsInputBuffer()
 
 AsInputBuffer::~AsInputBuffer()
 {
+
+}
+
+AsInputBuffer::Decompile(char* packet){
+
+}
+
+char* AsInputBuffer::Compile(){
 
 }

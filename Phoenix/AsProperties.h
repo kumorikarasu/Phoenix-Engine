@@ -1,71 +1,78 @@
+#ifndef _ASPROPERTIES_H_
+#define _ASPROPERTIES_H_
 
-struct sAttackProp
-{
-  //Frame Data
-  int		nHitStun;
-  int		nBlockStun;
-  int		nCounterHit;
-  int		nStartup;
-  int		nRecovery;
-  int		nInvun;
-  int		nThrowInvun;
-  int		nSuperArmor;
-  int		nAutoGaurd;
+namespace PhoenixFight{
 
-  //Damage!
-  int		nDamage;
+  struct sAttackProp
+  {
+    //Frame Data
+    int		nHitStun;
+    int		nBlockStun;
+    int		nCounterHit;
+    int		nStartup;
+    int		nRecovery;
+    int		nInvun;
+    int		nThrowInvun;
+    int		nSuperArmor;
+    int		nAutoGaurd;
 
-  //Gaurd Crush
-  int		nGaurdLevel;
-  int		nGaurdCrush;
+    //Damage!
+    int		nDamage;
 
-  //Meter
-  int		nMeterGained;
-  int		nMeterCost;
+    //Gaurd Crush
+    int		nGaurdLevel;
+    int		nGaurdCrush;
 
-  //Super Flash Object
-  void*	pFlash;
+    //Meter
+    int		nMeterGained;
+    int		nMeterCost;
 
-  //Where it hits
-  char	fHitAttribute;	//location of where it hits (head/mid/foot)
-  char	fHitType;		//How it hits (high/mid/low) 0x0F = all 3
+    //Super Flash Object
+    void*	pFlash;
 
-  //location of what it would invince
-  char	fHitInvun;
+    //Where it hits
+    char	fHitAttribute;	//location of where it hits (head/mid/foot)
+    char	fHitType;		//How it hits (high/mid/low) 0x0F = all 3
 
-  //Does it wallbounce or floorbounce?
-  bool	bWallBounce;
-  bool	bFloorBounce;
+    //location of what it would invince
+    char	fHitInvun;
 
-  //% of the prorate amount
-  int		nProrate;
+    //Does it wallbounce or floorbounce?
+    bool	bWallBounce;
+    bool	bFloorBounce;
 
-  //Character Specific
-  int		nAspect;
+    //% of the prorate amount
+    int		nProrate;
 
-};
+    //Character Specific
+    int		nAspect;
+
+  };
 
 
-struct sPlayerProp
-{
-  //the amount of life a player has
-  int		nLife;
+  struct sCharacterProp
+  {
+    //the amount of life a player has
+    int		nLife;
 
-  //gaurd data
-  int		nGaurdType;
-  int		nGaurd;
+    //gaurd data
+    int		nGaurdType;
+    int		nGaurd;
 
-  //super bar
-  int		nMeter;
+    //super bar
+    int		nMeter;
 
-  //character specific bars
-  int		nAspect;
-  int		nInstall;
+    //character specific bars
+    int		nAspect;
+    int		nInstall;
 
-  //proration information
-  int		nProrate;
-  int		nComborate;
+    //proration information
+    int		nProrate;
+    int		nComborate;
 
-  //weight value (if applicable)
-  int		nWeight;
-};
+    //weight value (if applicable)
+    int		nWeight;
+  };
+}
+
+#endif
