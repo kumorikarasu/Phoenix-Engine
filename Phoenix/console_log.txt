@@ -20,3 +20,10 @@ CREATED
 CREATED
 CREATED
 Number of unfreed memory allocations: 3
+
+BuildVer: 0 TimeStamp:1280154712
+CREATED
+CREATED
+CREATED
+CREATED
+Number of unfreed memory allocations: 3
