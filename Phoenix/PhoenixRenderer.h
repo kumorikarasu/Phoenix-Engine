@@ -8,6 +8,7 @@
 class PhTexture;	//PhoenixTexture.h
 class Color;		//PhoenixUtil.h
 class Vertex2;		//PhoenixUtil.h
+class Vertex3;    //PhoenixUtil.h
 
 enum blend_mode{BM_ALPHA,BM_ADD,BM_SUBTRACT};
 
@@ -49,6 +50,7 @@ class PhIRenderer
     virtual void	DrawLine(Vertex2& pos1, Vertex2& pos2)=0;
     virtual void	DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3)=0;
     virtual void	DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4)=0;
+    virtual void  DrawCube(Vertex3& pos, float size, float rotation)=0;
     virtual void	DrawText(Vertex2 _pos, const char *fmt, ...)=0;
     virtual void	DrawTexture2D(PhTexture* _pTexture, Vertex2& pos) = 0;
 

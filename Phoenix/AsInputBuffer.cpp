@@ -53,7 +53,7 @@ void AsInputBuffer::SetTable(int _location, int _value = 0)
  */
 void AsInputBuffer::SetTable(int _InputLUT[])
 {
-  nInputLUT = _InputLUT;
+  //nInputLUT = _InputLUT;
 }
 
 
@@ -68,10 +68,11 @@ AsInputBuffer::~AsInputBuffer()
 
 }
 
-AsInputBuffer::Decompile(char* packet){
+void AsInputBuffer::Decompile(char* packet){
 
 }
 
 char* AsInputBuffer::Compile(){
 
+  return 0;
 }

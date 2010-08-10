@@ -5,6 +5,7 @@
 #include "PhoenixUtil.h"
 #include "PhoenixConsole.h"
 
+float r = 0;
 //everything!
 void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
 {
@@ -34,8 +35,16 @@ void PhEngine::Render()
   pRenderer->EnableBlendMode();
   pRenderer->BlendMode(BM_ALPHA);
 
-  //DRAW FRAME TIME
+  pRenderer->Begin3D();
+  pRenderer->DrawCube(Vertex3(0,0,-8),r,10);
+
+  r+=0.15f;
+
+//  pRenderer->Begin2D();
+
   pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),"RenderTime: %4.2f: Frame Number: %d",fps,nFrameCount);
+  //DRAW FRAME TIME
+//  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),"RenderTime: %4.2f: Frame Number: %d",fps,nFrameCount);
 
 
 
