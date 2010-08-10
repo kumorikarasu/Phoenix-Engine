@@ -15,7 +15,7 @@ namespace PhoenixFight{
     int nInputLUT[256];		 ///< Input lookup table, used when setting the key config
 
     int nDirection[20];		///< A buffer of input directions 
-    int nAction[20][6];		///< A buffer of input buttons
+    int nAction[20];		///< A buffer of input buttons
 
     int nDirectionLocation;	//direction array index location
     int nActionLocation;	//action array index location

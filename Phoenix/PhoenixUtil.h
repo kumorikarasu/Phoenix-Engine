@@ -28,4 +28,20 @@ class Vertex2
     Vertex2 operator+= (const Vertex2& _t){x+=_t.y;y+=_t.y;}
 };
 
+
+class Vertex3
+{
+
+  public:
+    int x,y,z;
+    Color c;
+
+    Vertex3(){};
+    Vertex3(int x,int y, int z){this->x = x; this->y = y; this->z = z;}
+    //Vertex3(int x,int y, Color& c){this->x = x; this->y = y;this->c=c;}
+
+    //overloading operators
+    Vertex3 operator+ (const Vertex3& _t){return Vertex3(x+_t.x,y+_t.y,z+_t.y);}
+    Vertex3 operator+= (const Vertex3& _t){x+=_t.y;y+=_t.y;z+=_t.z;}
+};
 #endif
