@@ -2,6 +2,8 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
+namespace PhoenixCore{
+
 class Color
 {
   public:
@@ -44,4 +46,7 @@ class Vertex3
     Vertex3 operator+ (const Vertex3& _t){return Vertex3(x+_t.x,y+_t.y,z+_t.y);}
     Vertex3 operator+= (const Vertex3& _t){x+=_t.y;y+=_t.y;z+=_t.z;}
 };
+
+};
+
 #endif

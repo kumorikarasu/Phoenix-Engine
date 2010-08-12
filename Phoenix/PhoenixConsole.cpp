@@ -3,6 +3,7 @@
 #include "PhoenixUtil.h"
 #include "PhoenixRenderer.h"
 
+namespace PhoenixCore{
 
 PhConsole::PhConsole()
 {
@@ -25,6 +26,22 @@ void PhConsole::Draw(PhIRenderer * GDI)
                        Vertex2(GDI->getWidth(),0,Color(0.5f,0.5f,0.5f,0.5f)),
                        Vertex2(GDI->getWidth(),200,Color(0.5f,0.5f,0.5f,0.5f)),
                        Vertex2(0,200,Color(0.5f,0.5f,0.5f,0.5f)));
+
+    if (m_lConsole.size() > 0){
+      list<sMessageLine>::reverse_iterator iter = m_lConsole.rbegin();
+
+      for (int i = 0; i<8; i++){
+        if (iter->m_type == C_WARNING){
+          GDI->DrawTextW(Vertex2(10,20 + i*22,Color(1.0f,1.0f,0.0f)), iter->m_text );
+        }else if (iter->m_type == C_ERROR){
+          GDI->DrawTextW(Vertex2(10,20 + i*22,Color(1.0f,0.0f,9.0f)), iter->m_text );
+        }else
+          GDI->DrawTextW(Vertex2(10,20 + i*22,Color(1.0f,1.0f,1.0f)), iter->m_text );
+        ++iter;
+        if (iter == m_lConsole.rend())
+          break;
+      }
+    }
   }
 }
 
@@ -89,4 +106,6 @@ void PhConsole::Line(const char* fmt, int _type, ...)
   if (_type==C_WARNING){
 
   }
+}
+
 }

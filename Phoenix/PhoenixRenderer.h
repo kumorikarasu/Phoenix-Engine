@@ -5,6 +5,8 @@
 
 #include "PhoenixWindows.h"
 
+namespace PhoenixCore{
+
 class PhTexture;	//PhoenixTexture.h
 class Color;		//PhoenixUtil.h
 class Vertex2;		//PhoenixUtil.h
@@ -62,4 +64,5 @@ class PhIRenderer
 
 };
 
+};
 #endif

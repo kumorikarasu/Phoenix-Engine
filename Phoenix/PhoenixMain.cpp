@@ -6,6 +6,8 @@
 #include "PhoenixOpenGLHandler.h" //OpenGL (ONLY file that should have to include this (other then .cpp ofcourse))
 //#include "DirectXHandler.h" //DX
 
+using namespace PhoenixCore;
+
 #include <time.h>
 
 //mmmm global *cough*
@@ -28,31 +30,33 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
   for (int i=0;i<256;i++)
     input[i] = false;
 
+  //All the modules we will use can all be initilised in 1 place
+  Modules Mod;
   //Render Object
-  PhIRenderer* pRenderer = new PhOpenGLHandler();
+  Mod.pRender = new PhOpenGLHandler();
 
   //Console Object
-  PhConsole* pConsole = new PhConsole();
+  Mod.pConsole = new PhConsole();
 
 #ifdef _DEBUG
-  DEBUGCONSOLE = pConsole;
+  DEBUGCONSOLE = Mod.pConsole;
   DEBUGCONSOLE->Log("CREATED\n",C_NORMAL); //renderer
   DEBUGCONSOLE->Log("CREATED\n",C_NORMAL); //console
 #endif
 
 
   //Engine Handler
-  PhEngine* pEngine = new PhEngine(pRenderer,pConsole);
+  PhEngine* pEngine = new PhEngine(Mod); //we can then just pass all the modules at once
 
   //Frame Rate
   float fps=0,ms=0;
   clock_t time_now, movement_timer = 0;
 
   //Create the game window
-  pRenderer->CreateGameWindow(L"Phoenix Engine",1280,720,32,0,0);
+  Mod.pRender->CreateGameWindow(L"Phoenix Engine",1280,720,32,0,0);
 
   //Setup Renderer
-  pRenderer->Init();
+  Mod.pRender->Init();
 
   //Main loop
   while(!done)									
@@ -90,18 +94,18 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
 
   //shutdown console (closes console log file, this is why this is done before the renderer, incase it fails)
-  pConsole->Log("Number of unfreed memory allocations: %d",C_NORMAL,Track);
+  Mod.pConsole->Log("Number of unfreed memory allocations: %d",C_NORMAL,Track);
 
 
-  delete pConsole;
+  delete Mod.pConsole;
 
   //delete the engine itself
   delete pEngine;
 
   //shutdown the render object
-  pRenderer->KillWindow();
-  pRenderer->CloseRenderer();
-  delete pRenderer;
+  Mod.pRender->KillWindow();
+  Mod.pRender->CloseRenderer();
+  delete Mod.pRender;
 
 
   delete input;

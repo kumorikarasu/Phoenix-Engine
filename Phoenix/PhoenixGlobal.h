@@ -6,11 +6,17 @@
 #include <iostream>
 #include "PhoenixConsole.h"
 
+namespace PhoenixCore{
+
 //global varible for tracking memory allocations
 static int Track = 0;
 
 
+};
+
 #ifdef _DEBUG
+using namespace PhoenixCore;
+
 static PhConsole* DEBUGCONSOLE;
 
 inline void * __cdecl operator new(size_t size)
@@ -42,6 +48,7 @@ inline void * __cdecl operator new[](size_t size)
   Track++;
   return(ptr);
 };
+
 inline void __cdecl operator delete[](void *p)
 {
   //RemoveTrack((DWORD)p);

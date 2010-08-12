@@ -5,6 +5,8 @@
 #include "PhoenixUtil.h"
 #include "PhoenixConsole.h"
 
+namespace PhoenixCore{
+
 float r = 0;
 //everything!
 void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
@@ -15,9 +17,10 @@ void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
 
   //Console toggle
   if (input[192]){
-    if (! pConsole->getToggle())
+    if (! pConsole->getToggle()){
       pConsole->On();
-    else
+      pConsole->Line("OH SHI",C_WARNING);
+    } else
       pConsole->Off();
 
     input[192] = false;
@@ -35,10 +38,9 @@ void PhEngine::Render()
   pRenderer->EnableBlendMode();
   pRenderer->BlendMode(BM_ALPHA);
 
-  pRenderer->Begin3D();
-  pRenderer->DrawCube(Vertex3(0,0,-8),r,10);
-
-  r+=0.15f;
+  //pRenderer->Begin3D();
+  //pRenderer->DrawCube(Vertex3(0,0,-8),r,10);
+  //r+=0.15f;
 
 //  pRenderer->Begin2D();
 
@@ -64,6 +66,7 @@ void PhEngine::Render()
   //							Vertex2(200+i,200+fps,Color(1.0f,0.0f,0.0f)),
   //							Vertex2(100+i,0,Color(0.0f,0.0f,1.0f)));
 
+
   if (input[32]){
     pRenderer->DrawRectangle(Vertex2(10,10,Color(0.5f,0.5f,0.5f,0.5f)),
                              Vertex2(110,10,Color(0.5f,0.5f,0.5f,0.5f)),
@@ -83,12 +86,8 @@ void PhEngine::Render()
   //END TEST
 
 
-
   //DRAW CONSOLE
   pConsole->Draw(pRenderer);
-
-
-
 
 
   pRenderer->DisableBlendMode();
@@ -97,11 +96,14 @@ void PhEngine::Render()
 
 
 //constructor
-PhEngine::PhEngine(PhIRenderer* _renderer, PhConsole* _console)
+PhEngine::PhEngine(Modules Module)
 {
-  pConsole = _console;
-  pRenderer = _renderer;
+  pConsole = Module.pConsole;
+  pRenderer = Module.pRender;
+  pTextureMan = Module.pTextureMan;
+
   fps = 0;
+
   pTextureMan = new PhTextureManager(pConsole,pRenderer);
 }
 
@@ -110,4 +112,6 @@ PhEngine::~PhEngine()
 {
 
   delete pTextureMan;
+}
+
 }
