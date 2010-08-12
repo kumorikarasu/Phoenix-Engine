@@ -9,6 +9,8 @@
 #include <time.h>
 #include <list>
 
+namespace PhoenixCore{
+
 class PhIRenderer;
 
 enum error_type {C_NORMAL, C_ERROR, C_WARNING};
@@ -40,5 +42,6 @@ class PhConsole
   ~PhConsole();
 };
 
+};
 
 #endif

@@ -5,6 +5,7 @@
 #include "PhoenixTexture.h"
 
 #include "stdio.h"
+namespace PhoenixCore{
 
 void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
 {
@@ -137,7 +138,7 @@ void PhOpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3,
 
 void PhOpenGLHandler::DrawCube(Vertex3& pos, float size, float rotation){
 
-  glTranslatef(pos.x,pos.y,pos.z);
+  glTranslatef((GLfloat)pos.x,(GLfloat)pos.y,(GLfloat)pos.z);
   glRotatef(rotation,1.0f,1.0f,1.0f);
 
   glBegin(GL_QUADS);
@@ -510,9 +511,9 @@ void PhOpenGLHandler::DrawText(Vertex2 _pos, const char *fmt, ...)					// Custom
   if (fmt == NULL)									// If There's No Text
     return;											// Do Nothing
 
-  // Pulsing Colors Based On Text Position
+  // Set the text color
   glColor3f(_pos.c.r,_pos.c.g,_pos.c.b);
-  // Position The Text On The Screen
+  // Positition
   glRasterPos2f((float)_pos.x,(float)_pos.y);
 
   va_start(ap, fmt);									// Parses The String For Variables
@@ -524,4 +525,6 @@ void PhOpenGLHandler::DrawText(Vertex2 _pos, const char *fmt, ...)					// Custom
   glListBase(base - 32);								// Sets The Base Character to 32
   glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
   glPopAttrib();										// Pops The Display List Bits
+}
+
 }

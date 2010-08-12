@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+namespace PhoenixCore{
+
 class PhTexture;	//PhoenixTexture.h
 class PhConsole;	//PhoenixConsole.h
 class PhIRenderer;	//PhoenixRenderer.h
@@ -53,6 +55,8 @@ class PhTexture
   int GetWidth() const { return m_width; }
   int GetHeight() const { return m_height; }
   int GetTextureId() const { return m_id; }
+};
+
 };
 
 

@@ -3,6 +3,7 @@
 #include "PhoenixConsole.h"
 
 using namespace std;
+namespace PhoenixCore{
 
 int PhTextureManager::LoadTextureTGA(const std::string &_filename, PhTexture *_pTexture)
 {
@@ -220,4 +221,6 @@ int PhTextureManager::LoadTextureTGA(const std::string &_filename, PhTexture *_p
 
     //clear the array
     this->m_TextureMap.empty();
+  }
+
   }
