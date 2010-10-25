@@ -6,38 +6,38 @@
 #include "PhoenixConsole.h"
 #include "PhoenixEntityManager.h"
 #include "PhoenixSprite.h"
+#include "AsPlayer.h"
 #include <tchar.h>
 
+using namespace PhoenixFight;
 namespace PhoenixCore{
 
 float r = 0;
-PhSprite* sp = NULL;
+AsPlayer* Player;
 
 //everything!
 void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
 {
 
   if (RunOnce){
-    sp = new PhSprite(pTextureMan);
+
+    PhSprite* sp = new PhSprite(pTextureMan);
+    Player = new AsPlayer(sp);
+
+    pEntityMan->AddEntity(Player); //add entity to game
 
     sp->SetSize(10);
-    sp->SetDelay(5);
-    
+    sp->SetDelay(60);
+    sp->Init();
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand000 .tga"));
-    
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand001 .tga"));
-    
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand002 .tga"));
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand003 .tga"));
-    
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand004 .tga"));
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand005 .tga"));
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand006 .tga"));
-    
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand007 .tga"));
-    
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand008 .tga"));
-    
     sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand009 .tga"));
 
     RunOnce = false;
@@ -51,13 +51,13 @@ void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
   if (input[192]){
     if (! pConsole->getToggle()){
       pConsole->On();
-      pConsole->Line("OH SHI",C_WARNING);
     } else
       pConsole->Off();
 
     input[192] = false;
   }
 
+  pEntityMan->Run();
 }
 
 
@@ -75,13 +75,14 @@ void PhEngine::Render()
 
 //  pRenderer->Begin2D();
 
-  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),"RenderTime: %4.2f: Frame Number: %d",fps,nFrameCount);
+  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),_T("RenderTime: %4.2f: Frame Number: %d"),fps,nFrameCount);
   //DRAW FRAME TIME
 //  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),"RenderTime: %4.2f: Frame Number: %d",fps,nFrameCount);
 
 
 
   //DRAW SPRITES
+  pEntityMan->Draw(pRenderer);
 
   //TEST
 
@@ -105,14 +106,14 @@ void PhEngine::Render()
                              Vertex2(10,110,Color(0.5f,0.5f,0.5f,0.5f)));
 
   }
-  //pRenderer->DrawLine(Vertex2(500,500,Color(0.0f,1.0f,0.0f)),
-   //                   Vertex2(1,1,Color(1.0f,1.0f,0.0f))
-    //                  );
+  pRenderer->DrawLine(Vertex2(0,600,Color(0.0f,1.0f,0.0f)),
+                      Vertex2(1280,600,Color(1.0f,1.0f,0.0f))
+                      );
 
-  pRenderer->DrawTexture2D(sp->GetNextSprite(),Vertex2(640,360));
- // pRenderer->DrawTexture2D(pTextureMan->Texture(_T("data\\textures\\Kumori.tga")),Vertex2(200 + nFrameCount % 60,200));
+//  pRenderer->DrawTexture2D(sp->GetNextSprite(),Vertex2(640,360));
+  pRenderer->DrawTexture2D(pTextureMan->Texture(_T("data\\textures\\Kumori.tga")),Vertex2(200 + nFrameCount % 60,200));
 
-  //pRenderer->DrawTexture2D(pTextureMan->Texture("icephoenix.tga"),Vertex2(150,100));
+ // pRenderer->DrawTexture2D(pTextureMan->Texture("icephoenix.tga"),Vertex2(150,100));
 
 
   //END TEST
@@ -145,8 +146,7 @@ PhEngine::PhEngine(Modules &Module)
 //destructor
 PhEngine::~PhEngine()
 {
-
   delete pTextureMan;
 }
 
-}
+};

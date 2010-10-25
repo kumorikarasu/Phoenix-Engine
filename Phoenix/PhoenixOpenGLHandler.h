@@ -43,7 +43,7 @@ class PhOpenGLHandler : public PhIRenderer
     void	DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4);
     void  DrawCube(Vertex3& pos, float size, float rotation);
     void	DrawTexture2D(PhTexture* _pTexture, Vertex2& pos);
-    void	DrawText(Vertex2 _pos, const char *fmt, ...);
+    void	DrawText(Vertex2 _pos, const TCHAR *fmt, ...);
 
 
     //functions that need to be filled in yet

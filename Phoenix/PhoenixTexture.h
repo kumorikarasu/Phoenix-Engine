@@ -15,7 +15,6 @@ namespace PhoenixCore{
   class PhTextureManager
   {
   private:
-    PhConsole* pConsole;
     PhIRenderer* pRenderer;
 
     TextureLoader* TL;

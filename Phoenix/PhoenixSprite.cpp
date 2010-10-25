@@ -1,4 +1,5 @@
 #include "PhoenixSprite.h"
+#include "PhoenixConsole.h"
 
 namespace PhoenixCore{
 
@@ -26,14 +27,16 @@ bool PhSprite::AddSprite(TCHAR* _filename)
   if (m_pTextures == NULL){
     if (m_nSpriteLength == 0)
       return false;
-    m_pTextures = (int*) malloc(m_nSpriteLength + 4);
+    m_pTextures = (int*) malloc(m_nSpriteLength + 2);
     m_pTextureStart = m_pTextures;
   }
-  if (m_nSpriteLoadIndex > m_nSpriteLength){
+  if (m_nSpriteLoadIndex >= m_nSpriteLength){
+    PhConsole::Console->Line(_T("Sprite Full %s"),C_WARNING, _filename);
     return false;
   }
 
   (*m_pTextures) = (int) m_pTextureMan->Texture(_filename);
+  PhConsole::Console->Line(_T("Sprite Frame Added:%d"),C_NORMAL, m_nSpriteLoadIndex);
   m_pTextures = m_pTextures++;
   m_pTextureEnd = m_pTextures;
   m_nSpriteLoadIndex++;
@@ -47,7 +50,7 @@ PhTexture* PhSprite::GetNextSprite()
     return NULL;
 
   if (m_pTextures == m_pTextureEnd){
-    m_pTextures = m_pTextureStart;
+    m_pTextures = m_pTextureStart + 1;
   }
 
   PhTexture* tex = (PhTexture*) (*m_pTextures);
@@ -63,13 +66,16 @@ PhTexture* PhSprite::GetNextSprite()
 
 PhSprite::~PhSprite()
 {
-  free(m_pTextures);
-
+  free(m_pTextureStart);
 }
 
 void PhSprite::SetDelay(int _delay)
 {
   m_nDelay = _delay;
+}
+
+void PhSprite::Init(){
+    AddSprite(_T("\\data\\textures\\kumori.tga"));
 }
 
 };
