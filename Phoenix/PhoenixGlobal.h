@@ -57,7 +57,6 @@ inline void __cdecl operator delete[](void *p)
   Track--;
   free(p);
 };
-
 #endif
 
 #endif //PHOENIXGLOBAL_H_

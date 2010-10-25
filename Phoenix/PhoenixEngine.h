@@ -5,31 +5,37 @@
 namespace PhoenixCore{
 
 //do not include the header files unless you have to
-class PhIRenderer;		//PhoenixRenderer.h
-class PhConsole;		//PhoenixConsol.h
+class PhIRenderer;		  //PhoenixRenderer.h
+class PhConsole;		    //PhoenixConsol.h
 class PhTextureManager;	//PhoenixTexture.h
+class PhEntityManager;  //PhoenixEntityManager.h
 
 struct Modules{
   PhIRenderer*      pRender;
   PhConsole*        pConsole;
   PhTextureManager* pTextureMan;
+  PhEntityManager*  pEntityMan;
 };
 
 //the main wrapper for the engine
 class PhEngine
 {
   private:
-    PhIRenderer*		pRenderer;
-    PhConsole*			pConsole;
+    //modules, for eas of access
+    PhIRenderer*		  pRenderer;
+    PhConsole*			  pConsole;
     PhTextureManager*	pTextureMan;
+    PhEntityManager*  pEntityMan;
+
 
     bool* input;
     long long nFrameCount;
     float fps;
+    bool  RunOnce;
 
   public:
     PhEngine(){};
-    PhEngine(Modules Module);
+    PhEngine(Modules &Module);
     ~PhEngine();
 
     void Step(float _fps,bool _input[256], long long _nFrameCount);
