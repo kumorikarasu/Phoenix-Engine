@@ -15,10 +15,11 @@ namespace PhoenixCore{
     const int			EntityID = 000;		//Entity ID Number
 
   private:
-    Vertex2				m_pos,m_accel;		//position and acceleration vectors
+    Vertex2				m_pos, m_accel;		//position and acceleration vectors
     bool				  m_bAutoCollide;		//Tells the engine to automatically move an object outside of a collision if it detects one
+    bool          m_isDead;         //Tells the engine to remove an object on the next possible pass
 
-    PhRenderObject*	 m_pRenderObj;		//A Pointer to a Render Object
+    PhRenderObject*	    m_pRenderObj;		//A Pointer to a Render Object
     PhCollisionObject*	m_pColObj;			//Collision Data
 
 

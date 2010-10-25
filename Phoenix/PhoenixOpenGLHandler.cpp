@@ -13,7 +13,7 @@ void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
   int depthType;
 
   glGenTextures(1, &(_pTexture->m_id));
-  glBindTexture(GL_TEXTURE_2D, _pTexture->m_id);
+  glBindTexture(GL_TEXTURE_2D, _pTexture->GetTextureId());
 
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Linear filters
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -36,8 +36,8 @@ void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
 
   //gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pTexture->m_width, pTexture->m_height, depthType, GL_UNSIGNED_BYTE, pTexture->m_data);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, depthType, _pTexture->GetWidth(), 
-               _pTexture->GetHeight(), 0, depthType, GL_UNSIGNED_BYTE, _pTexture->m_data);
+  //glTexImage2D(GL_TEXTURE_2D, 0, depthType, _pTexture->GetWidth(), 
+  //             _pTexture->GetHeight(), 0, depthType, GL_UNSIGNED_BYTE, _pTexture->m_data);
 
 }
 

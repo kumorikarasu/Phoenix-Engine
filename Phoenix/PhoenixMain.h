@@ -9,6 +9,4 @@
 
 using namespace std;
 
-
 #endif
-

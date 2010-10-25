@@ -33,7 +33,7 @@ class Node
 {
 
   private:
-    template <class _Ty> friend class LinkedList; //allows the list to access private varibles
+    template <class _Ty> friend class LinkedList; //allows the list to access private variables
     Node* pNext;
     Node* pPrev;
     _Ty* pObject;

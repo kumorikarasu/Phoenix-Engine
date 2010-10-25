@@ -32,6 +32,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
   //All the modules we will use can all be initilised in 1 place
   Modules Mod;
+
   //Render Object
   Mod.pRender = new PhOpenGLHandler();
 
@@ -94,7 +95,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
 
   //shutdown console (closes console log file, this is why this is done before the renderer, incase it fails)
-  Mod.pConsole->Log("Number of unfreed memory allocations: %d",C_NORMAL,Track);
+  Mod.pConsole->Log("Number of unfreed memory allocations: %d",C_NORMAL,Track - 3);
 
 
   delete Mod.pConsole;

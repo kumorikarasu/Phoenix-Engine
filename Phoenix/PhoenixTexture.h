@@ -4,60 +4,60 @@
 
 #include <map>
 #include <string>
+#include "TextureLoader.h"
 
 namespace PhoenixCore{
 
-class PhTexture;	//PhoenixTexture.h
-class PhConsole;	//PhoenixConsole.h
-class PhIRenderer;	//PhoenixRenderer.h
+  class PhTexture;	//PhoenixTexture.h
+  class PhConsole;	//PhoenixConsole.h
+  class PhIRenderer;	//PhoenixRenderer.h
 
-class PhTextureManager
-{
+  class PhTextureManager
+  {
   private:
     PhConsole* pConsole;
     PhIRenderer* pRenderer;
 
-    std::map<std::string,PhTexture*> m_TextureMap;
-    int	LoadTextureTGA(const std::string & _filename, PhTexture* _pTexture);
+    TextureLoader* TL;
+
+    std::map<std::wstring, PhTexture*> m_TextureMap;
+
 
   public:
 
-    PhTexture*	Texture(const std::string & _filename); //Will return the texture id for using a texture, will load the texture if required
-    PhTextureManager(PhConsole* _pConsole, PhIRenderer* _pRenderer){
-      pConsole = _pConsole;	
-      pRenderer = _pRenderer;
-    };
+    PhTextureManager(PhConsole* _pConsole, PhIRenderer* _pRenderer);
     ~PhTextureManager();
-};
 
+    PhTexture* Texture(TCHAR *_filename);
 
-class PhTexture
-{
+  };
 
-  friend class PhTextureManager;
+  class PhTexture
+  {
 
-  int		m_bpp;		// color depth in bytes per pixel
-  int		m_width;	// image width
-  int		m_height;	// image height
-  int		m_type;
+    friend class PhTextureManager;
 
-  unsigned int m_iRefCount;	//Refrence counter (number of times texture has been accessed
+    int	m_width;										// Image Width
+    int	m_height;										// Image Height
+    int	m_type;										// Image Type (GL_RGB, GL_RGBA)
+    int	m_bpp;										// Image Color Depth In Bits Per Pixel
+    unsigned int m_iRefCount;	//Refrence counter (number of times texture has been accessed
 
   public:
 
-  char*				m_data;		// image data
-  unsigned int		m_id;		// texture id
+    //has to be public cause of how OGL access it
+    unsigned int		m_id;		// texture id
+    eglTexType	m_texType;									// Texture Format
 
-  PhTexture() {};
-  ~PhTexture();
+    PhTexture() {};
+    ~PhTexture() {};
 
-  int GetBpp() const { return m_bpp; }
-  int GetWidth() const { return m_width; }
-  int GetHeight() const { return m_height; }
-  int GetTextureId() const { return m_id; }
+    int GetBpp() const { return m_bpp; }
+    int GetWidth() const { return m_width; }
+    int GetHeight() const { return m_height; }
+    int GetTextureId() const { return m_id; }
+  };
+
 };
-
-};
-
 
 #endif
