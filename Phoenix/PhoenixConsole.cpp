@@ -30,13 +30,13 @@ void PhConsole::Draw(PhIRenderer * GDI)
     if (m_lConsole.size() > 0){
       list<sMessageLine>::reverse_iterator iter = m_lConsole.rbegin();
 
-      for (int i = 0; i<8; i++){
+      for (int i = 8; i>0; i--){
         if (iter->m_type == C_WARNING){
-          GDI->DrawTextW(Vertex2(10,20 + i*22,Color(1.0f,1.0f,0.0f)), iter->m_text );
+          GDI->DrawTextW(Vertex2(10,2 + i*22,Color(1.0f,1.0f,0.0f)), iter->m_text );
         }else if (iter->m_type == C_ERROR){
-          GDI->DrawTextW(Vertex2(10,20 + i*22,Color(1.0f,0.0f,9.0f)), iter->m_text );
+          GDI->DrawTextW(Vertex2(10,2 + i*22,Color(1.0f,0.0f,0.0f)), iter->m_text );
         }else
-          GDI->DrawTextW(Vertex2(10,20 + i*22,Color(1.0f,1.0f,1.0f)), iter->m_text );
+          GDI->DrawTextW(Vertex2(10,2 + i*22,Color(1.0f,1.0f,1.0f)), iter->m_text );
         ++iter;
         if (iter == m_lConsole.rend())
           break;
@@ -46,42 +46,41 @@ void PhConsole::Draw(PhIRenderer * GDI)
 }
 
 //outputs a line to ONLY the file log
-void PhConsole::Log(const char* fmt, int _type, ...)
+void PhConsole::Log(const TCHAR* fmt, int _type, ...)
 {
   sMessageLine line;
   va_list va;
 
   va_start(va,_type);
-  vsprintf(line.m_text,fmt,va);
+  vswprintf(line.m_text,fmt,va);
 
   //print the line
-  fprintf(m_logfile,line.m_text);
+  fwprintf(m_logfile,line.m_text);
 
   va_end(va);
 
-  if (_type==C_WARNING){
-
-  }
+  line.m_type = _type;
 }
 
 
 
 //Outputs a line to both the screen console and the file console
-void PhConsole::Line(const char* fmt, int _type, ...)
+void PhConsole::Line(const TCHAR* fmt, int _type, ...)
 {
   sMessageLine line;
   va_list va;
 
   va_start(va,_type);
 
-  vsprintf(line.m_text,fmt,va);
-
+  vswprintf(line.m_text,fmt,va);
+  line.m_type = _type;
 
   m_lConsole.push_back(line);
 
-  fprintf(m_logfile,line.m_text);
+  fwprintf(m_logfile,line.m_text);
 
   va_end(va);
+
 
   /*	va_list va;
       va_start(va, fmt);
@@ -103,9 +102,6 @@ void PhConsole::Line(const char* fmt, int _type, ...)
       m_lConsole.push_back(line);
       */
 
-  if (_type==C_WARNING){
-
-  }
 }
 
 }

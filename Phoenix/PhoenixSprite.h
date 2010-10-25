@@ -26,6 +26,7 @@ public:
   void SetDelay(int _delay);
   bool AddSprite(TCHAR* _filename);
   PhTexture* GetNextSprite();
+  void Init();
   
 };
 

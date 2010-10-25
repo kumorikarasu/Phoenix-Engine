@@ -8,6 +8,8 @@
 
 using namespace PhoenixCore;
 
+PhConsole* PhConsole::Console;
+
 #include <time.h>
 
 //mmmm global *cough*
@@ -38,11 +40,12 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
   //Console Object
   Mod.pConsole = new PhConsole();
+  PhConsole::Console = Mod.pConsole;
 
 #ifdef _DEBUG
   DEBUGCONSOLE = Mod.pConsole;
-  DEBUGCONSOLE->Log("CREATED\n",C_NORMAL); //renderer
-  DEBUGCONSOLE->Log("CREATED\n",C_NORMAL); //console
+  DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //renderer
+  DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //console
 #endif
 
 
@@ -60,6 +63,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
   Mod.pRender->Init();
 
   //Main loop
+  try{
   while(!done)									
   {
     if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	
@@ -79,8 +83,9 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
       pEngine->Step(fps,input,nFrameCount);
 
-      while (abs(time_now - clock()) < CLK_TCK/60){
+      while (abs(time_now - clock()) < CLK_TCK/62){
         pEngine->Render();
+        Sleep(1);
       }
 
       movement_timer = clock();
@@ -91,11 +96,15 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
       nFrameCount++;
     }
   }
+  }catch(exception e){
+    delete Mod.pConsole;
+    return 1;
+  }
 
 
 
   //shutdown console (closes console log file, this is why this is done before the renderer, incase it fails)
-  Mod.pConsole->Log("Number of unfreed memory allocations: %d",C_NORMAL,Track - 3);
+  Mod.pConsole->Log(_T("Number of unfreed memory allocations: %d"),C_NORMAL,Track - 3);
 
 
   delete Mod.pConsole;

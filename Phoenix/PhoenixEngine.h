@@ -23,9 +23,10 @@ class PhEngine
   private:
     //modules, for eas of access
     PhIRenderer*		  pRenderer;
-    PhConsole*			  pConsole;
     PhTextureManager*	pTextureMan;
     PhEntityManager*  pEntityMan;
+    PhConsole*        pConsole;
+
 
 
     bool* input;

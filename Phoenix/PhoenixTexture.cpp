@@ -22,7 +22,7 @@ namespace PhoenixCore{
 
   if( !pFile )
   {
-  pConsole->Line("Could not open texture %s",C_WARNING,_filename.c_str());
+  PhConsole::C()->Line("Could not open texture %s",C_WARNING,_filename.c_str());
   return false;
   }
 
@@ -35,7 +35,7 @@ namespace PhoenixCore{
   char header[6];
 
   if (fread(&tgaHeader, sizeof(tgaHeader), 1, pFile) == 0){
-  pConsole->Line("Could not read texture %s",C_WARNING,_filename.c_str());
+  PhConsole::C()->Line("Could not read texture %s",C_WARNING,_filename.c_str());
   return false;
   }
 
@@ -45,7 +45,7 @@ namespace PhoenixCore{
   // Attempt To Read Next 6 Bytes
   if(fread(header, sizeof(header), 1, pFile) == 0)
   {										
-  pConsole->Line("Could not read texture %s",C_WARNING,_filename.c_str());
+  PhConsole::C()->Line("Could not read texture %s",C_WARNING,_filename.c_str());
   return false;				// Return False
   }
   _pTexture->m_width = header[1] * 256 + header[0];
@@ -53,7 +53,7 @@ namespace PhoenixCore{
   _pTexture->m_bpp = header[4];
 
   if (!  ((_pTexture->m_bpp == 24 || _pTexture->m_bpp == 32) && _pTexture->m_width > 0 && _pTexture->m_height > 0)){
-  pConsole->Line("Invalid Texture %s",C_WARNING,_filename.c_str());
+  PhConsole::C()->Line("Invalid Texture %s",C_WARNING,_filename.c_str());
   return false;				// Return False
   }
 
@@ -68,12 +68,12 @@ namespace PhoenixCore{
   _pTexture->m_data = new char[imageSize];
 
   if (_pTexture->m_data == NULL){
-  pConsole->Line("Out Of Memory %s",C_ERROR,_filename.c_str());
+  PhConsole::C()->Line("Out Of Memory %s",C_ERROR,_filename.c_str());
   return false;				// Return False
   }
 
   if (fread(_pTexture->m_data, 1, imageSize, pFile) != imageSize){
-  pConsole->Line("Could not read texture %s",C_WARNING,_filename.c_str());
+  PhConsole::C()->Line("Could not read texture %s",C_WARNING,_filename.c_str());
   return false;				// Return False
   }	
 
@@ -92,7 +92,7 @@ namespace PhoenixCore{
   // Attempt To Read Next 6 Bytes
   if(fread(header, sizeof(header), 1, pFile) == 0)
   {										
-  pConsole->Line("Could not read texture %s",C_WARNING,_filename.c_str());
+  PhConsole::C()->Line("Could not read texture %s",C_WARNING,_filename.c_str());
   return false;				// Return False
   }
   _pTexture->m_width = header[1] * 256 + header[0];
@@ -100,7 +100,7 @@ namespace PhoenixCore{
   _pTexture->m_bpp = header[4];
 
   if (!  ((_pTexture->m_bpp == 24 || _pTexture->m_bpp == 32) && _pTexture->m_width > 0 && _pTexture->m_height > 0)){
-  pConsole->Line("Invalid Texture %s",C_WARNING,_filename.c_str());
+  PhConsole::C()->Line("Invalid Texture %s",C_WARNING,_filename.c_str());
   return false;				// Return False
   }
 
@@ -115,7 +115,7 @@ namespace PhoenixCore{
   _pTexture->m_data = new char[imageSize];
 
   if (_pTexture->m_data == NULL){
-  pConsole->Line("Out Of Memory %s",C_ERROR,_filename.c_str());
+  PhConsole::C()->Line("Out Of Memory %s",C_ERROR,_filename.c_str());
   return false;				// Return False
   }
 
@@ -130,7 +130,7 @@ namespace PhoenixCore{
   do{ //uncompressing fun (i don't understand wtf im doing eather)
   int chunkheader = 0;
   if (fread(&chunkheader,sizeof(int), 1, pFile) == 0){
-  pConsole->Line("Could not read texture %s",C_WARNING,_filename.c_str());
+  PhConsole::C()->Line("Could not read texture %s",C_WARNING,_filename.c_str());
   return false;				// Return False
   }
   if (chunkheader < 128){
@@ -138,7 +138,7 @@ namespace PhoenixCore{
 
   for (short i = 0; i < chunkheader; i++){
   if (fread(colorbuffer, 1, bytesPerPixel, pFile) != bytesPerPixel){
-  pConsole->Line("Could not read texture %s",C_WARNING,_filename.c_str());
+  PhConsole::C()->Line("Could not read texture %s",C_WARNING,_filename.c_str());
   return false;				// Return False
   }
   _pTexture->m_data[currentbyte] = colorbuffer[2]; // R
@@ -196,6 +196,7 @@ namespace PhoenixCore{
     //create another function to determine what type of texture it is, currently just support uncompressed TGA
     glTexture tex;
     if (! TL->LoadTextureFromDisk(_filename,&tex)){
+      PhConsole::Console->Line(_T("Unable to load %s"),C_ERROR,_filename);
       delete pTexture;
       return  NULL;
     }else{
@@ -229,10 +230,7 @@ namespace PhoenixCore{
       tex.TexType = iter->second->m_texType;
       tex.Type = iter->second->m_type;
       tex.Width = iter->second->GetWidth();
-
       TL->FreeTexture(&tex);
-
-      delete iter->second;
       iter++;
     }
 
@@ -243,7 +241,6 @@ namespace PhoenixCore{
 
   PhTextureManager::PhTextureManager(PhConsole* _pConsole, PhIRenderer* _pRenderer)
   {
-    pConsole = _pConsole;	
     pRenderer = _pRenderer;
 
     TL = new TextureLoader();

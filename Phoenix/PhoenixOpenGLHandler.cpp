@@ -3,6 +3,7 @@
 #include "PhoenixOpenGLHandler.h"
 #include "PhoenixUtil.h"
 #include "PhoenixTexture.h"
+#include <tchar.h>
 
 #include "stdio.h"
 namespace PhoenixCore{
@@ -44,7 +45,7 @@ void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
 
 void PhOpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos)
 {
-
+  if (_pTexture != NULL){
   Vertex2 postopleft(pos.x - _pTexture->GetWidth() / 2,pos.y - _pTexture->GetHeight() / 2);
 
   //enable 2D texturing
@@ -88,6 +89,7 @@ void PhOpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos)
   glDisableClientState( GL_VERTEX_ARRAY );
   glDisableClientState( GL_TEXTURE_COORD_ARRAY );
   */
+  }
 }
 
 
@@ -502,10 +504,10 @@ void PhOpenGLHandler::KillFont()									// Delete The Font List
 }
 
 //cannot be over 254 characters
-void PhOpenGLHandler::DrawText(Vertex2 _pos, const char *fmt, ...)					// Custom GL "Print" Routine
+void PhOpenGLHandler::DrawText(Vertex2 _pos, const TCHAR *fmt, ...)					// Custom GL "Print" Routine
 {
 
-  char		text[256];								// Holds Our String
+  TCHAR		text[256];								// Holds Our String
   va_list		ap;										// Pointer To List Of Arguments
 
   if (fmt == NULL)									// If There's No Text
@@ -517,13 +519,13 @@ void PhOpenGLHandler::DrawText(Vertex2 _pos, const char *fmt, ...)					// Custom
   glRasterPos2f((float)_pos.x,(float)_pos.y);
 
   va_start(ap, fmt);									// Parses The String For Variables
-  vsprintf_s(text, fmt, ap);						// And Converts Symbols To Actual Numbers
+  vswprintf_s(text, fmt, ap);						// And Converts Symbols To Actual Numbers
   va_end(ap);											// Results Are Stored In Text
 
 
   glPushAttrib(GL_LIST_BIT);							// Pushes The Display List Bits
   glListBase(base - 32);								// Sets The Base Character to 32
-  glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
+  glCallLists(_tcslen(text), GL_UNSIGNED_SHORT, text);	// Draws The Display List Text
   glPopAttrib();										// Pops The Display List Bits
 }
 

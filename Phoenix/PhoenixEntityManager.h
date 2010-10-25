@@ -19,6 +19,8 @@ namespace PhoenixCore{
 
     void AddEntity(PhEntity* _pEntity);
     Node<PhEntity>* GetFirstNode();
+    void Run();
+    void Draw(PhIRenderer* pGDI);
 
   };
 }

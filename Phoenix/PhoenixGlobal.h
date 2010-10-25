@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "PhoenixConsole.h"
+#include <tchar.h>
 
 namespace PhoenixCore{
 
@@ -24,7 +25,7 @@ inline void * __cdecl operator new(size_t size)
   void *ptr = (void *)malloc(size);
   //AddTrack((DWORD)ptr, size, file, line);
   if (DEBUGCONSOLE)
-    DEBUGCONSOLE->Log("CREATED\n",C_NORMAL);
+    DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL);
   Track++;
   return(ptr);
 };
@@ -33,7 +34,7 @@ inline void __cdecl operator delete(void *p)
 {
   //RemoveTrack((DWORD)p);
   if (DEBUGCONSOLE)
-    DEBUGCONSOLE->Log("DELETED\n",C_NORMAL);
+    DEBUGCONSOLE->Log(_T("DELETED\n"),C_NORMAL);
   Track--;
   free(p);
 };
@@ -44,7 +45,7 @@ inline void * __cdecl operator new[](size_t size)
   void *ptr = (void *)malloc(size);
   //AddTrack((DWORD)ptr, size, file, line);
   if (DEBUGCONSOLE)
-    DEBUGCONSOLE->Log("CREATED\n",C_NORMAL);
+    DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL);
   Track++;
   return(ptr);
 };
@@ -53,7 +54,7 @@ inline void __cdecl operator delete[](void *p)
 {
   //RemoveTrack((DWORD)p);
   if (DEBUGCONSOLE)
-    DEBUGCONSOLE->Log("DELETED\n",C_NORMAL);
+    DEBUGCONSOLE->Log(_T("DELETED\n"),C_NORMAL);
   Track--;
   free(p);
 };
