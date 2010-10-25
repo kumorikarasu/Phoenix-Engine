@@ -1,10 +1,11 @@
 #include "PhoenixGlobal.h"
 #include "PhoenixEntityManager.h"
 
+namespace PhoenixCore{
 
 PhEntityManager::PhEntityManager()
 {
-  EntityList = new PhoenixCore::LinkedList<PhoenixCore::PhEntity>();
+  EntityList = new LinkedList<PhEntity>();
 }
 
 PhEntityManager::~PhEntityManager()
@@ -21,3 +22,5 @@ Node<PhEntity>* PhEntityManager::GetFirstNode()
 {
   return this->EntityList->first();
 }
+
+};
