@@ -43,7 +43,7 @@ namespace PhoenixFight{
     static const int nMaxFrames = 20;      ///< Input buffer length
     static const int nNumberofButtons = 7; ///< Number of input buttons (A,B,C,D,E,F and S)
 
-    int nInputLUT[256];		  ///< Input lookup table, used when setting the key config
+    unsigned int nInputLUT[256];		  ///< Input lookup table, used when setting the key config
 
     long* nInput;   		    ///< A buffer of input directions (circular array)
     int   nInputLocation;	  //input array index location 
@@ -59,6 +59,7 @@ namespace PhoenixFight{
     ~AsInputBuffer();
 
     void pushInput(bool _input[256]);
+    long popInput();
     void SetTable(int _location, int _value);
     void SetTable(int _InputLUT[]);
     char* Compile();

@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\PhoenixRenderer">
+      <UniqueIdentifier>{1e1a2ee2-9155-4203-ba01-2cad743a5c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PhoenixEntity">
+      <UniqueIdentifier>{8d9394f9-eaa4-4aa9-9a39-d65baa5a7c23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Fightan">
+      <UniqueIdentifier>{f8e56d54-8409-4fbb-9bc8-39979245ef8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\PhoenixEntity">
+      <UniqueIdentifier>{b2d14ae3-0087-4b79-99d1-20ebee0736a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PhoenixRenderer">
+      <UniqueIdentifier>{a675d39f-9d18-45d2-851c-12d1f2d0775e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Fightan">
+      <UniqueIdentifier>{5e238add-1cbf-4914-b182-8e57578bb833}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PhoenixConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoenixEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoenixMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoenixTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoenixUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoenixOpenGLHandler.cpp">
+      <Filter>Source Files\PhoenixRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoenixEntityManager.cpp">
+      <Filter>Source Files\PhoenixEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="AsInputBuffer.cpp">
+      <Filter>Source Files\Fightan</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoenixSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AsPlayer.cpp">
+      <Filter>Source Files\Fightan</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixConsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixGlobal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixMain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixWindows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixEntity.h">
+      <Filter>Header Files\PhoenixEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixEntityManager.h">
+      <Filter>Header Files\PhoenixEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixOpenGLHandler.h">
+      <Filter>Header Files\PhoenixRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixRenderer.h">
+      <Filter>Header Files\PhoenixRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="AsInputBuffer.h">
+      <Filter>Header Files\Fightan</Filter>
+    </ClInclude>
+    <ClInclude Include="AsNetplay.h">
+      <Filter>Header Files\Fightan</Filter>
+    </ClInclude>
+    <ClInclude Include="AsPlayer.h">
+      <Filter>Header Files\Fightan</Filter>
+    </ClInclude>
+    <ClInclude Include="AsProperties.h">
+      <Filter>Header Files\Fightan</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dirent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

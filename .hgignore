@@ -6,3 +6,16 @@ glob:TestResults/*
 glob:UnitTestEngine/*
 glob:Phoenix2.vsmdi
 glob:*.user
+glob:Package/*
+glob:*.sdf
+glob:*.opensdf
+glob:Phoenix/Release/*
+glob:Phoenix/console_log.txt
+glob:Release/*
+glob:UpgradeLog.XML
+glob:_UpgradeReport_Files/UpgradeReport.css
+glob:_UpgradeReport_Files/UpgradeReport.xslt
+glob:_UpgradeReport_Files/UpgradeReport_Minus.gif
+glob:_UpgradeReport_Files/UpgradeReport_Plus.gif
+glob:ipch/phoenix-8939d339/phoenix-104b98e7.ipch
+glob:ipch/phoenix-8939d339/phoenix-9e91b4e1.ipch

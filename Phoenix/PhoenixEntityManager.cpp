@@ -46,7 +46,8 @@ void PhEntityManager::Draw(PhIRenderer* pGDI)
   if (node->getObject() != NULL)
     while(node != NULL){
       PhEntity* ent = node->getObject();
-      ent->Draw(pGDI);
+      if (ent->isDrawable())
+        ent->Draw(pGDI);
       node = node->getNext();
     }
 

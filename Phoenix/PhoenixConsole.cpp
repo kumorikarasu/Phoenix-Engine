@@ -10,13 +10,14 @@ PhConsole::PhConsole()
   m_btoggle=false;
   m_logfile =	fopen("console_log.txt","a+");
   fprintf(m_logfile,"\n\nBuildVer: %d TimeStamp:%d\n",0,time(NULL));
+  fclose(m_logfile);
 }
 
 
 
 PhConsole::~PhConsole()
 {
-  fclose(m_logfile);	
+//  fclose(m_logfile);	
 }
 
 void PhConsole::Draw(PhIRenderer * GDI)
@@ -55,7 +56,11 @@ void PhConsole::Log(const TCHAR* fmt, int _type, ...)
   vswprintf(line.m_text,fmt,va);
 
   //print the line
+  _tcscat(line.m_text,_T("\n"));
+
+  m_logfile =	fopen("console_log.txt","a+");
   fwprintf(m_logfile,line.m_text);
+  fclose(m_logfile);
 
   va_end(va);
 
@@ -77,7 +82,12 @@ void PhConsole::Line(const TCHAR* fmt, int _type, ...)
 
   m_lConsole.push_back(line);
 
+  //print the line
+  _tcscat(line.m_text,_T("\n"));
+
+  m_logfile =	fopen("console_log.txt","a+");
   fwprintf(m_logfile,line.m_text);
+  fclose(m_logfile);
 
   va_end(va);
 

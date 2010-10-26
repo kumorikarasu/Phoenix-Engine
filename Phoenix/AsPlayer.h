@@ -7,12 +7,23 @@
 
 namespace PhoenixFight{
 
+  enum state{
+    sNormal,
+    sBlocking,
+    sHit,
+    sAir,
+  };
+
   class AsPlayer: public PhoenixCore::PhEntity
   {
   private:
     //sCharacterProp* m_pProp;
-    AsInputBuffer*  InputBuffer;
+    int State;
+    PhoenixCore::Vertex2 hbtl, hbbr; //hitbox
+    PhoenixCore::Vertex2 ahbt1, ahbbr; //current attacks hitbox
+
   public:
+    AsInputBuffer*  InputBuffer;
     static const int EntityID = 101;
     AsPlayer(PhoenixCore::PhSprite* sp);
     ~AsPlayer();

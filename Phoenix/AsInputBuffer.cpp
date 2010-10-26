@@ -1,9 +1,10 @@
 #include <cstdlib>
+#include <cstring>
 
 #include "AsInputBuffer.h"
 
-using namespace PhoenixFight;
 
+namespace PhoenixFight{
 /**
  * @param _input a bool array of input 256 values, corrosponding with the ascii value
  *
@@ -17,7 +18,7 @@ void AsInputBuffer::pushInput(bool _input[256])
   nInputLocation ++;
 
   //if the counters overflowed, reset them to 0
-  if (nInputLocation == this->nMaxFrames)
+  if (nInputLocation >= this->nMaxFrames - 1)
     nInputLocation = 0;
 }
 
@@ -46,6 +47,9 @@ void AsInputBuffer::SetTable(int _InputLUT[])
 AsInputBuffer::AsInputBuffer()
 {
   nInput = new long[nMaxFrames];
+  nInputLocation = 0;
+  memset(nInputLUT,0,255 * 4);
+  memset(nInput,0,nMaxFrames * sizeof(long));
 }
 
 AsInputBuffer::~AsInputBuffer()
@@ -71,10 +75,21 @@ char* AsInputBuffer::Compile(){
 int AsInputBuffer::ParseInput(int _currentInput, bool _input[256]){
   int result = _currentInput;
   for (int i=0;i<256;i++){
-    if (_input[i] == 1 && nInputLUT[i]){
-      result = result & nInputLUT[i];
+    if (_input[i] == 1){
+      if (nInputLUT[i]){
+      result = result | nInputLUT[i];
+      _input[i] = 0;
+      }
     }
   }
 
   return result;
 }
+
+
+long AsInputBuffer::popInput()
+{
+  return nInput[nInputLocation];
+}
+
+};

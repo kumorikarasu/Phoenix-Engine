@@ -4,15 +4,13 @@
 #include "PhoenixEngine.h"
 #include "PhoenixConsole.h"
 #include "PhoenixOpenGLHandler.h" //OpenGL (ONLY file that should have to include this (other then .cpp ofcourse))
-//#include "DirectXHandler.h" //DX
+#include <time.h>
 
 using namespace PhoenixCore;
 
 PhConsole* PhConsole::Console;
 
-#include <time.h>
 
-//mmmm global *cough*
 bool*	input = new bool[256];
 
 int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
@@ -20,6 +18,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
                     LPSTR		lpCmdLine,			// Command Line Parameters
                     int			nCmdShow)			// Window Show State
 {
+
   MSG		msg	;									
   bool	done = false;	
   int		drawRes = 0;
@@ -35,6 +34,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
   //All the modules we will use can all be initilised in 1 place
   Modules Mod;
 
+  try{
   //Render Object
   Mod.pRender = new PhOpenGLHandler();
 
@@ -52,6 +52,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
   //Engine Handler
   PhEngine* pEngine = new PhEngine(Mod); //we can then just pass all the modules at once
 
+
   //Frame Rate
   float fps=0,ms=0;
   clock_t time_now, movement_timer = 0;
@@ -63,7 +64,6 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
   Mod.pRender->Init();
 
   //Main loop
-  try{
   while(!done)									
   {
     if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	
@@ -89,22 +89,16 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
       }
 
       movement_timer = clock();
-
-
       ms = ((ms + (float)movement_timer - (float)time_now) / 2);
       fps = (int)1000 / ms;
       nFrameCount++;
     }
   }
-  }catch(exception e){
-    delete Mod.pConsole;
-    return 1;
-  }
 
 
 
   //shutdown console (closes console log file, this is why this is done before the renderer, incase it fails)
-  Mod.pConsole->Log(_T("Number of unfreed memory allocations: %d"),C_NORMAL,Track - 3);
+  Mod.pConsole->Log(_T("Number of unfreed memory allocations: %d"),C_NORMAL,Track);
 
 
   delete Mod.pConsole;
@@ -121,6 +115,11 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
   delete input;
 
   return (msg.wParam);							// Exit The Program
+
+  }catch(exception e){
+    delete Mod.pConsole;
+    return 1;
+  }
 }
 
 
