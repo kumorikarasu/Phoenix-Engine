@@ -26,19 +26,8 @@ void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
 
     pEntityMan->AddEntity(Player); //add entity to game
 
-    sp->SetSize(10);
-    sp->SetDelay(60);
-    sp->Init();
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand000 .tga"));
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand001 .tga"));
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand002 .tga"));
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand003 .tga"));
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand004 .tga"));
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand005 .tga"));
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand006 .tga"));
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand007 .tga"));
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand008 .tga"));
-    sp->AddSprite(_T("..\\media\\reimu\\data_character_reimu_stand009 .tga"));
+    sp->SetDelay(5);
+    sp->LoadDirectory(_T("..\\media\\reimu\\"));
 
     RunOnce = false;
   }
@@ -56,6 +45,7 @@ void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
 
     input[192] = false;
   }
+  Player->InputBuffer->pushInput(input);
 
   pEntityMan->Run();
 }
@@ -64,6 +54,9 @@ void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
 //go throught the list of objects that need to be rendered and render them
 void PhEngine::Render()
 {
+  //int probug = 0;
+  //pConsole->Log(_T("DRAW %d"),C_NORMAL,probug++); //3
+
   pRenderer->ClearBuffer(); //clear the screen
 
   pRenderer->EnableBlendMode();
@@ -111,7 +104,7 @@ void PhEngine::Render()
                       );
 
 //  pRenderer->DrawTexture2D(sp->GetNextSprite(),Vertex2(640,360));
-  pRenderer->DrawTexture2D(pTextureMan->Texture(_T("data\\textures\\Kumori.tga")),Vertex2(200 + nFrameCount % 60,200));
+ // pRenderer->DrawTexture2D(pTextureMan->Texture(_T("data\\textures\\Kumori.tga")),Vertex2(200 + nFrameCount % 60,200));
 
  // pRenderer->DrawTexture2D(pTextureMan->Texture("icephoenix.tga"),Vertex2(150,100));
 

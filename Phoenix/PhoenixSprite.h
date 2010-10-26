@@ -17,6 +17,7 @@ private:
   int         m_nSpriteIndex;
   int         m_nSpriteLength;
   int         m_nSpriteLoadIndex;
+  bool        Corrupt;
 
 
 public:
@@ -27,6 +28,8 @@ public:
   bool AddSprite(TCHAR* _filename);
   PhTexture* GetNextSprite();
   void Init();
+  bool Drawable();
+  bool LoadDirectory(TCHAR* _path);
   
 };
 

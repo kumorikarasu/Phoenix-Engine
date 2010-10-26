@@ -28,6 +28,7 @@ namespace PhoenixCore{
   public:
     static const int EntityID = 100;		//Entity ID Number
     bool isDead(){return m_isDead;}
+    bool isDrawable(){return pSprite != NULL ? pSprite->Drawable() : false;}
 
     PhEntity(){
       m_isDead = 0;
