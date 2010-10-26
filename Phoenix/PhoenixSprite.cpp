@@ -1,6 +1,7 @@
 #include <atlconv.h>
 #include "PhoenixSprite.h"
 #include "PhoenixConsole.h"
+#include "PhoenixUtil.h"
 
 
 namespace PhoenixCore{
@@ -23,8 +24,31 @@ PhSprite::PhSprite(PhTextureManager* _pTexMan)
   m_nSpriteLoadIndex = 0;
   m_nSpriteIndex=0;
   m_nSpriteLength=0;
+  m_nDelay = 3;
+  m_nState = -1;
   Corrupt = false;
 }
+
+PhTexture* PhSprite::GetNextSprite()
+{
+  if (m_pTextures == NULL)
+    return NULL;
+
+  if (m_pTextures > m_pTextureEnd){
+    m_pTextures = m_pTextureStart;
+  }
+
+  PhTexture* tex = (PhTexture*) (*m_pTextures);
+  if (m_nSpriteIndex >= m_nDelay){
+    m_nSpriteIndex = 0;
+    m_pTextures++;
+  }else{
+    m_nSpriteIndex++;
+  }
+
+  return tex;
+}
+
 
 bool PhSprite::AddSprite(TCHAR* _filename)
 {
@@ -49,26 +73,6 @@ bool PhSprite::AddSprite(TCHAR* _filename)
   m_nSpriteLoadIndex++;
 
   return true;
-}
-
-PhTexture* PhSprite::GetNextSprite()
-{
-  if (m_pTextures == NULL)
-    return NULL;
-
-  if (m_pTextures == m_pTextureEnd){
-    m_pTextures = m_pTextureStart;
-  }
-
-  PhTexture* tex = (PhTexture*) (*m_pTextures);
-  if (m_nSpriteIndex >= m_nDelay){
-    m_nSpriteIndex = 0;
-    m_pTextures++;
-  }else{
-    m_nSpriteIndex++;
-  }
-
-  return tex;
 }
 
 PhSprite::~PhSprite()
@@ -113,7 +117,10 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
    // List all the files in the directory with some info about them.
    do
    {
-     this->m_nSpriteLength++;
+     TCHAR fileext[10];
+     ExtensionFromFilename(ffd.cFileName,fileext);
+     if (_tcscmp(fileext,_T("tga")) == 0)
+       this->m_nSpriteLength++;
    }
    while (FindNextFile(hFind, &ffd) != 0);
    FindClose(hFind);
@@ -144,10 +151,37 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
          PhConsole::Console->Line(ffd.cFileName,C_NORMAL);
          //_tprintf(TEXT("  %s   %ld bytes\n"), ffd.cFileName, filesize.QuadPart);
       }
-      if (_tcscmp(ffd.cFileName,_T(".")) != 0 && _tcscmp(ffd.cFileName,_T("..")) != 0){
+      TCHAR fileext[10];
+      ExtensionFromFilename(ffd.cFileName,fileext);
+      if (_tcscmp(fileext,_T("tga")) == 0){
+        if (_tcscmp(ffd.cFileName,_T(".")) != 0 && _tcscmp(ffd.cFileName,_T("..")) != 0){
+          _tcscpy(szDir, _path);
+          _tcscat(szDir, ffd.cFileName);
+          AddSprite(szDir);
+        }
+      }else if(_tcscmp(fileext,_T("sprite")) == 0){
+        //Info about the current sprite, lets get that shit in here ya
+        FILE* fp;
         _tcscpy(szDir, _path);
         _tcscat(szDir, ffd.cFileName);
-        AddSprite(szDir);
+        fp = _tfopen(szDir,_T("r"));
+        char buffer[100];
+        memset(buffer,0,100);
+        int frames, xoffset, yoffset, action;
+        int frameCount = 0;
+        while (fgets(buffer,100,fp) != NULL){
+          sscanf(buffer,"%d %d %d %d",&frames, &action, &xoffset, &yoffset);
+          PhFrame frame;
+          frame.nStartFrame = frameCount;
+          frame.nFrames = frames;
+          frameCount += frames;
+          frame.xoffset = xoffset;
+          frame.yoffset = yoffset;
+
+          //insert into map
+          m_mapSprite[action] = frame;
+        }
+        fclose(fp);
       }
    }
    while (FindNextFile(hFind, &ffd) != 0);
@@ -160,6 +194,46 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
 
    FindClose(hFind);
    return true;
+}
+
+
+PhTexture* PhSprite::GetNextAdvancedSprite(int _state)
+{
+  if (m_nState == _state){
+
+    if (m_pTextures == NULL)
+      return NULL;
+
+    if (m_nSpriteFrame >= m_currentFrame.nFrames){
+      m_nSpriteFrame = 0;
+      m_pTextures = m_pTextureStart;
+    }
+
+    PhTexture* tex = (PhTexture*) m_pTextures[m_currentFrame.nStartFrame + m_nSpriteFrame];
+
+    if (m_nSpriteIndex >= m_nDelay){
+      m_nSpriteIndex = 0;
+      m_nSpriteFrame++;
+    }else{
+      m_nSpriteIndex++;
+    }
+
+    return tex;
+
+  }else{
+
+    // check if the texture already exists in the map
+    map<int, PhFrame>::iterator p = m_mapSprite.find(_state);
+
+    if( p != m_mapSprite.end() )
+    {
+      // found the texture, now return the reference
+      m_currentFrame = p->second;
+      m_nState = _state;
+      m_nSpriteFrame = 0;
+    }
+    return GetNextAdvancedSprite(m_nState);
+  }
 }
 
 };

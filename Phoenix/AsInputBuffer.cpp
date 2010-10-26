@@ -12,7 +12,8 @@ namespace PhoenixFight{
  */
 void AsInputBuffer::pushInput(bool _input[256])
 {
-  nInput[nInputLocation] = ParseInput(DIRECTION_5, _input);
+  //nInput[nInputLocation] = ParseInput(DIRECTION_5, _input);
+  nInput[0] = ParseInput(DIRECTION_5, _input);
 
   //increment the counters
   nInputLocation ++;
@@ -78,7 +79,6 @@ int AsInputBuffer::ParseInput(int _currentInput, bool _input[256]){
     if (_input[i] == 1){
       if (nInputLUT[i]){
       result = result | nInputLUT[i];
-      _input[i] = 0;
       }
     }
   }
@@ -89,7 +89,7 @@ int AsInputBuffer::ParseInput(int _currentInput, bool _input[256]){
 
 long AsInputBuffer::popInput()
 {
-  return nInput[nInputLocation];
+  return nInput[0];
 }
 
 };

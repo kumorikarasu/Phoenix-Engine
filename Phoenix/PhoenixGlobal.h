@@ -11,6 +11,7 @@ namespace PhoenixCore{
 
 //global varible for tracking memory allocations
 static int Track = 0;
+static int TickCount = 1;
 
 
 };

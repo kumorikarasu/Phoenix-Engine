@@ -23,6 +23,7 @@ namespace PhoenixCore{
     PhRenderObject*	    m_pRenderObj;		//A Pointer to a Render Object
     PhCollisionObject*	m_pColObj;			//Collision Data
 
+    PhTexture* pTexture;
     PhSprite* pSprite;     //A pointer to a Sprite Render Object (for sprites)
 
   public:
@@ -38,7 +39,7 @@ namespace PhoenixCore{
 
     virtual void Step() = 0;
     virtual void Draw(PhIRenderer* pGDI){
-      pGDI->DrawTexture2D(pSprite->GetNextSprite(),m_pos);
+      pGDI->DrawTexture2D(pTexture,m_pos);//pSprite->GetNextSprite(),m_pos);
     }
 
     //callback function

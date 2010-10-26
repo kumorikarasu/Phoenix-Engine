@@ -98,10 +98,10 @@
     <ClCompile Include="PhoenixMain.cpp" />
     <ClCompile Include="PhoenixSprite.cpp" />
     <ClCompile Include="PhoenixTexture.cpp" />
-    <ClCompile Include="PhoenixUtil.cpp" />
     <ClCompile Include="PhoenixOpenGLHandler.cpp" />
     <ClCompile Include="PhoenixEntityManager.cpp" />
     <ClCompile Include="AsInputBuffer.cpp" />
+    <ClCompile Include="PhoenixUtil.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>

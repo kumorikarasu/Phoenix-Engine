@@ -24,10 +24,10 @@ void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
     PhSprite* sp = new PhSprite(pTextureMan);
     Player = new AsPlayer(sp);
 
+    sp->LoadDirectory(_T("..\\media\\reimu\\"));
+
     pEntityMan->AddEntity(Player); //add entity to game
 
-    sp->SetDelay(5);
-    sp->LoadDirectory(_T("..\\media\\reimu\\"));
 
     RunOnce = false;
   }
@@ -68,7 +68,7 @@ void PhEngine::Render()
 
 //  pRenderer->Begin2D();
 
-  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),_T("RenderTime: %4.2f: Frame Number: %d"),fps,nFrameCount);
+  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),_T("FPS: %3.0f"),fps);
   //DRAW FRAME TIME
 //  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),"RenderTime: %4.2f: Frame Number: %d",fps,nFrameCount);
 
