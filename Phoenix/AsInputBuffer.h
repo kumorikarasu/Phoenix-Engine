@@ -40,7 +40,7 @@ namespace PhoenixFight{
   class AsInputBuffer
   {
   private:
-    static const int nMaxFrames = 20;      ///< Input buffer length
+    static const int nMaxFrames = 1;      ///< Input buffer length
     static const int nNumberofButtons = 7; ///< Number of input buttons (A,B,C,D,E,F and S)
 
     unsigned int nInputLUT[256];		  ///< Input lookup table, used when setting the key config

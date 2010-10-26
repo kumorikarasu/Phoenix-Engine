@@ -45,9 +45,6 @@
     <ClCompile Include="PhoenixTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PhoenixUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PhoenixOpenGLHandler.cpp">
       <Filter>Source Files\PhoenixRenderer</Filter>
     </ClCompile>
@@ -65,6 +62,9 @@
     </ClCompile>
     <ClCompile Include="AsPlayer.cpp">
       <Filter>Source Files\Fightan</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoenixUtil.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

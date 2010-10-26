@@ -56,6 +56,11 @@ typedef struct {
 
 // Define Private Structurs
 //
+#ifdef _UNICODE
+typedef wchar_t TCHAR;
+#else
+typedef char TCHAR;
+#endif
 
 // Header
 typedef struct {

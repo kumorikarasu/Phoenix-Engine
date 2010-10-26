@@ -9,8 +9,10 @@
 using namespace PhoenixCore;
 
 PhConsole* PhConsole::Console;
+HWND hWnd = 0;
 
 
+bool Step = true;
 bool*	input = new bool[256];
 
 int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
@@ -54,14 +56,16 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
 
   //Frame Rate
-  float fps=0,ms=0;
-  clock_t time_now, movement_timer = 0;
+  double fps=0,ms=0;
+  long time_now, movement_timer = 0;
 
   //Create the game window
-  Mod.pRender->CreateGameWindow(L"Phoenix Engine",1280,720,32,0,0);
+  hWnd = (HWND) Mod.pRender->CreateGameWindow(L"Phoenix Engine",1280,720,32,0,0);
 
   //Setup Renderer
   Mod.pRender->Init();
+
+  SetTimer(hWnd,0,16,NULL);
 
   //Main loop
   while(!done)									
@@ -78,19 +82,24 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
     }
     else
     {
-      time_now = clock();
-      movement_timer = time_now;
+      time_now = GetTickCount();
+      //movement_timer = time_now;
 
-      pEngine->Step(fps,input,nFrameCount);
-
-      while (abs(time_now - clock()) < CLK_TCK/62){
-        pEngine->Render();
+      if (Step){
+        pEngine->Step(fps,input,nFrameCount);
+        Step = false;
+      }
+      
+      //while (abs((long) (time_now - GetTickCount())) < 16){
+      pEngine->Render();
+      //}
+      //movement_timer = clock();
+      ms = abs(((ms + GetTickCount() - time_now) / 2));
+      fps = abs((int)(fps + (1000 / ms)) / 2);
+      if (fps > 200){
+        fps = 200;
         Sleep(1);
       }
-
-      movement_timer = clock();
-      ms = ((ms + (float)movement_timer - (float)time_now) / 2);
-      fps = (int)1000 / ms;
       nFrameCount++;
     }
   }
@@ -182,6 +191,13 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
     case WM_SIZE:								// Resize The OpenGL Window
       {
 
+      }
+      break;
+    case WM_TIMER:
+      {
+        Step = true;
+        TickCount++;
+        SetTimer(hWnd,0,16,NULL);
       }
   }
 

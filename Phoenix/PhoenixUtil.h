@@ -2,7 +2,23 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
+#include <string>
+
 namespace PhoenixCore{
+
+#ifndef _DEBUG
+#ifdef _UNICODE
+typedef wchar_t TCHAR;
+#define _tcslen wcslen
+#define _tcscpy wcscpy
+#else
+#define TCHAR char
+#define _tcslen strlen
+#define _tcscpy strcpy
+#endif
+#else
+#include <tchar.h>
+#endif
 
 class Color
 {
@@ -47,6 +63,7 @@ class Vertex3
     Vertex3 operator+= (const Vertex3& _t){x+=_t.y;y+=_t.y;z+=_t.z;}
 };
 
+void ExtensionFromFilename(TCHAR *szFileName, TCHAR *szExtension);
 };
 
 #endif
