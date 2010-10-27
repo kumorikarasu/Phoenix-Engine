@@ -165,22 +165,41 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
         _tcscpy(szDir, _path);
         _tcscat(szDir, ffd.cFileName);
         fp = _tfopen(szDir,_T("r"));
-        char buffer[100];
-        memset(buffer,0,100);
-        int frames, xoffset, yoffset, action, delay;
+        char buffer[500];
+        memset(buffer,0,200);
+        int frames, xoffset, yoffset, action, delay, startframe, flags;
         int frameCount = 0;
-        while (fgets(buffer,100,fp) != NULL){
-          sscanf(buffer,"%d %d %d %d %d",&action, &frames, &delay, &xoffset, &yoffset);
-          PhFrame frame;
-          frame.nStartFrame = frameCount;
-          frame.nFrames = frames;
-          frameCount += frames;
-          frame.xoffset = xoffset;
-          frame.yoffset = yoffset;
-          frame.delay = delay;
+        while (fgets(buffer,500,fp) != NULL){
+          if (*buffer != ';' && (*buffer) != 10){
+            sscanf(buffer,"%d %d %d %d %d %d %d",&action, &startframe, &frames, &delay, &xoffset, &yoffset, &flags);
+            PhAnimation frame;
+            frame.nStartFrame = startframe;
+            frame.nFrames = frames;
+            frameCount += frames;
+            frame.xoffset = xoffset;
+            frame.yoffset = yoffset;
+            frame.delay = delay;
+            int totalframes = frames * delay;
+            int xmove, ymove, hbtl, hbtr, hbbl, hbbr, ahbtl, ahbtr, ahbbl, ahbbr;
+            for (int i=0;i<totalframes;i++){
+              fgets(buffer,200,fp);
+              sscanf(buffer,"%d %d %d %d %d %d %d %d %d %d %d", &xmove, &ymove, &hbtl, &hbtr, &hbbl, &hbbr, &ahbtl, &ahbtr, &ahbbl, &ahbbr, &flags);
+              frame.frame[i].xMovement = xmove;
+              frame.frame[i].yMovement = ymove;
+              frame.frame[i].hbtl = hbtl;
+              frame.frame[i].hbtr = hbtr;
+              frame.frame[i].hbbl = hbbl;
+              frame.frame[i].hbbr = hbbr;
+              frame.frame[i].ahbtl = ahbtl;
+              frame.frame[i].ahbtr = ahbtr;
+              frame.frame[i].ahbbl = ahbbl;
+              frame.frame[i].ahbbr = ahbbr;
+              frame.frame[i].Flags = flags;
+            }
 
-          //insert into map
-          m_mapSprite[action] = frame;
+            //insert into map
+            m_mapSprite[action] = frame;
+          }
         }
         fclose(fp);
       }
@@ -224,7 +243,7 @@ PhTexture* PhSprite::GetNextAdvancedSprite(int _state)
   }else{
 
     // check if the texture already exists in the map
-    map<int, PhFrame>::iterator p = m_mapSprite.find(_state);
+    map<int, PhAnimation>::iterator p = m_mapSprite.find(_state);
 
     if( p != m_mapSprite.end() )
     {

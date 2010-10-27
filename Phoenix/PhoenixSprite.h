@@ -9,13 +9,30 @@ namespace PhoenixCore{
 class PhSprite
 {
 private:
+
   struct PhFrame{
+    int xMovement;
+    int yMovement;
+    int hbtl;
+    int hbtr;
+    int hbbl;
+    int hbbr;
+    int ahbtl;
+    int ahbtr;
+    int ahbbl;
+    int ahbbr;
+    int Flags;
+  };
+
+  struct PhAnimation{
     int nStartFrame;
     int nFrames;
     int xoffset;
     int yoffset;
     int delay;
+    PhFrame frame[300];
   };
+
 
   PhTextureManager* m_pTextureMan;
   int*        m_pTextures;
@@ -28,11 +45,12 @@ private:
   int         m_nSpriteFrame;       ///< Current frame that is displayed noscreen
   bool        Corrupt;
   int         m_nState;             ///< Current frame state, used when switching states
-  PhFrame     m_currentFrame;
 
-  std::map<int, PhFrame> m_mapSprite;
+  std::map<int, PhAnimation> m_mapSprite;
 
 public:
+  PhAnimation     m_currentFrame;
+
   PhSprite(PhTextureManager* _pTexMan);
   ~PhSprite();
   bool SetSize(int _size);
