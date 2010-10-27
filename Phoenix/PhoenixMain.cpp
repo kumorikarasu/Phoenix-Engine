@@ -98,7 +98,6 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
       fps = abs((int)(fps + (1000 / ms)) / 2);
       if (fps > 200){
         fps = 200;
-        Sleep(1);
       }
       nFrameCount++;
     }

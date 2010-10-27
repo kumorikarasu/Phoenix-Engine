@@ -167,16 +167,17 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
         fp = _tfopen(szDir,_T("r"));
         char buffer[100];
         memset(buffer,0,100);
-        int frames, xoffset, yoffset, action;
+        int frames, xoffset, yoffset, action, delay;
         int frameCount = 0;
         while (fgets(buffer,100,fp) != NULL){
-          sscanf(buffer,"%d %d %d %d",&frames, &action, &xoffset, &yoffset);
+          sscanf(buffer,"%d %d %d %d %d",&action, &frames, &delay, &xoffset, &yoffset);
           PhFrame frame;
           frame.nStartFrame = frameCount;
           frame.nFrames = frames;
           frameCount += frames;
           frame.xoffset = xoffset;
           frame.yoffset = yoffset;
+          frame.delay = delay;
 
           //insert into map
           m_mapSprite[action] = frame;
@@ -231,6 +232,7 @@ PhTexture* PhSprite::GetNextAdvancedSprite(int _state)
       m_currentFrame = p->second;
       m_nState = _state;
       m_nSpriteFrame = 0;
+      m_nDelay = m_currentFrame.delay;
     }
     return GetNextAdvancedSprite(m_nState);
   }
