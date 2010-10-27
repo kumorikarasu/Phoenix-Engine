@@ -53,13 +53,15 @@ void AsPlayer::Step()
     m_pos.y+=6;
   }
 
-  //pTexture = pSprite->GetNextAdvancedSprite(State);
-  pTexture = pSprite->GetNextSprite();
+  //TODO: HITBOX LOADING HERE THEN MAKE IT BE DRAWN IN DEBUG MODE
+  //pSprite->m_currentFrame.frame[pSprite->m_nSpriteFrame].everything
+  pTexture = pSprite->GetNextAdvancedSprite(State);
+  //pTexture = pSprite->GetNextSprite();
 }
 
 void AsPlayer::Draw(PhoenixCore::PhIRenderer* pGDI)
 {
-  pGDI->DrawTexture2D(pTexture,m_pos);
+  pGDI->DrawTexture2D(pTexture,PhoenixCore::Vertex2(m_pos.x + pSprite->m_currentFrame.xoffset,m_pos.y + pSprite->m_currentFrame.yoffset));
 }
 
 

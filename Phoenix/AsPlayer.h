@@ -11,7 +11,8 @@ namespace PhoenixFight{
     sNormal,
     sBlocking,
     sHit,
-    sAir,
+    sStun,
+    sCrushed
   };
 
   class AsPlayer: public PhoenixCore::PhEntity
@@ -21,6 +22,7 @@ namespace PhoenixFight{
     int State;
     PhoenixCore::Vertex2 hbtl, hbbr; //hitbox
     PhoenixCore::Vertex2 ahbt1, ahbbr; //current attacks hitbox
+    int nGravity;
 
   public:
     AsInputBuffer*  InputBuffer;
