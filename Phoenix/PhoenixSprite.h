@@ -14,6 +14,7 @@ private:
     int nFrames;
     int xoffset;
     int yoffset;
+    int delay;
   };
 
   PhTextureManager* m_pTextureMan;

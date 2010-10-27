@@ -8,7 +8,7 @@ namespace PhoenixFight{
 AsPlayer::AsPlayer(PhoenixCore::PhSprite* sp)
 {
   pSprite = sp;
-  sp->SetDelay(5);
+  sp->SetDelay(3);
   pTexture = NULL;
   m_pos.x = 500;
   m_pos.y = 550;
@@ -53,8 +53,8 @@ void AsPlayer::Step()
     m_pos.y+=6;
   }
 
-  pTexture = pSprite->GetNextAdvancedSprite(State);
-  //pTexture = pSprite->GetNextSprite();
+  //pTexture = pSprite->GetNextAdvancedSprite(State);
+  pTexture = pSprite->GetNextSprite();
 }
 
 void AsPlayer::Draw(PhoenixCore::PhIRenderer* pGDI)
