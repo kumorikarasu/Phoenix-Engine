@@ -7,13 +7,14 @@
 #include "PhoenixEntityManager.h"
 #include "PhoenixSprite.h"
 #include "AsPlayer.h"
+#include "AsHitBoxViewer.h"
 #include <tchar.h>
 
 using namespace PhoenixFight;
 namespace PhoenixCore{
 
 float r = 0;
-AsPlayer* Player;
+AsHitBoxViewer* Player;
 
 //everything!
 void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
@@ -22,9 +23,8 @@ void PhEngine::Step(float _fps,bool _input[256], long long _nFrameCount)
   if (RunOnce){
 
     PhSprite* sp = new PhSprite(pTextureMan);
-    Player = new AsPlayer(sp);
+    Player = new AsHitBoxViewer(sp);
 
-    sp->LoadDirectory(_T("..\\media\\reimu\\"));
 
     pEntityMan->AddEntity(Player); //add entity to game
 

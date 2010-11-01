@@ -56,11 +56,13 @@ public:
   bool SetSize(int _size);
   void SetDelay(int _delay);
   bool AddSprite(TCHAR* _filename);
+  PhTexture* GetPreviousSprite();
   PhTexture* GetNextSprite();
   PhTexture* GetNextAdvancedSprite(int _state);
   void Init();
   bool Drawable();
   bool LoadDirectory(TCHAR* _path);
+
 };
 
 };
