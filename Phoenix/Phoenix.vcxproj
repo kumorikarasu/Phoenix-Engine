@@ -92,6 +92,7 @@
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AsHitBoxViewer.cpp" />
     <ClCompile Include="AsPlayer.cpp" />
     <ClCompile Include="PhoenixConsole.cpp" />
     <ClCompile Include="PhoenixEngine.cpp" />
@@ -105,6 +106,7 @@
     <ClCompile Include="TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsHitBoxViewer.h" />
     <ClInclude Include="dirent.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="PhoenixConsole.h" />

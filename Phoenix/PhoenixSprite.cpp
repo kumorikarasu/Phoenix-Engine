@@ -49,6 +49,26 @@ PhTexture* PhSprite::GetNextSprite()
   return tex;
 }
 
+PhTexture* PhSprite::GetPreviousSprite()
+{
+  if (m_pTextures == NULL)
+    return NULL;
+
+  if (m_pTextures < m_pTextureStart){
+    m_pTextures = m_pTextureEnd;
+  }
+
+  PhTexture* tex = (PhTexture*) (*m_pTextures);
+  if (m_nSpriteIndex >= m_nDelay){
+    m_nSpriteIndex = 0;
+    m_pTextures--;
+  }else{
+    m_nSpriteIndex++;
+  }
+
+  return tex;
+}
+
 
 bool PhSprite::AddSprite(TCHAR* _filename)
 {
@@ -56,6 +76,7 @@ bool PhSprite::AddSprite(TCHAR* _filename)
     if (m_nSpriteLength == 0)
       return false;
     m_pTextures = new int[m_nSpriteLength];
+    memset(m_pTextures,0,sizeof(m_pTextures) * m_nSpriteLength);
     m_pTextureStart = m_pTextures;
   }
   if (m_nSpriteLoadIndex >= m_nSpriteLength){
@@ -166,7 +187,7 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
         _tcscat(szDir, ffd.cFileName);
         fp = _tfopen(szDir,_T("r"));
         char buffer[500];
-        memset(buffer,0,200);
+        memset(buffer,0,500);
         int frames, xoffset, yoffset, action, delay, startframe, flags;
         int frameCount = 0;
         while (fgets(buffer,500,fp) != NULL){

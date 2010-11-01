@@ -66,6 +66,9 @@
     <ClCompile Include="PhoenixUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AsHitBoxViewer.cpp">
+      <Filter>Source Files\Fightan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="dirent.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AsHitBoxViewer.h">
+      <Filter>Header Files\Fightan</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

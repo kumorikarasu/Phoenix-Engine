@@ -1,5 +1,6 @@
-#ifndef _ASPLAYER_H_
-#define _ASPLAYER_H_
+
+#ifndef _HITBOXVIEWER_H_
+#define _HITBOXVIEWER_H_
 
 #include "AsProperties.h"
 #include "AsInputBuffer.h"
@@ -7,15 +8,7 @@
 
 namespace PhoenixFight{
 
-  enum state{
-    sNormal,
-    sBlocking,
-    sHit,
-    sStun,
-    sCrushed
-  };
-
-  class AsPlayer: public PhoenixCore::PhEntity
+  class AsHitBoxViewer: public PhoenixCore::PhEntity
   {
   private:
     //sCharacterProp* m_pProp;
@@ -28,8 +21,8 @@ namespace PhoenixFight{
     AsInputBuffer*  InputBuffer;
     static const int EntityID = 101;
     bool down;
-    AsPlayer(PhoenixCore::PhSprite* sp);
-    ~AsPlayer();
+    AsHitBoxViewer(PhoenixCore::PhSprite* sp);
+    ~AsHitBoxViewer();
 
     virtual void Step();
     virtual void Draw(PhoenixCore::PhIRenderer* pGDI);
@@ -41,4 +34,4 @@ namespace PhoenixFight{
 
 } /*PhoenixFlight*/
 
-#endif /*_ASPLAYER_H_*/
+#endif /*_HITBOXVIEWER_H_*/

@@ -1,11 +1,12 @@
-#include "AsPlayer.h"
+
+#include "AsHitBoxViewer.h"
 #include "PhoenixSprite.h"
 #include "PhoenixConsole.h"
 
 
 namespace PhoenixFight{
 
-AsPlayer::AsPlayer(PhoenixCore::PhSprite* sp)
+AsHitBoxViewer::AsHitBoxViewer(PhoenixCore::PhSprite* sp)
 {
   sp->SetDelay(3);
   sp->LoadDirectory(_T("..\\media\\reimu\\"));
@@ -25,14 +26,14 @@ AsPlayer::AsPlayer(PhoenixCore::PhSprite* sp)
 
 }
 
-AsPlayer::~AsPlayer(){
+AsHitBoxViewer::~AsHitBoxViewer(){
   if (pSprite != NULL)
     delete pSprite;
 
   delete InputBuffer;
 }
 
-void AsPlayer::Step()
+void AsHitBoxViewer::Step()
 {
   if (m_pos.y>500)
     m_pos.y = 500;
@@ -73,13 +74,13 @@ void AsPlayer::Step()
   //pTexture = pSprite->GetNextAdvancedSprite(State);
 }
 
-void AsPlayer::Draw(PhoenixCore::PhIRenderer* pGDI)
+void AsHitBoxViewer::Draw(PhoenixCore::PhIRenderer* pGDI)
 {
   pGDI->DrawTexture2D(pTexture,PhoenixCore::Vertex2(m_pos.x + pSprite->m_currentFrame.xoffset,m_pos.y + pSprite->m_currentFrame.yoffset));
 }
 
 
-void AsPlayer::Collision(PhEntity* _pOther)
+void AsHitBoxViewer::Collision(PhEntity* _pOther)
 {
 
 }
