@@ -39,7 +39,7 @@
 
 /*
  *  Modified: Sean "Kumori" Stacey
- *  Revision: 10/24/2010 - Modified to TCHAR, so it will support both unicode and none unicode
+ *  Revision: 10/24/2010 - Modified to TCHAR, so it will support both unicode and non unicode
  */
 
 
