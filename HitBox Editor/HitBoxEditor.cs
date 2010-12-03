@@ -17,7 +17,9 @@ namespace HitBox_Editor
       None = 0,
       Move,
       Select,
-      Add
+      Add,
+      AddHB,
+      AddAHB
     }
     int CurX, CurY;
     int MouseX, MouseY;
@@ -118,7 +120,10 @@ namespace HitBox_Editor
     {
       if (MoveTool.Checked){
         Tool = ToolType.Move;
-        panel1.Cursor = Cursors.SizeAll;
+        panel1.Cursor = Cursors.Hand;
+        EditTool.Checked = false;
+        AddATool.Checked = false;
+        AddTool.Checked = false;
       }else{
         Tool = ToolType.None;
         panel1.Cursor = Cursors.Default;
@@ -129,6 +134,49 @@ namespace HitBox_Editor
     {
       DisplayGrid = !DisplayGrid;
       panel1.Invalidate();
+    }
+
+    private void EditTool_Click(object sender, EventArgs e)
+    {
+      if (EditTool.Checked){
+        Tool = ToolType.Select;
+        MoveTool.Checked = false;
+        AddATool.Checked = false;
+        AddTool.Checked = false;
+        panel1.Cursor = Cursors.Cross;
+      }else{
+        Tool = ToolType.None;
+        panel1.Cursor = Cursors.Default;
+      }
+    }
+
+    private void AddTool_Click(object sender, EventArgs e)
+    {
+      if (AddTool.Checked){
+        Tool = ToolType.AddHB;
+        MoveTool.Checked = false;
+        EditTool.Checked = false;
+        AddATool.Checked = false;
+        panel1.Cursor = Cursors.SizeAll;
+      }else{
+        Tool = ToolType.None;
+        panel1.Cursor = Cursors.Default;
+      }
+    }
+
+    private void AddATool_Click(object sender, EventArgs e)
+    {
+      if (AddATool.Checked){
+        Tool = ToolType.AddAHB;
+        MoveTool.Checked = false;
+        EditTool.Checked = false;
+        AddTool.Checked = false;
+        panel1.Cursor = Cursors.SizeAll;
+      }else{
+        Tool = ToolType.None;
+        panel1.Cursor = Cursors.Default;
+      }
+
     }
 
   }

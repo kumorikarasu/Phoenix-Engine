@@ -58,6 +58,12 @@
           this.splitContainer1 = new System.Windows.Forms.SplitContainer();
           this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
           this.panel1 = new System.Windows.Forms.Panel();
+          this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+          this.playspeed = new System.Windows.Forms.ToolStripTextBox();
+          this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+          this.EditTool = new System.Windows.Forms.ToolStripButton();
+          this.AddTool = new System.Windows.Forms.ToolStripButton();
+          this.AddATool = new System.Windows.Forms.ToolStripButton();
           this.menuStrip1.SuspendLayout();
           this.toolStrip1.SuspendLayout();
           this.statusStrip1.SuspendLayout();
@@ -152,7 +158,13 @@
             this.ToggleAttack,
             this.ToggleHitbox,
             this.toolStripSeparator3,
-            this.MoveTool});
+            this.MoveTool,
+            this.EditTool,
+            this.AddTool,
+            this.AddATool,
+            this.toolStripSeparator4,
+            this.toolStripButton1,
+            this.playspeed});
           this.toolStrip1.Location = new System.Drawing.Point(0, 24);
           this.toolStrip1.Name = "toolStrip1";
           this.toolStrip1.Size = new System.Drawing.Size(963, 25);
@@ -282,7 +294,7 @@
           this.MoveTool.ImageTransparentColor = System.Drawing.Color.White;
           this.MoveTool.Name = "MoveTool";
           this.MoveTool.Size = new System.Drawing.Size(23, 22);
-          this.MoveTool.Text = "Move Tool";
+          this.MoveTool.Text = "Move";
           this.MoveTool.Click += new System.EventHandler(this.MoveTool_Click);
           // 
           // statusStrip1
@@ -342,6 +354,59 @@
           this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
           this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
           this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
+          // 
+          // toolStripButton1
+          // 
+          this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+          this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+          this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+          this.toolStripButton1.Name = "toolStripButton1";
+          this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+          this.toolStripButton1.Text = "toolStripButton1";
+          // 
+          // playspeed
+          // 
+          this.playspeed.Name = "playspeed";
+          this.playspeed.Size = new System.Drawing.Size(30, 25);
+          this.playspeed.Text = "60";
+          // 
+          // toolStripSeparator4
+          // 
+          this.toolStripSeparator4.Name = "toolStripSeparator4";
+          this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+          // 
+          // EditTool
+          // 
+          this.EditTool.CheckOnClick = true;
+          this.EditTool.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+          this.EditTool.Image = ((System.Drawing.Image)(resources.GetObject("EditTool.Image")));
+          this.EditTool.ImageTransparentColor = System.Drawing.Color.Magenta;
+          this.EditTool.Name = "EditTool";
+          this.EditTool.Size = new System.Drawing.Size(23, 22);
+          this.EditTool.Text = "Edit Hitboxes";
+          this.EditTool.Click += new System.EventHandler(this.EditTool_Click);
+          // 
+          // AddTool
+          // 
+          this.AddTool.CheckOnClick = true;
+          this.AddTool.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+          this.AddTool.Image = ((System.Drawing.Image)(resources.GetObject("AddTool.Image")));
+          this.AddTool.ImageTransparentColor = System.Drawing.Color.Magenta;
+          this.AddTool.Name = "AddTool";
+          this.AddTool.Size = new System.Drawing.Size(23, 22);
+          this.AddTool.Text = "Add Hitbox";
+          this.AddTool.Click += new System.EventHandler(this.AddTool_Click);
+          // 
+          // AddATool
+          // 
+          this.AddATool.CheckOnClick = true;
+          this.AddATool.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+          this.AddATool.Image = ((System.Drawing.Image)(resources.GetObject("AddATool.Image")));
+          this.AddATool.ImageTransparentColor = System.Drawing.Color.Magenta;
+          this.AddATool.Name = "AddATool";
+          this.AddATool.Size = new System.Drawing.Size(23, 22);
+          this.AddATool.Text = "Add Attack Hitbox";
+          this.AddATool.Click += new System.EventHandler(this.AddATool_Click);
           // 
           // HitBoxEditor
           // 
@@ -403,6 +468,12 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.ToolStripButton EditTool;
+        private System.Windows.Forms.ToolStripButton AddTool;
+        private System.Windows.Forms.ToolStripButton AddATool;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripTextBox playspeed;
     }
 }
 
