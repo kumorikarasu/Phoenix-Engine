@@ -16,11 +16,11 @@ namespace HitBox_Editor
     }
   }
 
-  class Player
+  public class Player
   {
     List<Sprite> sprites;
     
-    List<PropertyGrid> props;
+    List<PropertyGridCharacter> props;
     public int imageLength { get; set; }
 
     public Player(){

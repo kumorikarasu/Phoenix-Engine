@@ -69,7 +69,7 @@
           this.Progress = new System.Windows.Forms.ToolStripProgressBar();
           this.splitContainer1 = new System.Windows.Forms.SplitContainer();
           this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-          this.MainGraphicPanel = new HitBox_Editor.DoubleBufferPanel();
+          this.MainGraphicPanel = new System.Windows.Forms.Panel();
           this.menuStrip1.SuspendLayout();
           this.toolStrip1.SuspendLayout();
           this.statusStrip1.SuspendLayout();
@@ -106,31 +106,32 @@
           // newToolStripMenuItem
           // 
           this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-          this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+          this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
           this.newToolStripMenuItem.Text = "&New";
+          this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
           // 
           // openToolStripMenuItem
           // 
           this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-          this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+          this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
           this.openToolStripMenuItem.Text = "&Open";
           // 
           // saveToolStripMenuItem
           // 
           this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-          this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+          this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
           this.saveToolStripMenuItem.Text = "&Save";
           // 
           // saveAsToolStripMenuItem
           // 
           this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-          this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+          this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
           this.saveAsToolStripMenuItem.Text = "Save &As...";
           // 
           // exitToolStripMenuItem
           // 
           this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-          this.exitToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+          this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
           this.exitToolStripMenuItem.Text = "E&xit";
           this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
           // 
@@ -140,14 +141,14 @@
             this.filmRollToolStripMenuItem});
           this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
           this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-          this.viewToolStripMenuItem.Text = "View";
+          this.viewToolStripMenuItem.Text = "&View";
           // 
           // filmRollToolStripMenuItem
           // 
           this.filmRollToolStripMenuItem.Name = "filmRollToolStripMenuItem";
-          this.filmRollToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl + R";
-          this.filmRollToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-          this.filmRollToolStripMenuItem.Text = "Film Roll";
+          this.filmRollToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+R";
+          this.filmRollToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+          this.filmRollToolStripMenuItem.Text = "Film &Roll";
           this.filmRollToolStripMenuItem.Click += new System.EventHandler(this.filmRollToolStripMenuItem_Click);
           // 
           // helpToolStripMenuItem
@@ -373,6 +374,7 @@
           this.toolStripButton1.Name = "toolStripButton1";
           this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
           this.toolStripButton1.Text = "Play Animation";
+          this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
           // 
           // playspeed
           // 
@@ -394,6 +396,7 @@
           this.toolStripButton2.Name = "toolStripButton2";
           this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
           this.toolStripButton2.Text = "Zoom In";
+          this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
           // 
           // toolStripButton3
           // 
@@ -402,7 +405,8 @@
           this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
           this.toolStripButton3.Name = "toolStripButton3";
           this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-          this.toolStripButton3.Text = "Zoom Out";
+          this.toolStripButton3.Text = "Reset Zoom";
+          this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
           // 
           // statusStrip1
           // 
@@ -440,31 +444,33 @@
           // 
           // splitContainer1.Panel2
           // 
-          this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Black;
           this.splitContainer1.Panel2.Controls.Add(this.MainGraphicPanel);
-          this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.MainGraphicPanel_Paint);
           this.splitContainer1.Size = new System.Drawing.Size(963, 622);
-          this.splitContainer1.SplitterDistance = 252;
-          this.splitContainer1.TabIndex = 4;
+          this.splitContainer1.SplitterDistance = 321;
+          this.splitContainer1.TabIndex = 0;
           // 
           // propertyGrid1
           // 
           this.propertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                       | System.Windows.Forms.AnchorStyles.Left)
                       | System.Windows.Forms.AnchorStyles.Right)));
-          this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
+          this.propertyGrid1.Location = new System.Drawing.Point(2, 3);
           this.propertyGrid1.Name = "propertyGrid1";
-          this.propertyGrid1.Size = new System.Drawing.Size(246, 619);
+          this.propertyGrid1.Size = new System.Drawing.Size(316, 616);
           this.propertyGrid1.TabIndex = 0;
           // 
           // MainGraphicPanel
           // 
+          this.MainGraphicPanel.BackColor = System.Drawing.Color.Black;
           this.MainGraphicPanel.Dock = System.Windows.Forms.DockStyle.Fill;
           this.MainGraphicPanel.Location = new System.Drawing.Point(0, 0);
           this.MainGraphicPanel.Name = "MainGraphicPanel";
-          this.MainGraphicPanel.Size = new System.Drawing.Size(707, 622);
+          this.MainGraphicPanel.Size = new System.Drawing.Size(638, 622);
           this.MainGraphicPanel.TabIndex = 0;
           this.MainGraphicPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MainGraphicPanel_Paint);
+          this.MainGraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainGraphicPanel_MouseDown);
+          this.MainGraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainGraphicPanel_MouseMove);
+          this.MainGraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainGraphicPanel_MouseUp);
           // 
           // HitBoxEditor
           // 
@@ -475,10 +481,12 @@
           this.Controls.Add(this.statusStrip1);
           this.Controls.Add(this.toolStrip1);
           this.Controls.Add(this.menuStrip1);
+          this.KeyPreview = true;
           this.MainMenuStrip = this.menuStrip1;
           this.Name = "HitBoxEditor";
           this.Text = "HitBox Editor";
           this.Load += new System.EventHandler(this.Form1_Load);
+          this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HitBoxEditor_KeyDown);
           this.Resize += new System.EventHandler(this.HitBoxEditor_Resize);
           this.menuStrip1.ResumeLayout(false);
           this.menuStrip1.PerformLayout();
@@ -509,7 +517,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton PrevFrame;
         private System.Windows.Forms.ToolStripButton NextFrame;
-        private System.Windows.Forms.ToolStripTextBox FrameMoveBox;
+        public System.Windows.Forms.ToolStripTextBox FrameMoveBox;
         private System.Windows.Forms.ToolStripButton JumpTo;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel FrameNumber;
@@ -533,12 +541,13 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripTextBox playspeed;
         private System.Windows.Forms.ToolStripProgressBar Progress;
-        private DoubleBufferPanel MainGraphicPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filmRollToolStripMenuItem;
+        public System.Windows.Forms.Panel MainGraphicPanel;
+        //public DoubleBufferPanel MainGraphicPanel;
     }
 }
 

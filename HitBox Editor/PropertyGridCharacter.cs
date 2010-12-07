@@ -7,9 +7,9 @@ using System.ComponentModel;
 namespace HitBox_Editor
 {
   [DefaultPropertyAttribute("Name")]
-  public class PropertyGrid
+  public class PropertyGridCharacter
   {
-    public PropertyGrid()
+    public PropertyGridCharacter()
     {
       Spawn = "";
     }
@@ -128,5 +128,8 @@ namespace HitBox_Editor
 
     [CategoryAttribute("Animation"), DescriptionAttribute("Delay the animation, meaning the next frame will have the same image")]
     public bool DelayAnimation { get; set; }
+
+    [CategoryAttribute("Animation"), DescriptionAttribute("Jumps to a specified image number")]
+    public int JumpToImage { get; set; }
   }
 }
