@@ -30,5 +30,10 @@ namespace HitBox_Editor
     {
       this.Close();
     }
+
+    private void button4_Click(object sender, EventArgs e)
+    {
+      this.Close();
+    }
   }
 }

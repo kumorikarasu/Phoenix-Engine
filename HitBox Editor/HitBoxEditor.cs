@@ -15,7 +15,7 @@ namespace HitBox_Editor
   public partial class HitBoxEditor : Form
   {
     public Film_Roll filmRoll;
-    Player player;
+    public Player player;
     
     enum ToolType
     {
@@ -29,28 +29,34 @@ namespace HitBox_Editor
 
     int CurX, CurY;
     int MouseX, MouseY;
+    float ScaleX,ScaleY;
     bool MouseDown;
     Bitmap bp;
     ToolType Tool;
     bool DisplayGrid;
-    private int currentFrame;
-    private int maxFrame;
+    public int currentFrame;
+    int maxFrame;
+    AutoResetEvent playAnimation;
+    bool StopAnimation;
 
     public HitBoxEditor()
     {
       filmRoll = null;
       InitializeComponent();
-      CurX = -100;
-      CurY = 100;
+      CurX = 0;
+      CurY = 0;
       MouseX = 0;
       MouseY = 0;
+      ScaleX = 1;
+      ScaleY = 1;
       DisplayGrid = true;
       currentFrame = 0;
+      StopAnimation = false;
     }
 
     private void Form1_Load(object sender, EventArgs e)
     {
-      PropertyGrid p = new PropertyGrid();
+      PropertyGridCharacter p = new PropertyGridCharacter();
       p.Name = "Hi";
       propertyGrid1.SelectedObject = p;
 
@@ -83,7 +89,9 @@ namespace HitBox_Editor
       if (player != null){
         Image i = player.GetImage(currentFrame);
         if (i != null)
-          g.DrawImage(i, CurX, CurY);
+          g.DrawImage(i, CurX + (MainGraphicPanel.Width / 2) - i.Width / 2 * ScaleX,
+                      CurY + (MainGraphicPanel.Height / 2) - i.Height / 2 * ScaleY,
+                      i.Width * ScaleX,i.Height * ScaleY);
       }
 
       if (DisplayGrid){
@@ -96,6 +104,8 @@ namespace HitBox_Editor
         g.DrawLine(myPen, 0,(int) (MainGraphicPanel.Height / 2) + 50, MainGraphicPanel.Width, (int) (MainGraphicPanel.Height / 2) + 50);
         myPen.Dispose();
       }
+      if (filmRoll != null)
+        filmRoll.panel2.Invalidate();
     }
 
     private void MainGraphicPanel_MouseDown(object sender, MouseEventArgs e)
@@ -121,12 +131,12 @@ namespace HitBox_Editor
         MainGraphicPanel.Invalidate();
         if (CurX > MainGraphicPanel.Width)
           CurX = MainGraphicPanel.Width;
-        if (CurX < MainGraphicPanel.Width)
-          CurX = MainGraphicPanel.Width;
+        if (CurX < -MainGraphicPanel.Width)
+          CurX = -MainGraphicPanel.Width;
         if (CurY > MainGraphicPanel.Height)
           CurY = MainGraphicPanel.Height;
-        if (CurY < MainGraphicPanel.Height)
-          CurY = MainGraphicPanel.Height;
+        if (CurY < -MainGraphicPanel.Height)
+          CurY = -MainGraphicPanel.Height;
       }
     }
 
@@ -209,6 +219,10 @@ namespace HitBox_Editor
           FrameNumber.Visible = false;
           Progress.Visible = true;
           double i = 0;
+
+//TODO: DEBUG ONRY< REMOVE THIS
+          path = "C:\\Dev\\Reimu";
+
           string[] dir = Directory.GetFiles(path, "*.png");
           double length = dir.Length;
           try{
@@ -236,12 +250,7 @@ namespace HitBox_Editor
     private void NextFrame_Click(object sender, EventArgs e)
     {
       SaveProperties();
-      if (currentFrame < maxFrame){
-        currentFrame++;
-        MainGraphicPanel.Invalidate();
-        FrameMoveBox.Text = "" + currentFrame;
-        FrameNumber.Text = "Frame " + currentFrame + " out of " + maxFrame;
-      }
+      UpdateFrame(currentFrame + 1);
       LoadProperties();
     }
 
@@ -260,28 +269,98 @@ namespace HitBox_Editor
 
     private void PrevFrame_Click(object sender, EventArgs e)
     {
-      if (currentFrame > 0){
-        currentFrame--;
-        MainGraphicPanel.Invalidate();
-        FrameMoveBox.Text = "" + currentFrame;
-        FrameNumber.Text = "Frame " + currentFrame + " out of " + maxFrame;
-      }
+      UpdateFrame(currentFrame - 1);
     }
 
     private void JumpTo_Click(object sender, EventArgs e)
     {
       var frame = Int32.Parse(FrameMoveBox.Text);
-      if (frame <= maxFrame && frame >= 0){
-        currentFrame = frame;
-        MainGraphicPanel.Invalidate();
-        FrameNumber.Text = "Frame " + currentFrame + " out of " + maxFrame;
-      }
+      UpdateFrame(frame);
     }
 
     private void filmRollToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      filmRoll = new Film_Roll(this);
+      if (filmRoll == null)
+        filmRoll = new Film_Roll(this);
       filmRoll.Show();
+    }
+
+    private void HitBoxEditor_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.Modifiers == Keys.Control && e.KeyCode == Keys.R){
+        if (filmRoll == null)
+          filmRoll = new Film_Roll(this);
+        filmRoll.Show();
+      }
+
+      if (Tool == ToolType.Move){
+        if (e.KeyCode == Keys.Left)
+          if (CurX > 0)
+            CurX--;
+      }
+    }
+
+    private void newToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      New_Click(sender,e);
+    }
+
+    private void toolStripButton2_Click(object sender, EventArgs e)
+    {
+      ScaleY *= 1.10f;
+      ScaleX *= 1.10f;
+      MainGraphicPanel.Invalidate();
+    }
+
+    private void toolStripButton3_Click(object sender, EventArgs e)
+    {
+      ScaleX = 1;
+      ScaleY = 1;
+      MainGraphicPanel.Invalidate();
+    }
+
+    private void toolStripButton1_Click(object sender, EventArgs e)
+    {
+      if (player != null){
+        if (playAnimation == null){
+
+          System.Threading.Timer t = null;
+          playAnimation = new AutoResetEvent(false);
+          StopAnimation = false;
+
+          t = new System.Threading.Timer(o => {
+            if (!UpdateFrame(currentFrame + 1))
+              t.Dispose();
+
+            if (StopAnimation){
+              t.Dispose();
+              playAnimation.Dispose();
+              playAnimation = null;
+            }
+            return;
+          },playAnimation,0,1000 / Int32.Parse(playspeed.Text));
+        }else{
+          StopAnimation = true;
+          playAnimation.Dispose();
+          playAnimation = null;
+        }
+      }
+    }
+
+    public bool UpdateFrame(int FrameNumber){
+      if (player != null)
+        if (FrameNumber >= 0 && FrameNumber < player.imageLength){
+          currentFrame = FrameNumber;
+          this.FrameNumber.Text = "Frame " + FrameNumber + " out of " + (player.imageLength - 1);
+          //this.FrameMoveBox.Text = "" + FrameNumber;
+          MainGraphicPanel.Invalidate();
+
+          if (filmRoll != null)
+            filmRoll.position = currentFrame;
+
+          return true;
+        }
+      return false;
     }
   }
 }

@@ -30,7 +30,7 @@
     {
       this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
       this.panel2 = new System.Windows.Forms.Panel();
-      this.hScrollBar2 = new System.Windows.Forms.HScrollBar();
+      this.FilmRollScroll = new System.Windows.Forms.HScrollBar();
       this.panel2.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -49,19 +49,25 @@
                   | System.Windows.Forms.AnchorStyles.Left)
                   | System.Windows.Forms.AnchorStyles.Right)));
       this.panel2.BackColor = System.Drawing.SystemColors.AppWorkspace;
-      this.panel2.Controls.Add(this.hScrollBar2);
+      this.panel2.Controls.Add(this.FilmRollScroll);
       this.panel2.Location = new System.Drawing.Point(0, 0);
       this.panel2.Name = "panel2";
       this.panel2.Size = new System.Drawing.Size(703, 202);
       this.panel2.TabIndex = 1;
+      this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+      this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseClick);
       // 
-      // hScrollBar2
+      // FilmRollScroll
       // 
-      this.hScrollBar2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-      this.hScrollBar2.Location = new System.Drawing.Point(0, 185);
-      this.hScrollBar2.Name = "hScrollBar2";
-      this.hScrollBar2.Size = new System.Drawing.Size(703, 17);
-      this.hScrollBar2.TabIndex = 0;
+      this.FilmRollScroll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                  | System.Windows.Forms.AnchorStyles.Right)));
+      this.FilmRollScroll.LargeChange = 2;
+      this.FilmRollScroll.Location = new System.Drawing.Point(0, 185);
+      this.FilmRollScroll.Maximum = 1;
+      this.FilmRollScroll.Name = "FilmRollScroll";
+      this.FilmRollScroll.Size = new System.Drawing.Size(703, 17);
+      this.FilmRollScroll.TabIndex = 0;
+      this.FilmRollScroll.Scroll += new System.Windows.Forms.ScrollEventHandler(this.FilmRollScroll_Scroll);
       // 
       // Film_Roll
       // 
@@ -77,6 +83,7 @@
       this.Text = "Film Roll";
       this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Film_Roll_FormClosed);
       this.Load += new System.EventHandler(this.Film_Roll_Load);
+      this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Film_Roll_KeyUp);
       this.panel2.ResumeLayout(false);
       this.ResumeLayout(false);
 
@@ -86,7 +93,7 @@
 
     private DoubleBufferPanel panel1;
     private System.Windows.Forms.HScrollBar hScrollBar1;
-    private System.Windows.Forms.Panel panel2;
-    private System.Windows.Forms.HScrollBar hScrollBar2;
+    public System.Windows.Forms.Panel panel2;
+    private System.Windows.Forms.HScrollBar FilmRollScroll;
   }
 }
