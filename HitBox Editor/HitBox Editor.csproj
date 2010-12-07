@@ -36,6 +36,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design">
+      <HintPath>C:\Windows\winsxs\msil_system.design_b03f5f7f11d50a3a_6.1.7600.16385_none_89d14f6bbf6b7a53\System.Design.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,20 +55,43 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="DoubleBufferPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FileProperty.cs" />
+    <Compile Include="FilmRoll.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FilmRoll.Designer.cs">
+      <DependentUpon>FilmRoll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>NewDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="HitBoxEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HitBoxEditor.Designer.cs">
       <DependentUpon>HitBoxEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proporties.cs" />
+    <Compile Include="PropertyGrid.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FilmRoll.resx">
+      <DependentUpon>FilmRoll.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HitBoxEditor.resx">
       <DependentUpon>HitBoxEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDialog.resx">
+      <DependentUpon>NewDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -88,7 +114,18 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>if exist "$(TargetPath).locked" del "$(TargetPath).locked"
+if exist "$(TargetPath).locked" del "$(TargetPath).locked2"
+if exist "$(TargetPath).locked" del "$(TargetPath).locked3"
+if exist "$(TargetPath).locked" if not exist "$(TargetPath).locked2" move "$(TargetPath).locked" "$(TargetPath).locked2"
+if exist "$(TargetPath).locked2" if not exist "$(TargetPath).locked3" move "$(TargetPath).locked2" "$(TargetPath).locked3"
+if exist "$(TargetPath)" if not exist "$(TargetPath).locked" move "$(TargetPath)" "$(TargetPath).locked"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
