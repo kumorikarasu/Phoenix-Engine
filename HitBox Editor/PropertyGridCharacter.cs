@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace HitBox_Editor
 {
-  [DefaultPropertyAttribute("Name")]
+  [DefaultPropertyAttribute("Name"), Serializable]
   public class PropertyGridCharacter
   {
     public PropertyGridCharacter()
     {
       Spawn = "";
+      JumpToImage = -1;
+      xOffset = 1;
     }
+
+    int xOffset;
 
 
     [System.ComponentModel.Editor(
@@ -33,8 +39,11 @@ namespace HitBox_Editor
     [CategoryAttribute("Frame"), DescriptionAttribute("Move the player Y pixels at the start of this frame")]
     public int MoveY { get; set; }
 
-    [CategoryAttribute("Frame"), DescriptionAttribute("Total number of frames - when this is set, the next X number of frames are part of this animation, and this value cannot be changed")]
-    public int TotalFrames { get; set; }
+    [CategoryAttribute("Frame"), DescriptionAttribute("Last Frame in the current animation, after this frame the character will go back to there idle animation")]
+    public bool EndFrame { get; set; }
+
+    [CategoryAttribute("Frame"), DescriptionAttribute("Startup animation, Must be set at the start of a new animation")]
+    public bool BeginFrame { get; set; }
 
     [CategoryAttribute("Frame"), DescriptionAttribute("Autoguard hit")]
     public bool AutoGuard { get; set; }
@@ -131,5 +140,7 @@ namespace HitBox_Editor
 
     [CategoryAttribute("Animation"), DescriptionAttribute("Jumps to a specified image number")]
     public int JumpToImage { get; set; }
+
+
   }
 }

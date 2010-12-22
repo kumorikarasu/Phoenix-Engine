@@ -16,7 +16,8 @@ void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
   glGenTextures(1, &(_pTexture->m_id));
   glBindTexture(GL_TEXTURE_2D, _pTexture->GetTextureId());
 
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Linear filters
+  // Linear filters
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
@@ -35,10 +36,11 @@ void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
   //texture blending
   //	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ONE);
 
-  //gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pTexture->m_width, pTexture->m_height, depthType, GL_UNSIGNED_BYTE, pTexture->m_data);
+  //gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pTexture->m_width, 
+  //  pTexture->m_height, depthType, GL_UNSIGNED_BYTE, pTexture->m_data);
 
   //glTexImage2D(GL_TEXTURE_2D, 0, depthType, _pTexture->GetWidth(), 
-  //             _pTexture->GetHeight(), 0, depthType, GL_UNSIGNED_BYTE, _pTexture->m_data);
+  // _pTexture->GetHeight(), 0, depthType, GL_UNSIGNED_BYTE, _pTexture->m_data);
 
 }
 
@@ -46,7 +48,8 @@ void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
 void PhOpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos)
 {
   if (_pTexture != NULL){
-  Vertex2 postopleft(pos.x - _pTexture->GetWidth() / 2,pos.y - _pTexture->GetHeight() / 2);
+  Vertex2 postopleft(pos.x - _pTexture->GetWidth() / 2,
+    pos.y - _pTexture->GetHeight() / 2);
 
   //enable 2D texturing
   glEnable( GL_TEXTURE_2D );
@@ -61,10 +64,21 @@ void PhOpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos)
 
   glBegin(GL_QUADS);
   // Front Face
-  glTexCoord2f(0.0f, 1.0f); glVertex3d(postopleft.x, postopleft.y,  0.0f);	// Bottom Left Of The Texture and Quad
-  glTexCoord2f(1.0f, 1.0f); glVertex3d(postopleft.x + _pTexture->GetWidth() * 2, postopleft.y,  0.0f);	// Bottom Right Of The Texture and Quad
-  glTexCoord2f(1.0f, 0.0f); glVertex3d(postopleft.x + _pTexture->GetWidth() * 2,  postopleft.y + _pTexture->GetHeight() * 2,  0.0f);	// Top Right Of The Texture and Quad
-  glTexCoord2f(0.0f, 0.0f); glVertex3d(postopleft.x,  postopleft.y + _pTexture->GetHeight() * 2,  0.0f);	// Top Left Of The Texture and Quad
+  // Bottom Left Of The Texture and Quad
+  glTexCoord2f(0.0f, 1.0f); glVertex3d(postopleft.x, postopleft.y,  0.0f);	
+
+  // Bottom Right Of The Texture and Quad
+  glTexCoord2f(1.0f, 1.0f); glVertex3d(postopleft.x + _pTexture->GetWidth() * 2,
+    postopleft.y,  0.0f);
+
+  // Top Right Of The Texture and Quad
+  glTexCoord2f(1.0f, 0.0f); glVertex3d(postopleft.x + _pTexture->GetWidth() * 2,
+    postopleft.y + _pTexture->GetHeight() * 2,  0.0f);	
+
+  // Top Left Of The Texture and Quad
+  glTexCoord2f(0.0f, 0.0f); glVertex3d(postopleft.x,  
+    postopleft.y + _pTexture->GetHeight() * 2,  0.0f);	
+
   glEnd();
 
   glDisable(GL_TEXTURE_2D);
@@ -120,7 +134,8 @@ void PhOpenGLHandler::DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3)
 }
 
 
-void PhOpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4)
+void PhOpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2, 
+                                    Vertex2& pos3, Vertex2& pos4)
 {
   glBegin(GL_QUADS);
   glColor4f(pos1.c.r,pos1.c.g,pos1.c.b,pos1.c.a);
@@ -236,143 +251,150 @@ int	PhOpenGLHandler::SwapBuffer()
   return SwapBuffers(hDC);
 }
 
-int PhOpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height, int bits, bool fullscreenflag, int nCmdShow)
+int PhOpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height,
+                                    int bits, bool fullscreenflag, int nCmdShow)
 {
-
   width = _width;
   height = _height;
 
   GLuint		PixelFormat;						// Holds The Results After Searching For A Match
 
-  WNDCLASS	wc;							// Windows Class Structure
+  WNDCLASS	wc;							        // Windows Class Structure
 
-  DWORD		dwExStyle;						// Window Extended Style
-  DWORD		dwStyle;						// Window Style
+  DWORD		dwExStyle;						    // Window Extended Style
+  DWORD		dwStyle;						      // Window Style
 
-  RECT WindowRect;							// Grabs Rectangle Upper Left / Lower Right Values
-  WindowRect.left=(long)0;						// Set Left Value To 0
-  WindowRect.right=(long)width;						// Set Right Value To Requested Width
-  WindowRect.top=(long)0;							// Set Top Value To 0
-  WindowRect.bottom=(long)height;						// Set Bottom Value To Requested Height
+  RECT WindowRect;							    // Grabs Rectangle Upper Left / Lower Right Values
+  WindowRect.left=(long)0;					// Set Left Value To 0
+  WindowRect.right=(long)width;			// Set Right Value To Requested Width
+  WindowRect.top=(long)0;						// Set Top Value To 0
+  WindowRect.bottom=(long)height;		// Set Bottom Value To Requested Height
 
-  //	fullscreen=fullscreenflag;						// Set The Global Fullscreen Flag
+  //	fullscreen=fullscreenflag;		// Set The Global Fullscreen Flag
 
-  hInstance		= GetModuleHandle(NULL);			// Grab An Instance For Our Window
+  hInstance		= GetModuleHandle(NULL);			          // Grab An Instance For Our Window
   wc.style		= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;		// Redraw On Move, And Own DC For Window
-  wc.lpfnWndProc		= (WNDPROC) WndProc;				// WndProc Handles Messages
-  wc.cbClsExtra		= 0;						// No Extra Window Data
-  wc.cbWndExtra		= 0;						// No Extra Window Data
-  wc.hInstance		= hInstance;					// Set The Instance
-  wc.hIcon		= LoadIcon(NULL, IDI_WINLOGO);			// Load The Default Icon
-  wc.hCursor		= LoadCursor(NULL, IDC_ARROW);			// Load The Arrow Pointer
-  wc.hbrBackground	= NULL;						// No Background Required For GL
-  wc.lpszMenuName		= NULL;						// We Don't Want A Menu
-  wc.lpszClassName	= L"PhoenixEngine";					// Set The Class Name
+  wc.lpfnWndProc		= (WNDPROC) WndProc;				      // WndProc Handles Messages
+  wc.cbClsExtra		= 0;						                    // No Extra Window Data
+  wc.cbWndExtra		= 0;				                    		// No Extra Window Data
+  wc.hInstance		= hInstance;				              	// Set The Instance
+  wc.hIcon		= LoadIcon(NULL, IDI_WINLOGO);		    	// Load The Default Icon
+  wc.hCursor		= LoadCursor(NULL, IDC_ARROW);	  		// Load The Arrow Pointer
+  wc.hbrBackground	= NULL;					                	// No Background Required For GL
+  wc.lpszMenuName		= NULL;					                	// We Don't Want A Menu
+  wc.lpszClassName	= L"PhoenixEngine";				      	// Set The Class Name
 
   if (!RegisterClass(&wc))						// Attempt To Register The Window Class
   {
-    MessageBox(NULL,L"Failed To Register The Window Class.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-    return 0;							// Exit And Return 0
+    MessageBox(NULL,L"Failed To Register The Window Class.",L"ERROR",
+              MB_OK|MB_ICONEXCLAMATION);
+    return 0;						            	// Exit And Return 0
   }
 
   dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;			// Window Extended Style
-  dwStyle=WS_OVERLAPPEDWINDOW;					// Windows Style
+  dwStyle=WS_OVERLAPPEDWINDOW;			            		// Windows Style
 
   AdjustWindowRectEx(&WindowRect, dwStyle, 0, dwExStyle);		// Adjust Window To True Requested Size
 
-  if (!(hWnd=CreateWindowEx(	dwExStyle,				// Extended Style For The Window
-                              L"PhoenixEngine",				// Class Name
-                              title,					// Window Title
-                              WS_CLIPSIBLINGS |			// Required Window Style
-                              WS_CLIPCHILDREN |			// Required Window Style
-                              dwStyle,				// Selected Window Style
-                              0, 0,					// Window Position
-                              WindowRect.right-WindowRect.left,	// Calculate Adjusted Window Width
-                              WindowRect.bottom-WindowRect.top,	// Calculate Adjusted Window Height
-                              NULL,					// No Parent Window
-                              NULL,					// No Menu
-                              hInstance,				// Instance
-                              NULL)))					// Don't Pass Anything To WM_CREATE
+  if (!(hWnd=CreateWindowEx(	dwExStyle,	// Extended Style For The Window
+    L"PhoenixEngine",			                // Class Name
+    title,				                        // Window Title
+    WS_CLIPSIBLINGS |	                    // Required Window Style
+    WS_CLIPCHILDREN |		                  // Required Window Style
+    dwStyle,				                      // Selected Window Style
+    0, 0,					                        // Window Position
+    WindowRect.right-WindowRect.left,	    // Calculate Adjusted Window Width
+    WindowRect.bottom-WindowRect.top,	    // Calculate Adjusted Window Height
+    NULL,					                        // No Parent Window
+    NULL,					                        // No Menu
+    hInstance,				                    // Instance
+    NULL)))					                      // Don't Pass Anything To WM_CREATE
   {
-    KillWindow();							// Reset The Display
+    KillWindow();						            	// Reset The Display
     MessageBox(NULL,L"Window Creation Error.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-    return 0;							// Return 0
+    return 0;						                	// Return 0
   }
 
-  static	PIXELFORMATDESCRIPTOR pfd=					// pfd Tells Windows How We Want Things To Be
+  static	PIXELFORMATDESCRIPTOR pfd=			// pfd Tells Windows How We Want Things To Be
   {
-    sizeof(PIXELFORMATDESCRIPTOR),					// Size Of This Pixel Format Descriptor
-    1,								// Version Number
-    PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-      PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
-      PFD_DOUBLEBUFFER,						// Must Support Double Buffering
-    PFD_TYPE_RGBA,							// Request An RGBA Format
-    bits,								// Select Our Color Depth
-    0, 0, 0, 0, 0, 0,						// Color Bits Ignored
-    0,								// No Alpha Buffer
-    0,								// Shift Bit Ignored
-    0,								// No Accumulation Buffer
-    0, 0, 0, 0,							// Accumulation Bits Ignored
-    16,								// 16Bit Z-Buffer (Depth Buffer)
-    0,								// No Stencil Buffer
-    0,								// No Auxiliary Buffer
-    PFD_MAIN_PLANE,							// Main Drawing Layer
-    0,								// Reserved
-    0, 0, 0								// Layer Masks Ignored
+    sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
+    1,				                    				// Version Number
+    PFD_DRAW_TO_WINDOW |				      		// Format Must Support Window
+    PFD_SUPPORT_OPENGL |						      // Format Must Support OpenGL
+    PFD_DOUBLEBUFFER,						          // Must Support Double Buffering
+    PFD_TYPE_RGBA,							          // Request An RGBA Format
+    bits,								                  // Select Our Color Depth
+    0, 0, 0, 0, 0, 0,						          // Color Bits Ignored
+    0,								                    // No Alpha Buffer
+    0,                    								// Shift Bit Ignored
+    0,                     								// No Accumulation Buffer
+    0, 0, 0, 0,					               		// Accumulation Bits Ignored
+    16,                   								// 16Bit Z-Buffer (Depth Buffer)
+    0,                     								// No Stencil Buffer
+    0,							                    	// No Auxiliary Buffer
+    PFD_MAIN_PLANE,							          // Main Drawing Layer
+    0,                    								// Reserved
+    0, 0, 0				                				// Layer Masks Ignored
   };
 
-  if (!(hDC=GetDC(hWnd)))							// Did We Get A Device Context?
+  if (!(hDC=GetDC(hWnd)))						    	// Did We Get A Device Context?
   {
-    KillWindow();							// Reset The Display
-    MessageBox(NULL,L"Can't Create A GL Device Context.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-    return 0;							// Return 0
+    KillWindow();							            // Reset The Display
+    MessageBox(NULL, L"Can't Create A GL Device Context.", L"ERROR",
+               MB_OK|MB_ICONEXCLAMATION);
+    return 0;							                // Return 0
   }
 
-  if (!(PixelFormat=ChoosePixelFormat(hDC,&pfd)))				// Did Windows Find A Matching Pixel Format?
+  if (!(PixelFormat=ChoosePixelFormat(hDC,&pfd)))	// Did Windows Find A Matching Pixel Format?
   {
-    KillWindow();							// Reset The Display
-    MessageBox(NULL,L"Can't Find A Suitable PixelFormat.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-    return 0;							// Return 0
+    KillWindow();						            	// Reset The Display
+    MessageBox(NULL, L"Can't Find A Suitable PixelFormat.", L"ERROR",
+               MB_OK|MB_ICONEXCLAMATION);
+    return 0;							                // Return 0
   }
 
-  if(!SetPixelFormat(hDC,PixelFormat,&pfd))				// Are We Able To Set The Pixel Format?
+  if(!SetPixelFormat(hDC,PixelFormat,&pfd))	// Are We Able To Set The Pixel Format?
   {
-    KillWindow();							// Reset The Display
-    MessageBox(NULL,L"Can't Set The PixelFormat.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-    return 0;							// Return 0
+    KillWindow();							            // Reset The Display
+    MessageBox(NULL, L"Can't Set The PixelFormat.", L"ERROR",
+               MB_OK|MB_ICONEXCLAMATION);
+    return 0;				                			// Return 0
   }
 
-  if (!(hRC=wglCreateContext(hDC)))					// Are We Able To Get A Rendering Context?
+  if (!(hRC=wglCreateContext(hDC)))				// Are We Able To Get A Rendering Context?
   {
-    KillWindow();							// Reset The Display
-    MessageBox(NULL,L"Can't Create A GL Rendering Context.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-    return FALSE;							// Return 0
+    KillWindow();				            			// Reset The Display
+    MessageBox(NULL, L"Can't Create A GL Rendering Context.", L"ERROR",
+               MB_OK|MB_ICONEXCLAMATION);
+    return FALSE;					            		// Return 0
   }
   if(!wglMakeCurrent(hDC,hRC))						// Try To Activate The Rendering Context
   {
-    KillWindow();							// Reset The Display
-    MessageBox(NULL,L"Can't Activate The GL Rendering Context.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-    return FALSE;							// Return FALSE
+    KillWindow();					            		// Reset The Display
+    MessageBox(NULL, L"Can't Activate The GL Rendering Context.", L"ERROR",
+               MB_OK|MB_ICONEXCLAMATION);
+    return FALSE;						            	// Return FALSE
   }
 
 
 
-  ShowWindow(hWnd,SW_SHOW);						// Show The Window
-  SetForegroundWindow(hWnd);						// Slightly Higher Priority
-  SetFocus(hWnd);								// Sets Keyboard Focus To The Window
+  ShowWindow(hWnd,SW_SHOW);			    			// Show The Window
+  SetForegroundWindow(hWnd);			  			// Slightly Higher Priority
+  SetFocus(hWnd);							          	// Sets Keyboard Focus To The Window
   ReSizeWindow(width, height);						// Set Up Our Perspective GL Screen
 
   return (int)hWnd;
 }
 
-//resize the window (does not set scaling, so after initial setup, this should not be used)
+//resize the window (does not set scaling, so after initial setup,
+//                   this should not be used)
   void PhOpenGLHandler::ReSizeWindow(int width, int height){
-    if (height==0)								// Prevent A Divide By Zero By
+    if (height==0)								        // Prevent A Divide By Zero By
     {
-      height=1;							// Making Height Equal One
+      height=1;						              	// Making Height Equal One
     }
 
-    glViewport(0, 0, width, height);		// Reset The Current Viewport
+    glViewport(0, 0, width, height);  		// Reset The Current Viewport
 
     Begin2D();
   }
@@ -396,9 +418,10 @@ int PhOpenGLHandler::Init(){
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
 
-  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // tells OGL which perspective calculations to use
+  // tells OGL which perspective calculations to use
+  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-  BuildFont();										// Build The Font
+  BuildFont();  // Build The Font
 
   return true;
 }
@@ -432,35 +455,40 @@ void PhOpenGLHandler::Begin3D(){
 
 void PhOpenGLHandler::KillWindow(){
 
-  if (hRC)								// Do We Have A Rendering Context?
+  if (hRC)								                  // Do We Have A Rendering Context?
   {
-    if (!wglMakeCurrent(NULL,NULL))					// Are We Able To Release The DC And RC Contexts?
+    if (!wglMakeCurrent(NULL,NULL))		      // Are We Able To Release The DC And RC Contexts?
     {
-      MessageBox(NULL,L"Release Of DC And RC Failed.",L"SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
+      MessageBox(NULL, L"Release Of DC And RC Failed.", L"SHUTDOWN ERROR",
+                 MB_OK | MB_ICONINFORMATION);
     }
-    if (!wglDeleteContext(hRC))					// Are We Able To Delete The RC?
+    if (!wglDeleteContext(hRC))				      // Are We Able To Delete The RC?
     {
-      MessageBox(NULL,L"Release Rendering Context Failed.",L"SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
+      MessageBox(NULL, L"Release Rendering Context Failed.", L"SHUTDOWN ERROR",
+                 MB_OK | MB_ICONINFORMATION);
     }
-    hRC=NULL;							// Set RC To NULL
+    hRC=NULL;							                  // Set RC To NULL
   }
 
-  if (hDC && !ReleaseDC(hWnd,hDC))					// Are We Able To Release The DC
+  if (hDC && !ReleaseDC(hWnd,hDC))     	  	// Are We Able To Release The DC
   {
-    MessageBox(NULL,L"Release Device Context Failed.",L"SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
-    hDC=NULL;							// Set DC To NULL
+    MessageBox(NULL, L"Release Device Context Failed.", L"SHUTDOWN ERROR",
+               MB_OK | MB_ICONINFORMATION);
+    hDC=NULL;							                  // Set DC To NULL
   }
 
-  if (hWnd!=NULL && !DestroyWindow(hWnd))					// Are We Able To Destroy The Window?
+  if (hWnd!=NULL && !DestroyWindow(hWnd))		// Are We Able To Destroy The Window?
   {
-    MessageBox(NULL,L"Could Not Release hWnd.",L"SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
-    hWnd=NULL;							// Set hWnd To NULL
+    MessageBox(NULL, L"Could Not Release hWnd.", L"SHUTDOWN ERROR",
+               MB_OK | MB_ICONINFORMATION);
+    hWnd=NULL;							                // Set hWnd To NULL
   }
 
-  if (!UnregisterClass(L"PhoenixEngine",hInstance))				// Are We Able To Unregister Class
+  if (!UnregisterClass(L"PhoenixEngine",hInstance))	// Are We Able To Unregister Class
   {
-    MessageBox(NULL,L"Could Not Unregister Class.",L"SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
-    hInstance=NULL;							// Set hInstance To NULL
+    MessageBox(NULL, L"Could Not Unregister Class.", L"SHUTDOWN ERROR",
+               MB_OK | MB_ICONINFORMATION);
+    hInstance=NULL;							            // Set hInstance To NULL
   }
 }
 
@@ -477,40 +505,41 @@ void PhOpenGLHandler::BuildFont()								// Build Our Bitmap Font
 
   base = glGenLists(96);								// Storage For 96 Characters
 
-  font = CreateFont(	-24,							// Height Of Font
-                      0,								// Width Of Font
-                      0,								// Angle Of Escapement
-                      0,								// Orientation Angle
-                      FW_BOLD,						// Font Weight
-                      FALSE,							// Italic
-                      FALSE,							// Underline
-                      FALSE,							// Strikeout
-                      ANSI_CHARSET,					// Character Set Identifier
-                      OUT_TT_PRECIS,					// Output Precision
-                      CLIP_DEFAULT_PRECIS,			// Clipping Precision
-                      ANTIALIASED_QUALITY,			// Output Quality
-                      FF_DONTCARE|DEFAULT_PITCH,		// Family And Pitch
-                      L"Courier New");					// Font Name
+  font = CreateFont(	-24,							            // Height Of Font
+                      0,								          // Width Of Font
+                      0,								          // Angle Of Escapement
+                      0,								          // Orientation Angle
+                      FW_BOLD,    						    // Font Weight
+                      FALSE,		    					    // Italic
+                      FALSE,		    					    // Underline
+                      FALSE,				    			    // Strikeout
+                      ANSI_CHARSET,		    		    // Character Set Identifier
+                      OUT_TT_PRECIS,					    // Output Precision
+                      CLIP_DEFAULT_PRECIS,		    // Clipping Precision
+                      ANTIALIASED_QUALITY,		    // Output Quality
+                      FF_DONTCARE|DEFAULT_PITCH,	// Family And Pitch
+                      L"Courier New");				    // Font Name
 
-  oldfont = (HFONT)SelectObject(hDC, font);           // Selects The Font We Want
-  wglUseFontBitmaps(hDC, 32, 96, base);				// Builds 96 Characters Starting At Character 32
-  SelectObject(hDC, oldfont);							// Selects The Font We Want
-  DeleteObject(font);									// Delete The Font
+  oldfont = (HFONT)SelectObject(hDC, font);       // Selects The Font We Want
+  wglUseFontBitmaps(hDC, 32, 96, base);				    // Builds 96 Characters Starting At Character 32
+  SelectObject(hDC, oldfont);							        // Selects The Font We Want
+  DeleteObject(font);									            // Delete The Font
 }
 
-void PhOpenGLHandler::KillFont()									// Delete The Font List
+void PhOpenGLHandler::KillFont() // Delete The Font List
 {
-  glDeleteLists(base, 96);							// Delete All 96 Characters
+  glDeleteLists(base, 96);			// Delete All 96 Characters
 }
 
 //cannot be over 254 characters
-void PhOpenGLHandler::DrawText(Vertex2 _pos, const TCHAR *fmt, ...)					// Custom GL "Print" Routine
+// Custom GL "Print" Routine
+void PhOpenGLHandler::DrawText(Vertex2 _pos, const TCHAR *fmt, ...)
 {
 
-  TCHAR		text[256];								// Holds Our String
-  va_list		ap;										// Pointer To List Of Arguments
+  TCHAR		text[256];						// Holds Our String
+  va_list		ap;									// Pointer To List Of Arguments
 
-  if (fmt == NULL)									// If There's No Text
+  if (fmt == NULL)							// If There's No Text
     return;											// Do Nothing
 
   // Set the text color
@@ -518,15 +547,17 @@ void PhOpenGLHandler::DrawText(Vertex2 _pos, const TCHAR *fmt, ...)					// Custo
   // Positition
   glRasterPos2f((float)_pos.x,(float)_pos.y);
 
-  va_start(ap, fmt);									// Parses The String For Variables
-  vswprintf_s(text, fmt, ap);						// And Converts Symbols To Actual Numbers
-  va_end(ap);											// Results Are Stored In Text
+  va_start(ap, fmt);						// Parses The String For Variables
+  vswprintf_s(text, fmt, ap);		// And Converts Symbols To Actual Numbers
+  va_end(ap);										// Results Are Stored In Text
 
 
-  glPushAttrib(GL_LIST_BIT);							// Pushes The Display List Bits
-  glListBase(base - 32);								// Sets The Base Character to 32
-  glCallLists(_tcslen(text), GL_UNSIGNED_SHORT, text);	// Draws The Display List Text
-  glPopAttrib();										// Pops The Display List Bits
+  glPushAttrib(GL_LIST_BIT);		// Pushes The Display List Bits
+  glListBase(base - 32);				// Sets The Base Character to 32
+
+  // Draws The Display List Text
+  glCallLists(_tcslen(text), GL_UNSIGNED_SHORT, text);	
+  glPopAttrib();								// Pops The Display List Bits
 }
 
 }

@@ -36,17 +36,19 @@ namespace PhoenixCore{
 
     friend class PhTextureManager;
 
-    int	m_width;										// Image Width
-    int	m_height;										// Image Height
-    int	m_type;										// Image Type (GL_RGB, GL_RGBA)
-    int	m_bpp;										// Image Color Depth In Bits Per Pixel
-    unsigned int m_iRefCount;	//Refrence counter (number of times texture has been accessed
+    int	m_width;							// Image Width
+    int	m_height;							// Image Height
+    int	m_type;								// Image Type (GL_RGB, GL_RGBA)
+    int	m_bpp;								// Image Color Depth In Bits Per Pixel
+
+    // Refrence counter (number of times texture has been accessed
+    unsigned int m_iRefCount;	
 
   public:
 
     //has to be public cause of how OGL access it
     unsigned int		m_id;		// texture id
-    eglTexType	m_texType;									// Texture Format
+    eglTexType	m_texType;	// Texture Format
 
     PhTexture() {};
     ~PhTexture() {};
