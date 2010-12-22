@@ -75,7 +75,9 @@ void AsPlayer::Step()
 
 void AsPlayer::Draw(PhoenixCore::PhIRenderer* pGDI)
 {
-  pGDI->DrawTexture2D(pTexture,PhoenixCore::Vertex2(m_pos.x + pSprite->m_currentFrame.xoffset,m_pos.y + pSprite->m_currentFrame.yoffset));
+  pGDI->DrawTexture2D(pTexture,
+    PhoenixCore::Vertex2(m_pos.x + pSprite->m_currentFrame.xoffset,
+                         m_pos.y + pSprite->m_currentFrame.yoffset));
 }
 
 

@@ -38,6 +38,7 @@
           this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
           this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
           this.filmRollToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.animationSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
           this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
           this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
           this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -106,39 +107,40 @@
           // newToolStripMenuItem
           // 
           this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-          this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+          this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
           this.newToolStripMenuItem.Text = "&New";
           this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
           // 
           // openToolStripMenuItem
           // 
           this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-          this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+          this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
           this.openToolStripMenuItem.Text = "&Open";
           // 
           // saveToolStripMenuItem
           // 
           this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-          this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+          this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
           this.saveToolStripMenuItem.Text = "&Save";
           // 
           // saveAsToolStripMenuItem
           // 
           this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-          this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+          this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
           this.saveAsToolStripMenuItem.Text = "Save &As...";
           // 
           // exitToolStripMenuItem
           // 
           this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-          this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+          this.exitToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
           this.exitToolStripMenuItem.Text = "E&xit";
           this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
           // 
           // viewToolStripMenuItem
           // 
           this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filmRollToolStripMenuItem});
+            this.filmRollToolStripMenuItem,
+            this.animationSummaryToolStripMenuItem});
           this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
           this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
           this.viewToolStripMenuItem.Text = "&View";
@@ -147,9 +149,16 @@
           // 
           this.filmRollToolStripMenuItem.Name = "filmRollToolStripMenuItem";
           this.filmRollToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+R";
-          this.filmRollToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+          this.filmRollToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
           this.filmRollToolStripMenuItem.Text = "Film &Roll";
           this.filmRollToolStripMenuItem.Click += new System.EventHandler(this.filmRollToolStripMenuItem_Click);
+          // 
+          // animationSummaryToolStripMenuItem
+          // 
+          this.animationSummaryToolStripMenuItem.Name = "animationSummaryToolStripMenuItem";
+          this.animationSummaryToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F";
+          this.animationSummaryToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+          this.animationSummaryToolStripMenuItem.Text = "Animation Summary";
           // 
           // helpToolStripMenuItem
           // 
@@ -216,6 +225,7 @@
           this.Open.Name = "Open";
           this.Open.Size = new System.Drawing.Size(23, 22);
           this.Open.Text = "Open";
+          this.Open.Click += new System.EventHandler(this.Open_Click);
           // 
           // Save
           // 
@@ -225,6 +235,7 @@
           this.Save.Name = "Save";
           this.Save.Size = new System.Drawing.Size(23, 22);
           this.Save.Text = "Save";
+          this.Save.Click += new System.EventHandler(this.Save_Click);
           // 
           // toolStripSeparator2
           // 
@@ -258,6 +269,7 @@
           this.FrameMoveBox.Size = new System.Drawing.Size(30, 25);
           this.FrameMoveBox.Text = "0";
           this.FrameMoveBox.ToolTipText = "Jump To Frame";
+          this.FrameMoveBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FrameMoveBox_KeyUp);
           // 
           // JumpTo
           // 
@@ -382,6 +394,7 @@
           this.playspeed.Size = new System.Drawing.Size(30, 25);
           this.playspeed.Tag = "Frame Rate";
           this.playspeed.Text = "60";
+          this.playspeed.KeyUp += new System.Windows.Forms.KeyEventHandler(this.playspeed_KeyPress);
           // 
           // toolStripSeparator5
           // 
@@ -458,6 +471,7 @@
           this.propertyGrid1.Name = "propertyGrid1";
           this.propertyGrid1.Size = new System.Drawing.Size(316, 616);
           this.propertyGrid1.TabIndex = 0;
+          this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
           // 
           // MainGraphicPanel
           // 
@@ -486,7 +500,7 @@
           this.Name = "HitBoxEditor";
           this.Text = "HitBox Editor";
           this.Load += new System.EventHandler(this.Form1_Load);
-          this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HitBoxEditor_KeyDown);
+          this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HitBoxEditor_KeyUp);
           this.Resize += new System.EventHandler(this.HitBoxEditor_Resize);
           this.menuStrip1.ResumeLayout(false);
           this.menuStrip1.PerformLayout();
@@ -547,6 +561,7 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filmRollToolStripMenuItem;
         public System.Windows.Forms.Panel MainGraphicPanel;
+        private System.Windows.Forms.ToolStripMenuItem animationSummaryToolStripMenuItem;
         //public DoubleBufferPanel MainGraphicPanel;
     }
 }

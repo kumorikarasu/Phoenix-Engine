@@ -3,7 +3,8 @@
 #include "PhoenixGlobal.h"
 #include "PhoenixEngine.h"
 #include "PhoenixConsole.h"
-#include "PhoenixOpenGLHandler.h" //OpenGL (ONLY file that should have to include this (other then .cpp ofcourse))
+//OpenGL (ONLY file that should have to include this (other then .cpp ofcourse))
+#include "PhoenixOpenGLHandler.h" 
 #include <time.h>
 
 using namespace PhoenixCore;

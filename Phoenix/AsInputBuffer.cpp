@@ -5,6 +5,7 @@
 
 
 namespace PhoenixFight{
+
 /**
  * @param _input a bool array of input 256 values, corrosponding with the ascii value
  *

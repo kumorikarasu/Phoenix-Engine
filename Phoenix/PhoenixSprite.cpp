@@ -80,7 +80,8 @@ bool PhSprite::AddSprite(TCHAR* _filename)
     m_pTextureStart = m_pTextures;
   }
   if (m_nSpriteLoadIndex >= m_nSpriteLength){
-    PhConsole::Console->Line(_T("Sprite Full %s"),C_WARNING, _filename);
+    PhConsole::Console->Line(_T("Sprite Full %s"),
+                            C_WARNING, _filename);
     return false;
   }
 
@@ -89,7 +90,8 @@ bool PhSprite::AddSprite(TCHAR* _filename)
     Corrupt = true;
     return false;
   }
-  PhConsole::Console->Line(_T("Sprite Frame Added:%d"),C_NORMAL, m_nSpriteLoadIndex);
+  PhConsole::Console->Line(_T("Sprite Frame Added:%d"),
+                          C_NORMAL, m_nSpriteLoadIndex);
   m_pTextureEnd = &m_pTextures[m_nSpriteLoadIndex];
   m_nSpriteLoadIndex++;
 
@@ -175,7 +177,9 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
       TCHAR fileext[10];
       ExtensionFromFilename(ffd.cFileName,fileext);
       if (_tcscmp(fileext,_T("tga")) == 0){
-        if (_tcscmp(ffd.cFileName,_T(".")) != 0 && _tcscmp(ffd.cFileName,_T("..")) != 0){
+        if (_tcscmp(ffd.cFileName,_T(".")) != 0 && 
+            _tcscmp(ffd.cFileName,_T("..")) != 0)
+        {
           _tcscpy(szDir, _path);
           _tcscat(szDir, ffd.cFileName);
           AddSprite(szDir);
@@ -192,7 +196,8 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
         int frameCount = 0;
         while (fgets(buffer,500,fp) != NULL){
           if (*buffer != ';' && (*buffer) != 10){
-            sscanf(buffer,"%d %d %d %d %d %d %d",&action, &startframe, &frames, &delay, &xoffset, &yoffset, &flags);
+            sscanf(buffer,"%d %d %d %d %d %d %d",&action, &startframe, &frames, 
+                  &delay, &xoffset, &yoffset, &flags);
             PhAnimation frame;
             frame.nStartFrame = startframe;
             frame.nFrames = frames;
@@ -201,10 +206,13 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
             frame.yoffset = yoffset;
             frame.delay = delay;
             int totalframes = frames * delay;
-            int xmove, ymove, hbtl, hbtr, hbbl, hbbr, ahbtl, ahbtr, ahbbl, ahbbr;
+            int xmove, ymove, hbtl, hbtr, hbbl, hbbr, 
+                ahbtl, ahbtr, ahbbl, ahbbr;
             for (int i=0;i<totalframes;i++){
               fgets(buffer,200,fp);
-              sscanf(buffer,"%d %d %d %d %d %d %d %d %d %d %d", &xmove, &ymove, &hbtl, &hbtr, &hbbl, &hbbr, &ahbtl, &ahbtr, &ahbbl, &ahbbr, &flags);
+              sscanf(buffer,"%d %d %d %d %d %d %d %d %d %d %d", &xmove, 
+                    &ymove, &hbtl, &hbtr, &hbbl, &hbbr, &ahbtl, &ahbtr,
+                    &ahbbl, &ahbbr, &flags);
               frame.frame[i].xMovement = xmove;
               frame.frame[i].yMovement = ymove;
               frame.frame[i].hbtl = hbtl;

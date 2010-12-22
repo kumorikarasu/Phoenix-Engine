@@ -42,9 +42,9 @@ private:
   int         m_nSpriteIndex;
   int         m_nSpriteLength;
   int         m_nSpriteLoadIndex;
-  int         m_nSpriteFrame;       ///< Current frame that is displayed noscreen
+  int         m_nSpriteFrame; // Current frame that is displayed noscreen
   bool        Corrupt;
-  int         m_nState;             ///< Current frame state, used when switching states
+  int         m_nState;       // Current frame state, used when switching states
 
   std::map<int, PhAnimation> m_mapSprite;
 

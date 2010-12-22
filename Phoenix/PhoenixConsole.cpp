@@ -14,11 +14,11 @@ PhConsole::PhConsole()
 }
 
 
-
 PhConsole::~PhConsole()
 {
 //  fclose(m_logfile);	
 }
+
 
 void PhConsole::Draw(PhIRenderer * GDI)
 {
@@ -33,11 +33,14 @@ void PhConsole::Draw(PhIRenderer * GDI)
 
       for (int i = 8; i>0; i--){
         if (iter->m_type == C_WARNING){
-          GDI->DrawTextW(Vertex2(10,2 + i*22,Color(1.0f,1.0f,0.0f)), iter->m_text );
+          GDI->DrawTextW(Vertex2(10, 2 + i*22,Color(1.0f,1.0f,0.0f)),
+                         iter->m_text);
         }else if (iter->m_type == C_ERROR){
-          GDI->DrawTextW(Vertex2(10,2 + i*22,Color(1.0f,0.0f,0.0f)), iter->m_text );
+          GDI->DrawTextW(Vertex2(10, 2 + i*22,Color(1.0f,0.0f,0.0f)),
+                         iter->m_text);
         }else
-          GDI->DrawTextW(Vertex2(10,2 + i*22,Color(1.0f,1.0f,1.0f)), iter->m_text );
+          GDI->DrawTextW(Vertex2(10, 2 + i*22,Color(1.0f,1.0f,1.0f)),
+                         iter->m_text);
         ++iter;
         if (iter == m_lConsole.rend())
           break;
@@ -45,6 +48,7 @@ void PhConsole::Draw(PhIRenderer * GDI)
     }
   }
 }
+
 
 //outputs a line to ONLY the file log
 void PhConsole::Log(const TCHAR* fmt, int _type, ...)

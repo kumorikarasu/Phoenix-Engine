@@ -40,17 +40,27 @@ namespace PhoenixFight{
   class AsInputBuffer
   {
   private:
-    static const int nMaxFrames = 1;      ///< Input buffer length
-    static const int nNumberofButtons = 7; ///< Number of input buttons (A,B,C,D,E,F and S)
+    /// Input buffer length
+    static const int nMaxFrames = 1;
+    /// Number of input buttons (A,B,C,D,E,F and S)
+    static const int nNumberofButtons = 7;
 
-    unsigned int nInputLUT[256];		  ///< Input lookup table, used when setting the key config
+    /// Input lookup table, used when setting the key config
+    unsigned int nInputLUT[256];
 
-    long* nInput;   		    ///< A buffer of input directions (circular array)
-    int   nInputLocation;	  //input array index location 
+    /// A buffer of input directions (circular array)
+    long* nInput;
+
+    //input array index location 
+    int   nInputLocation;
 
     //online config
-    int nDelay;				      ///< Number of frames to delay the input (based on the ping time)
-    int nFrame;             ///< Number of frames we compile to, will keep this the same as the delay value for now
+    /// Number of frames to delay the input (based on the ping time)
+    int nDelay;	
+
+    /// Number of frames we compile to, will keep this the
+    /// same as the delay value for now
+    int nFrame; 
 
   public:
 
