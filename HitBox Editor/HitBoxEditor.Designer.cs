@@ -55,6 +55,7 @@
           this.ToggleAttack = new System.Windows.Forms.ToolStripButton();
           this.ToggleHitbox = new System.Windows.Forms.ToolStripButton();
           this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+          this.MoveImageTool = new System.Windows.Forms.ToolStripButton();
           this.MoveTool = new System.Windows.Forms.ToolStripButton();
           this.EditTool = new System.Windows.Forms.ToolStripButton();
           this.AddTool = new System.Windows.Forms.ToolStripButton();
@@ -70,7 +71,7 @@
           this.Progress = new System.Windows.Forms.ToolStripProgressBar();
           this.splitContainer1 = new System.Windows.Forms.SplitContainer();
           this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-          this.MainGraphicPanel = new System.Windows.Forms.Panel();
+          this.MainGraphicPanel = new DoubleBufferPanel();//new System.Windows.Forms.Panel();
           this.menuStrip1.SuspendLayout();
           this.toolStrip1.SuspendLayout();
           this.statusStrip1.SuspendLayout();
@@ -116,18 +117,21 @@
           this.openToolStripMenuItem.Name = "openToolStripMenuItem";
           this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
           this.openToolStripMenuItem.Text = "&Open";
+          this.openToolStripMenuItem.Click += new System.EventHandler(this.Open_Click);
           // 
           // saveToolStripMenuItem
           // 
           this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
           this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
           this.saveToolStripMenuItem.Text = "&Save";
+          this.saveToolStripMenuItem.Click += new System.EventHandler(this.Save_Click);
           // 
           // saveAsToolStripMenuItem
           // 
           this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
           this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
           this.saveAsToolStripMenuItem.Text = "Save &As...";
+          this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
           // 
           // exitToolStripMenuItem
           // 
@@ -191,6 +195,7 @@
             this.ToggleAttack,
             this.ToggleHitbox,
             this.toolStripSeparator3,
+            this.MoveImageTool,
             this.MoveTool,
             this.EditTool,
             this.AddTool,
@@ -323,11 +328,24 @@
           this.ToggleHitbox.Name = "ToggleHitbox";
           this.ToggleHitbox.Size = new System.Drawing.Size(23, 22);
           this.ToggleHitbox.Text = "Toggle Hitbox Display";
+          this.ToggleHitbox.Click += new System.EventHandler(this.ToggleHitbox_Click);
           // 
           // toolStripSeparator3
           // 
           this.toolStripSeparator3.Name = "toolStripSeparator3";
           this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+          // 
+          // MoveImageTool
+          // 
+          this.MoveImageTool.CheckOnClick = true;
+          this.MoveImageTool.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+          this.MoveImageTool.Image = ((System.Drawing.Image)(resources.GetObject("MoveImageTool.Image")));
+          this.MoveImageTool.ImageTransparentColor = System.Drawing.Color.Magenta;
+          this.MoveImageTool.Name = "MoveImageTool";
+          this.MoveImageTool.Size = new System.Drawing.Size(23, 22);
+          this.MoveImageTool.Text = "MoveImage";
+          this.MoveImageTool.ToolTipText = "Move Current Image";
+          this.MoveImageTool.Click += new System.EventHandler(this.MoveImageTool_Click);
           // 
           // MoveTool
           // 
@@ -562,6 +580,7 @@
         private System.Windows.Forms.ToolStripMenuItem filmRollToolStripMenuItem;
         public System.Windows.Forms.Panel MainGraphicPanel;
         private System.Windows.Forms.ToolStripMenuItem animationSummaryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton MoveImageTool;
         //public DoubleBufferPanel MainGraphicPanel;
     }
 }

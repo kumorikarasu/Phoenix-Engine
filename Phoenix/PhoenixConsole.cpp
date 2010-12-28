@@ -50,6 +50,7 @@ void PhConsole::Draw(PhIRenderer * GDI)
 }
 
 
+
 //outputs a line to ONLY the file log
 void PhConsole::Log(const TCHAR* fmt, int _type, ...)
 {
