@@ -7,6 +7,6 @@
 #include <windows.h>
 
 //windows callback function
-LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);				// Declaration For WndProc
+LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 
 #endif _PHOENIXWINDOWS_H_

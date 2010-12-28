@@ -56,7 +56,8 @@ void AsHitBoxViewer::Step()
     pTexture = pSprite->GetNextAdvancedSprite(++State);
     down = true;
   }
-  if ((input & DIRECTION_6) != DIRECTION_6 && (input & DIRECTION_4) != DIRECTION_4)
+  if ((input & DIRECTION_6) != DIRECTION_6 && 
+      (input & DIRECTION_4) != DIRECTION_4)
   {
    down = false;
   }
@@ -76,7 +77,9 @@ void AsHitBoxViewer::Step()
 
 void AsHitBoxViewer::Draw(PhoenixCore::PhIRenderer* pGDI)
 {
-  pGDI->DrawTexture2D(pTexture,PhoenixCore::Vertex2(m_pos.x + pSprite->m_currentFrame.xoffset,m_pos.y + pSprite->m_currentFrame.yoffset));
+  pGDI->DrawTexture2D(pTexture,PhoenixCore::Vertex2(
+            m_pos.x + pSprite->m_currentFrame.xoffset,
+            m_pos.y + pSprite->m_currentFrame.yoffset));
 }
 
 

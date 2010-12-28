@@ -2,12 +2,12 @@
 #define _TEXTURE_LOADER_H_
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <windows.h>										// Header File For Windows
-#include <gl\gl.h>											// Header File For The OpenGL32 Library
-#include <gl\glu.h>											// Header File For The GLu32 Library
-#include <olectl.h>											// Header File For The OLE Controls Library
-#include <math.h>											// Header File For The Math Library
-#include <STDIO.H>											// Header File For I/O Library
+#include <windows.h>				// Header File For Windows
+#include <gl\gl.h>					// Header File For The OpenGL32 Library
+#include <gl\glu.h>					// Header File For The GLu32 Library
+#include <olectl.h>					// Header File For The OLE Controls Library
+#include <math.h>						// Header File For The Math Library
+#include <STDIO.H>					// Header File For I/O Library
 
 // Define Interface Data Types / Structures
 //
@@ -33,12 +33,12 @@ typedef enum {
 
 typedef	struct
 {
-	GLuint		TextureID;									// Texture ID Used To Select A Texture
-	eglTexType	TexType;									// Texture Format
-	GLuint		Width;										// Image Width
-	GLuint		Height;										// Image Height
-	GLuint		Type;										// Image Type (GL_RGB, GL_RGBA)
-	GLuint		Bpp;										// Image Color Depth In Bits Per Pixel
+	GLuint		TextureID;			// Texture ID Used To Select A Texture
+	eglTexType	TexType;			// Texture Format
+	GLuint		Width;					// Image Width
+	GLuint		Height;					// Image Height
+	GLuint		Type;						// Image Type (GL_RGB, GL_RGBA)
+	GLuint		Bpp;						// Image Color Depth In Bits Per Pixel
 } glTexture;
 
 typedef struct {
@@ -84,15 +84,21 @@ public:
 	// methods
 						TextureLoader();
 	virtual				~TextureLoader();
-	void				SetAlphaMatch(GLboolean fEnabled, GLubyte RedAlphaMatch, GLubyte GreenAlphaMatch, GLubyte BlueAlphaMatch);
+	void				SetAlphaMatch(GLboolean fEnabled, GLubyte RedAlphaMatch, 
+                            GLubyte GreenAlphaMatch, GLubyte BlueAlphaMatch);
 	void				SetHighQualityTextures(GLboolean fEnabled);
 	void				SetMipMapping(GLboolean fEnabled);
 	void				SetTextureFilter(eglTexFilterType type);
 
 	int					LoadTextureFromDisk(TCHAR *szFileName, glTexture *pglTexture);
-	int					LoadTextureFromRam(unsigned char *pData, int Length, glTexture *pglTexture, eglTexType TexType);
-	int					LoadTextureFromResource(unsigned int ResourceName, TCHAR *pResourceType, glTexture *pglTexture, eglTexType TexType);
+	int					LoadTextureFromRam(unsigned char *pData, int Length,
+                                glTexture *pglTexture, eglTexType TexType);
+	int					LoadTextureFromResource(unsigned int ResourceName, 
+                                      TCHAR *pResourceType,
+                                      glTexture *pglTexture,
+                                      eglTexType TexType);
 	void				FreeTexture(glTexture *pglTexture);
+
 	// variables
 
 private:
@@ -100,8 +106,10 @@ private:
 	int					BuildTexture(TCHAR *szPathName, glTexture *pglTexture);
 	int					LoadTGAFromDisk(TCHAR *pszFileName, glTexture *pglTexture);
 
-	int					LoadJPG_GIFResource(TCHAR *pResourceName, TCHAR *pResourceType, glTexture *pglTexture);
-	int					LoadTGAResource(TCHAR *pResourceName, TCHAR *pResourceType, glTexture *pglTexture);
+	int					LoadJPG_GIFResource(TCHAR *pResourceName, TCHAR *pResourceType,
+                                  glTexture *pglTexture);
+	int					LoadTGAResource(TCHAR *pResourceName, TCHAR *pResourceType, 
+                              glTexture *pglTexture);
 
 	int					GenerateTexture(glTexture *pglTexture, GLubyte *pImgData);
 

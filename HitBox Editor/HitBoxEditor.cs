@@ -19,7 +19,7 @@ namespace HitBox_Editor
   {
     public Film_Roll filmRoll;
     public Player player;
-    
+
     enum ToolType
     {
       None = 0,
@@ -27,7 +27,8 @@ namespace HitBox_Editor
       Select,
       Add,
       AddHB,
-      AddAHB
+      AddAHB,
+      MoveImage
     }
 
     System.Windows.Forms.Timer PlayAnimationTimer;
@@ -46,6 +47,8 @@ namespace HitBox_Editor
     private  Summary SummaryBox;
     private  string saveFilePath;
     private  string imageFilePath;
+    HitBox hitBox;
+    int resizing;
 
     public HitBoxEditor()
     {
@@ -63,6 +66,7 @@ namespace HitBox_Editor
       PlayAnimationTimer = new System.Windows.Forms.Timer();
       SummaryBox = new Summary();
       saveFilePath = "";
+      resizing = 0;
     }
 
     private void Form1_Load(object sender, EventArgs e)
@@ -97,11 +101,19 @@ namespace HitBox_Editor
       System.Drawing.Graphics g = e.Graphics;
 
       if (player != null){
-        Image i = player.GetImage(currentFrame);
-        if (i != null)
-          g.DrawImage(i, CurX + (MainGraphicPanel.Width / 2) - i.Width / 2 * ScaleX,
-                      CurY + (MainGraphicPanel.Height / 2) - i.Height / 2 * ScaleY,
-                      i.Width * ScaleX,i.Height * ScaleY);
+        if (ToggleHitbox.Checked){
+          foreach(var i in player.sprites[currentFrame].hitBoxes){
+            i.Draw(g, new Point(MainGraphicPanel.Width,MainGraphicPanel.Height));
+          }
+        }
+
+        Image image = player.GetImage(currentFrame);
+        if (image != null)
+          g.DrawImage(image, 
+                      CurX + player.sprites[currentFrame].pos.X + (MainGraphicPanel.Width / 2) - image.Width / 2 * ScaleX,
+                      CurY + player.sprites[currentFrame].pos.Y + (MainGraphicPanel.Height / 2) - image.Height / 2 * ScaleY,
+                      image.Width * ScaleX,image.Height * ScaleY);
+
       }
 
       if (DisplayGrid){
@@ -114,19 +126,79 @@ namespace HitBox_Editor
         g.DrawLine(myPen, 0,(int) (MainGraphicPanel.Height / 2) + 50, MainGraphicPanel.Width, (int) (MainGraphicPanel.Height / 2) + 50);
         myPen.Dispose();
       }
+
+      if (hitBox != null){
+            hitBox.Draw(g, new Point(MainGraphicPanel.Width,MainGraphicPanel.Height));
+      }
+
       if (filmRoll != null)
         filmRoll.panel2.Invalidate();
+
     }
 
     private void MainGraphicPanel_MouseDown(object sender, MouseEventArgs e)
     {
-      MouseDown = true;
-      MouseX = MousePosition.X;
-      MouseY = MousePosition.Y;
+      if (e.Button == MouseButtons.Left){
+        MouseDown = true;
+        MouseX = MousePosition.X;
+        MouseY = MousePosition.Y;
+      }
+      
+      if (e.Button == MouseButtons.Right){
+        hitBox = null;
+
+        //<3 lambda
+        player.sprites[currentFrame].hitBoxes.ForEach(i => { i.selected = false; }); 
+        MainGraphicPanel.Invalidate();
+      }
+
+      if (MouseDown && Tool == ToolType.AddHB && player != null){
+        hitBox = new HitBox(player.sprites[currentFrame], new Point(MainGraphicPanel.Width,MainGraphicPanel.Height));
+        var p = MainGraphicPanel.PointToClient(new Point(MouseX,MouseY));
+        hitBox.x = p.X;
+        hitBox.y = p.Y;
+      }
+
+      if (MouseDown && Tool == ToolType.AddAHB && player != null){
+        hitBox = new HitBox(player.sprites[currentFrame], new Point(MainGraphicPanel.Width,MainGraphicPanel.Height));
+        hitBox.type = 1;
+        var p = MainGraphicPanel.PointToClient(new Point(MouseX,MouseY));
+        hitBox.x = p.X;
+        hitBox.y = p.Y;
+      }
+
+      if (MouseDown && Tool == ToolType.Select){
+        foreach(var hb in player.sprites[currentFrame].hitBoxes){
+          var p = MainGraphicPanel.PointToClient(new Point(MouseX,MouseY));
+          if (hb.CheckCollision(p)){
+            player.sprites[currentFrame].hitBoxes.ForEach(i => { i.selected = false; }); 
+            hb.selected = true;
+            MainGraphicPanel.Invalidate();
+            break;
+          }
+        }
+      }
     }
 
     private void MainGraphicPanel_MouseUp(object sender, MouseEventArgs e)
     {
+      if (MouseDown && (Tool == ToolType.AddHB || Tool == ToolType.AddAHB)){
+        if (hitBox != null){
+          hitBox.Correct();
+          player.sprites[currentFrame].hitBoxes.ForEach(i => { i.selected = false; }); 
+          player.sprites[currentFrame].hitBoxes.Add(hitBox);
+          hitBox.selected = true;
+          Tool = ToolType.Select;
+          EditTool.Checked = true;
+          AddATool.Checked = false;
+          AddTool.Checked = false;
+          MainGraphicPanel.Invalidate();
+
+          hitBox = null;
+        }
+      }
+
+      resizing = 0;
       MouseDown = false;
     }
 
@@ -138,7 +210,6 @@ namespace HitBox_Editor
         CurY += MousePosition.Y - MouseY;
         MouseX = MousePosition.X;
         MouseY = MousePosition.Y;
-        MainGraphicPanel.Invalidate();
         if (CurX > MainGraphicPanel.Width)
           CurX = MainGraphicPanel.Width;
         if (CurX < -MainGraphicPanel.Width)
@@ -147,6 +218,135 @@ namespace HitBox_Editor
           CurY = MainGraphicPanel.Height;
         if (CurY < -MainGraphicPanel.Height)
           CurY = -MainGraphicPanel.Height;
+        MainGraphicPanel.Invalidate();
+      }
+      if (MouseDown && Tool == ToolType.MoveImage){
+        var pos = player.sprites[currentFrame].pos;
+        int x = pos.X += MousePosition.X - MouseX;
+        int y = pos.Y += MousePosition.Y - MouseY;
+        MouseX = MousePosition.X;
+        MouseY = MousePosition.Y;
+        if (x > MainGraphicPanel.Width)
+          x = MainGraphicPanel.Width;
+        if (x < -MainGraphicPanel.Width)
+          x = -MainGraphicPanel.Width;
+        if (y > MainGraphicPanel.Height)
+          y = MainGraphicPanel.Height;
+        if (y < -MainGraphicPanel.Height)
+          y = -MainGraphicPanel.Height;
+        player.sprites[currentFrame].pos = new Rectangle(x, y, pos.Width, pos.Height);
+        MainGraphicPanel.Invalidate();
+      }
+
+      if (MouseDown && (Tool == ToolType.AddHB || Tool == ToolType.AddAHB) && hitBox != null){
+        var p = MainGraphicPanel.PointToClient(new Point(MousePosition.X,MousePosition.Y));
+        hitBox.xx = p.X;
+        hitBox.yy = p.Y;
+        MainGraphicPanel.Invalidate();
+      }
+
+      if (Tool == ToolType.Select){
+        var result = player.sprites[currentFrame].hitBoxes.SingleOrDefault(i => i.selected == true);
+        if (result != null){
+          var p = MainGraphicPanel.PointToClient(new Point(MousePosition.X, MousePosition.Y));
+          int corner = result.CheckCorners(p);
+          if (resizing != 5 && (corner == 7 /*top left*/ || resizing == 7)) {
+            MainGraphicPanel.Cursor = Cursors.SizeNWSE;
+            if (MouseDown){
+              result.x += MousePosition.X - MouseX;
+              result.y += MousePosition.Y - MouseY;
+              MouseX = MousePosition.X;
+              MouseY = MousePosition.Y;
+              MainGraphicPanel.Invalidate();
+              resizing = 7;
+            }
+          }else
+          if (resizing != 5 && (corner == 9 /*top right*/ || resizing == 9)) {
+            MainGraphicPanel.Cursor = Cursors.SizeNESW;
+            if (MouseDown){
+              result.xx += MousePosition.X - MouseX;
+              result.y += MousePosition.Y - MouseY;
+              MouseX = MousePosition.X;
+              MouseY = MousePosition.Y;
+              MainGraphicPanel.Invalidate();
+              resizing = 9;
+            }
+          }else
+          if (resizing != 5 && (corner == 3 /*bottom right*/ || resizing == 3)) {
+            MainGraphicPanel.Cursor = Cursors.SizeNWSE;
+            if (MouseDown){
+              result.xx += MousePosition.X - MouseX;
+              result.yy += MousePosition.Y - MouseY;
+              MouseX = MousePosition.X;
+              MouseY = MousePosition.Y;
+              MainGraphicPanel.Invalidate();
+              resizing = 3;
+            }
+          }else
+          if (resizing != 5 && (corner == 1 /*bottom left*/ || resizing == 1)) {
+            MainGraphicPanel.Cursor = Cursors.SizeNESW;
+            if (MouseDown){
+              result.x += MousePosition.X - MouseX;
+              result.yy += MousePosition.Y - MouseY;
+              MouseX = MousePosition.X;
+              MouseY = MousePosition.Y;
+              MainGraphicPanel.Invalidate();
+              resizing = 1;
+            }
+          }else
+          if (resizing != 5 && (corner == 2 /*bottom*/ || resizing == 2)) {
+            MainGraphicPanel.Cursor = Cursors.SizeNS;
+            if (MouseDown){
+              result.yy += MousePosition.Y - MouseY;
+              MouseY = MousePosition.Y;
+              MainGraphicPanel.Invalidate();
+              resizing = 2;
+            }
+          }else
+          if (resizing != 5 && (corner == 8 /*top*/ || resizing == 8)) {
+            MainGraphicPanel.Cursor = Cursors.SizeNS;
+            if (MouseDown){
+              result.y += MousePosition.Y - MouseY;
+              MouseY = MousePosition.Y;
+              MainGraphicPanel.Invalidate();
+              resizing = 8;
+            }
+          }else
+          if (resizing != 5 && (corner == 6 /*right*/ || resizing == 6)) {
+            MainGraphicPanel.Cursor = Cursors.SizeWE;
+            if (MouseDown){
+              result.xx += MousePosition.X - MouseX;
+              MouseX = MousePosition.X;
+              MouseY = MousePosition.Y;
+              MainGraphicPanel.Invalidate();
+              resizing = 6;
+            }
+          }else
+          if (resizing != 5 && (corner == 4 /*left*/ || resizing == 4)) {
+            MainGraphicPanel.Cursor = Cursors.SizeWE;
+            if (MouseDown){
+              result.x += MousePosition.X - MouseX;
+              MouseX = MousePosition.X;
+              MouseY = MousePosition.Y;
+              MainGraphicPanel.Invalidate();
+              resizing = 4;
+            }
+          } else if (MouseDown && (resizing == 0 || resizing == 5)) {
+            MainGraphicPanel.Cursor = Cursors.SizeAll;
+            result.x += MousePosition.X - MouseX;
+            result.y += MousePosition.Y - MouseY;
+            result.xx += MousePosition.X - MouseX;
+            result.yy += MousePosition.Y - MouseY;
+            MouseX = MousePosition.X;
+            MouseY = MousePosition.Y;
+            MainGraphicPanel.Invalidate();
+            resizing = 5;
+          } else {
+            MainGraphicPanel.Cursor = Cursors.Cross;
+          }
+
+          result.Correct();
+        }
       }
     }
 
@@ -155,11 +355,27 @@ namespace HitBox_Editor
       MainGraphicPanel.Invalidate();
     }
 
+    private void MoveImageTool_Click(object sender, EventArgs e)
+    {
+      if (MoveImageTool.Checked){
+        Tool = ToolType.MoveImage;
+        MainGraphicPanel.Cursor = Cursors.Hand;
+        MoveTool.Checked = false;
+        EditTool.Checked = false;
+        AddATool.Checked = false;
+        AddTool.Checked = false;
+      }else{
+        Tool = ToolType.None;
+        MainGraphicPanel.Cursor = Cursors.Default;
+      }
+    }
+
     private void MoveTool_Click(object sender, EventArgs e)
     {
       if (MoveTool.Checked){
         Tool = ToolType.Move;
         MainGraphicPanel.Cursor = Cursors.Hand;
+        MoveImageTool.Checked = false;
         EditTool.Checked = false;
         AddATool.Checked = false;
         AddTool.Checked = false;
@@ -179,6 +395,7 @@ namespace HitBox_Editor
     {
       if (EditTool.Checked){
         Tool = ToolType.Select;
+        MoveImageTool.Checked = false;
         MoveTool.Checked = false;
         AddATool.Checked = false;
         AddTool.Checked = false;
@@ -193,6 +410,7 @@ namespace HitBox_Editor
     {
       if (AddTool.Checked){
         Tool = ToolType.AddHB;
+        MoveImageTool.Checked = false;
         MoveTool.Checked = false;
         EditTool.Checked = false;
         AddATool.Checked = false;
@@ -207,6 +425,7 @@ namespace HitBox_Editor
     {
       if (AddATool.Checked){
         Tool = ToolType.AddAHB;
+        MoveImageTool.Checked = false;
         MoveTool.Checked = false;
         EditTool.Checked = false;
         AddTool.Checked = false;
@@ -225,11 +444,6 @@ namespace HitBox_Editor
         var d = new FolderBrowserDialog();
         if (d.ShowDialog() == DialogResult.OK){
           imageFilePath = d.SelectedPath;
-
-//TODO: DEBUG ONRY< REMOVE THIS
-          imageFilePath="C:\\DEV\\Reimu";
-//
-
           imageFilePath = System.IO.Path.Combine(Application.StartupPath, imageFilePath);
           player = new Player();
           FrameNumber.Visible = false;
@@ -313,6 +527,12 @@ namespace HitBox_Editor
 
     private void HitBoxEditor_KeyUp(object sender, KeyEventArgs e)
     {
+      if (e.KeyCode == Keys.Delete){
+        var result = player.sprites[currentFrame].hitBoxes.SingleOrDefault(i => i.selected == true);
+        player.sprites[currentFrame].hitBoxes.Remove(result);
+        MainGraphicPanel.Invalidate();
+      }
+
       if (e.Modifiers == Keys.Control && e.KeyCode == Keys.R){
         if (filmRoll == null)
           filmRoll = new Film_Roll(this);
@@ -427,65 +647,73 @@ namespace HitBox_Editor
 
     private void Save_Click(object sender, EventArgs e)
     {
-
-      if (saveFilePath == ""){
-        SaveFileDialog sfd = new SaveFileDialog();
-        sfd.DefaultExt = "chr";
-        sfd.Filter = "Character File (*.chr)|*.chr";
-        sfd.AddExtension = true;
-        sfd.RestoreDirectory = true;
-        if (sfd.ShowDialog() == DialogResult.OK){
-          saveFilePath = sfd.FileName;
+      if (player != null){
+        if (saveFilePath == ""){
+          SaveFileDialog sfd = new SaveFileDialog();
+          sfd.DefaultExt = "chr";
+          sfd.Filter = "Character File (*.chr)|*.chr";
+          sfd.AddExtension = true;
+          sfd.RestoreDirectory = true;
+          if (sfd.ShowDialog() == DialogResult.OK){
+            saveFilePath = sfd.FileName;
+          }
+          sfd.Dispose();
         }
-        sfd.Dispose();
-      }
 
-      if (saveFilePath != "" && player != null){
-        try{
-        var dir = saveFilePath.Substring(0,saveFilePath.Length - 4);
-        var name = Path.GetFileName(saveFilePath);
-        System.IO.Directory.CreateDirectory(dir);
-        dir += "\\";
+        if (saveFilePath != ""){
+          try{
+          var dir = saveFilePath.Substring(0,saveFilePath.Length - 4);
+          var name = Path.GetFileName(saveFilePath);
+          System.IO.Directory.CreateDirectory(dir);
+          dir += "\\";
 
-        using (var datawriter = new StreamWriter(dir + "File.xml")) {
-          using (var writer = new StreamWriter(dir + "SpriteInfo")) {
-            using (var spritewriter = new StreamWriter(dir + "Sprite.xml")) {
-              var saver = new XmlSerializer(typeof(List<PropertyGridCharacter>));
-              var saver2 = new XmlSerializer(typeof(List<Sprite>));
+          using (var datawriter = new StreamWriter(dir + "1File.xml")) {
+            using (var writer = new StreamWriter(dir + "0SpriteInfo")) {
+              using (var spritewriter = new StreamWriter(dir + "2Sprite.xml")) {
+                var saver = new XmlSerializer(typeof(List<PropertyGridCharacter>));
+                var saver2 = new XmlSerializer(typeof(List<Sprite>));
 
-              writer.Write(imageFilePath + "\r\n");
-              saver.Serialize(datawriter, player.props);
-             // saver2.Serialize(spritewriter, player.sprites);
+                writer.Write(imageFilePath);
+                writer.Write("\r\n" + CurX);
+                writer.Write("\r\n" + CurY);
+                saver.Serialize(datawriter, player.props);
+                saver2.Serialize(spritewriter, player.sprites);
+              }
             }
           }
-        }
 
-        //now we win?
+          //now we win?
+          DirectoryInfo di = new DirectoryInfo(dir);
+          var final = new FileStream(saveFilePath, FileMode.Create);
 
-        DirectoryInfo di = new DirectoryInfo(dir);
-        var final = new FileStream(saveFilePath, FileMode.Create);
+          byte[] buffer = new byte[2000];
+          int i = 0;
+          string s;
+          foreach( var f in di.GetFiles()){
+            s = "" + i++ + "," + f.Name + "," + f.CreationTime + "," + f.Length + "\r\n";
+            final.Write(StrToByteArray(s), 0, s.Length);
+            var a = f.OpenRead();
+            CopyStream(a,final);
+            a.Close();
+            s = "\r\n";
+            final.Write(StrToByteArray(s),0,s.Length);
+          }
 
-        byte[] buffer = new byte[2000];
-        int i = 0;
-        string s;
-        foreach( var f in di.GetFiles()){
-          s = "" + i++ + "," + f.Name + "," + f.CreationTime + "," + f.Length + "\r\n";
-          final.Write(StrToByteArray(s), 0, s.Length);
-          CopyStream(f.OpenRead(),final);
-        }
-
-        final.Dispose();
+          final.Dispose();
 
 
-        var x = new FileInfo(saveFilePath);
-        Compress(x);
+          var x = new FileInfo(saveFilePath);
+          Compress(x);
 
-        File.Delete(saveFilePath);
-        File.Move(saveFilePath + ".gz", saveFilePath);
+          File.Delete(saveFilePath);
+          //File.Move(saveFilePath, saveFilePath + "backup");
+          File.Move(saveFilePath + ".gz", saveFilePath);
 
-        Directory.Delete(dir.Substring(0,dir.Length - 1), true);
-        }catch(Exception ex){
-          Console.WriteLine(ex.Message);
+          Directory.Delete(dir.Substring(0,dir.Length - 1), true);
+          }catch(Exception ex){
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.ToString());
+          }
         }
       }
     }
@@ -498,6 +726,17 @@ namespace HitBox_Editor
     }
 
 
+    private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      string a = saveFilePath;
+      saveFilePath = "";
+      Save_Click(sender, e);
+      if (saveFilePath == ""){
+        saveFilePath = a;
+      }
+    }
+
+
     private void Open_Click(object sender, EventArgs e)
     {
       OpenFileDialog sfd = new OpenFileDialog();
@@ -505,27 +744,68 @@ namespace HitBox_Editor
       sfd.Filter = "Character File (*.chr)|*.chr";
       sfd.AddExtension = true;
       sfd.RestoreDirectory = true;
-      if (sfd.ShowDialog() == DialogResult.OK) {
-        var loadFilePath = sfd.FileName;
 
-        /*
-        var saver = new XmlSerializer(typeof(List<PropertyGridCharacter>));
-        var saver2 = new XmlSerializer(typeof(List<PropertyGridCharacter>));
-        var reader = new StreamReader(loadFilePath);
-        var datareader = new StreamReader(loadFilePath.Substring(0,loadFilePath.Length-4) + "Frame" + ".xml");
-        var spritereader = new StreamReader(loadFilePath.Substring(0,loadFilePath.Length-4) + "Image" + ".xml");
-        imageFilePath = reader.ReadLine();
-        player = new Player();
-        LoadPath(imageFilePath);
-        player.props = (List<PropertyGridCharacter>)saver.Deserialize(datareader);
-        reader.Close();
-        datareader.Close();
-         */
+      if (sfd.ShowDialog() == DialogResult.OK) {
+        try{
+          var loadFilePath = sfd.FileName;
+
+          var x = new FileInfo(loadFilePath);
+          Decompress(x);
+
+          string origName = x.FullName.Remove(x.FullName.Length -
+              x.Extension.Length);
+
+          player = new Player();
+
+          var fileStream = new FileStream(origName,FileMode.Open);
+          var reader = new StreamReader(fileStream);
+          string line = reader.ReadLine();
+
+          imageFilePath = reader.ReadLine();
+          CurX = Int32.Parse(reader.ReadLine());
+          CurY = Int32.Parse(reader.ReadLine());
+          LoadPath(imageFilePath);
+
+          line = reader.ReadLine();
+          var numb = Int32.Parse(line.Split(',').Last());
+          var buffer = new char[numb];
+          reader.ReadBlock(buffer,0,numb);
+          var stringBufffer = System.Text.UTF8Encoding.UTF8.GetString(System.Text.UTF8Encoding.UTF8.GetBytes(buffer));
+          var stringReader = new StringReader(stringBufffer);
+          
+          var saver = new XmlSerializer(typeof(List<PropertyGridCharacter>));
+          player.props = saver.Deserialize(stringReader) as List<PropertyGridCharacter>;
+
+
+          line = reader.ReadLine();
+          line = reader.ReadLine();
+          numb = Int32.Parse(line.Split(',').Last());
+          buffer = new char[numb];
+          reader.ReadBlock(buffer,0,numb);
+          stringBufffer = System.Text.UTF8Encoding.UTF8.GetString(System.Text.UTF8Encoding.UTF8.GetBytes(buffer));
+          stringReader = new StringReader(stringBufffer);
+          
+          var saver2 = new XmlSerializer(typeof(List<Sprite>));
+          var list = saver2.Deserialize(stringReader) as List<Sprite>;
+          //player.sprites
+          for(int i = 0; i < list.Count; i++){
+            player.sprites[i].ID = list[i].ID;
+            player.sprites[i].pos = list[i].pos;
+            player.sprites[i].hitBoxes = list[i].hitBoxes;
+          }
+
+          saveFilePath = loadFilePath;
+          LoadProperties();
+
+          fileStream.Close();
+          File.Delete(origName);
+          MainGraphicPanel.Invalidate();
+        }catch(Exception ex){
+          MessageBox.Show("Error loading file");
+          Console.WriteLine(ex.ToString());
+        }
       }
       sfd.Dispose();
-
-      if (saveFilePath != ""){
-      }
     }
 
     //  --------------------------- CopyStream ---------------------------
@@ -596,6 +876,11 @@ namespace HitBox_Editor
       }
     }
 
+    private void ToggleHitbox_Click(object sender, EventArgs e)
+    {
+      MainGraphicPanel.Invalidate();
+    }
+
     //PREPARE FOR HUGE FUNCTION SINCE THIS IS PRETTY MUCH THE EDITOR ITSELF SHOULD TRY TO KEEP THIS AT THE BOTTOM OF THE FILE
     private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
     {
@@ -620,7 +905,5 @@ namespace HitBox_Editor
       }
 
     }
-
-
   }
 }
