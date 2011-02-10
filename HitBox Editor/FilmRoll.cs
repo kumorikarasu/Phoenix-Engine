@@ -69,9 +69,12 @@ namespace HitBox_Editor
           if (image != null)
           {
             if (e.X > imageWidth && e.X < imageWidth + image.Width){
+              parent.SaveProperties();
               parent.currentFrame = i;
               parent.MainGraphicPanel.Invalidate();
               parent.FrameMoveBox.Text = "" + i;
+              parent.UpdateFrame(parent.currentFrame);
+              parent.LoadProperties();
             }
             imageWidth += image.Width;
           }

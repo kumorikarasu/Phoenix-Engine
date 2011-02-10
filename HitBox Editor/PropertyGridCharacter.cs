@@ -33,11 +33,11 @@ namespace HitBox_Editor
     [CategoryAttribute("Frame"), DescriptionAttribute("The Y Cordinate to spawn it, relative to you")]
     public int SpawnY { get; set; }
 
-    [CategoryAttribute("Frame"), DescriptionAttribute("Move the player X pixels at the start of this frame")]
-    public int MoveX { get; set; }
+    [CategoryAttribute("Frame"), DescriptionAttribute("Sets the players velocity in the X axis")]
+    public int VelocityX { get; set; }
 
-    [CategoryAttribute("Frame"), DescriptionAttribute("Move the player Y pixels at the start of this frame")]
-    public int MoveY { get; set; }
+    [CategoryAttribute("Frame"), DescriptionAttribute("Sets the players velocity in the Y axis")]
+    public int VelocityY { get; set; }
 
     [CategoryAttribute("Frame"), DescriptionAttribute("Last Frame in the current animation, after this frame the character will go back to there idle animation")]
     public bool EndFrame { get; set; }
@@ -75,6 +75,15 @@ namespace HitBox_Editor
     [CategoryAttribute("Frame"), DescriptionAttribute("EX attacks only, freezes the screen, may have other special animations such as darkened background")]
     public bool Superflash { get; set; }
 
+    [CategoryAttribute("Frame"), DescriptionAttribute("During this frame you are vunerable to be counter hit")]
+    public bool CounterState { get; set; }
+
+    [CategoryAttribute("Frame"), DescriptionAttribute("You are considered to be in the air for all intensive puproses")]
+    public bool Airborn { get; set; }
+
+    [CategoryAttribute("Frame"), DescriptionAttribute("You cannot be thrown during this frame")]
+    public bool ThrowInvunerable { get; set; }
+
     [CategoryAttribute("Attack"), DescriptionAttribute("Name of the attack")]
     public string Name { get; set; }
 
@@ -108,8 +117,14 @@ namespace HitBox_Editor
     [CategoryAttribute("Attack"), DescriptionAttribute("Amount of meter the attack costs to use.")]
     public int Metercost { get; set; }
 
-    [CategoryAttribute("Attack"), DescriptionAttribute("Grab, connects whether the opponent is blocking or not")]
+    [CategoryAttribute("Grabs"), DescriptionAttribute("Grab, connects whether the opponent is blocking or not")]
     public bool Grab { get; set; }
+
+    [CategoryAttribute("Grabs"), DescriptionAttribute("Command Throw")]
+    public bool UntechableGrab { get; set; }
+
+    [CategoryAttribute("Grabs"), DescriptionAttribute("Throw that can be done midcombo, ie Heat fist")]
+    public bool AttackGrab { get; set; }
 
     [CategoryAttribute("Attack"), DescriptionAttribute("High, hits if the opponent is guarding low")]
     public bool High { get; set; }
@@ -134,6 +149,34 @@ namespace HitBox_Editor
 
     [CategoryAttribute("Attack"), DescriptionAttribute("The sequence of characters used to detect this attack being pressed")]
     public string MoveInput { get; set; }
+
+    [CategoryAttribute("Attack"), DescriptionAttribute("A second sequence of characters used to detect an optional input during the move," + 
+                                                        "This has a varied input method, <optional input>-<frame number>, <second optional input>-<frame number>, etc ")]
+    public string DuringMoveInput { get; set; }
+
+    [CategoryAttribute("Attack States"), DescriptionAttribute("Does this attack launch the opponent on hit, ie. a shoryken")]
+    public bool Launches { get; set; }
+
+    [CategoryAttribute("Attack States"), DescriptionAttribute("Will this attack wallbounce if they hit a wall")]
+    public bool Wallbounce { get; set; }
+
+    [CategoryAttribute("Attack States"), DescriptionAttribute("Will this attack cause them to bounce off the ground")]
+    public bool Groundslam { get; set; }
+
+    [CategoryAttribute("Attack States"), DescriptionAttribute("Will this attack cause them to stagger")]
+    public bool Staggers { get; set; }
+
+    [CategoryAttribute("Attack States"), DescriptionAttribute("Will this attack force a knocked")]
+    public bool Knockdown { get; set; }
+
+    [CategoryAttribute("Attack States"), DescriptionAttribute("Will these states only happen on counterhit")]
+    public bool Counterhit { get; set; }
+
+    [CategoryAttribute("Attack States"), DescriptionAttribute("Will they stick to the wall on impact")]
+    public bool Wallstick { get; set; }
+
+    [CategoryAttribute("Attack States"), DescriptionAttribute("Will they fly back and slide along the ground, ie HOS j.d CH")]
+    public bool Slides { get; set; }
 
     [CategoryAttribute("Animation"), DescriptionAttribute("Delay the animation, meaning the next frame will have the same image")]
     public bool DelayAnimation { get; set; }

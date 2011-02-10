@@ -27,6 +27,7 @@ class PhIRenderer
 
     bool bFullScreen;
     int width,height;
+    int RenderMode;
 
   public:
     virtual int		Init() = 0;
@@ -35,12 +36,14 @@ class PhIRenderer
     virtual void	KillWindow() = 0;
     virtual void	CloseRenderer() = 0;
     virtual void	BindTexture(PhTexture* _pTexture) = 0;
+    virtual void  BuildTexture(PhTexture* _pTexture) = 0;
     virtual int		ClearBuffer()=0;
     virtual int		SwapBuffer()=0;
     virtual void	BuildFont(void)=0;
     virtual void	KillFont()=0;
     virtual void	Begin2D()=0;
     virtual void	Begin3D()=0;
+    virtual void  UpdateSize(int height, int width)=0;
 
 
     //Blend Modes
@@ -52,10 +55,17 @@ class PhIRenderer
     virtual void	DrawLine(Vertex2& pos1, Vertex2& pos2)=0;
     virtual void	DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3)=0;
     virtual void	DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4)=0;
-    virtual void  DrawCube(Vertex3& pos, float size, float rotation)=0;
+    virtual void  DrawCube(Vertex3& pos, float size, float rotation, Color& c) = 0;
     virtual void	DrawText(Vertex2 _pos, const TCHAR *fmt, ...)=0;
     virtual void	DrawTexture2D(PhTexture* _pTexture, Vertex2& pos) = 0;
 
+    virtual void  Push2D()=0;
+    virtual void  Pop2D()=0;
+
+    //Camera Functions
+    virtual void CamTranslate(float x, float y, float z) = 0;
+    virtual void CamRotate(float angle, float x, float y, float z) = 0;
+    virtual void CamScale(float x, float y, float z) = 0;
 
 
     //Getters

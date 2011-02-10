@@ -50,6 +50,9 @@ PhTexture* PhTextureManager::Texture(TCHAR* _filename)
   //add texture to map
   m_TextureMap[_filename] = pTexture;
 
+  //load the texture into video memory
+  pRenderer->BuildTexture(pTexture);
+
   //return the texture pointer
   return pTexture;
 

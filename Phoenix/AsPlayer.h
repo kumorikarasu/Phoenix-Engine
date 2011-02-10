@@ -22,7 +22,8 @@ namespace PhoenixFight{
     int State;
     PhoenixCore::Vertex2 hbtl, hbbr; //hitbox
     PhoenixCore::Vertex2 ahbt1, ahbbr; //current attacks hitbox
-    int nGravity;
+    float nGravity;
+    float nPrevX,nPrevY;
 
   public:
     AsInputBuffer*  InputBuffer;
@@ -36,6 +37,9 @@ namespace PhoenixFight{
 
     //callback function
     virtual void Collision(PhEntity* _pOther);
+
+    PhoenixCore::Vertex2 getPos(){return m_pos;}
+
 
   };
 

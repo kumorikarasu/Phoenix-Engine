@@ -10,8 +10,9 @@
 using namespace PhoenixCore;
 
 PhConsole* PhConsole::Console;
+Modules* Mod;
 HWND hWnd = 0;
-
+long mouse;
 
 bool Step = true;
 bool*	input = new bool[256];
@@ -35,100 +36,104 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
     input[i] = false;
 
   //All the modules we will use can all be initilised in 1 place
-  Modules Mod;
+  Mod = (Modules*) malloc(sizeof(Modules));
 
   try{
-  //Render Object
-  Mod.pRender = new PhOpenGLHandler();
+    //Render Object
+    Mod->pRender = new PhOpenGLHandler();
 
-  //Console Object
-  Mod.pConsole = new PhConsole();
-  PhConsole::Console = Mod.pConsole;
+    //Console Object
+    Mod->pConsole = new PhConsole();
+    PhConsole::Console = Mod->pConsole;
 
 #ifdef _DEBUG
-  DEBUGCONSOLE = Mod.pConsole;
-  DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //renderer
-  DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //console
+    DEBUGCONSOLE = Mod->pConsole;
+    DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //renderer
+    DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //console
 #endif
 
+    //Engine Handler
+    PhEngine* pEngine = new PhEngine(Mod); //we can then just pass all the modules at once
 
-  //Engine Handler
-  PhEngine* pEngine = new PhEngine(Mod); //we can then just pass all the modules at once
 
+    //Frame Rate
+    double fps=0,ms=0;
+    long time_now, movement_timer = 0;
 
-  //Frame Rate
-  double fps=0,ms=0;
-  long time_now, movement_timer = 0;
+    //Create the game window
+    hWnd = (HWND) Mod->pRender->CreateGameWindow(L"Phoenix Engine",1280,720,32,0,0);
 
-  //Create the game window
-  hWnd = (HWND) Mod.pRender->CreateGameWindow(L"Phoenix Engine",1280,720,32,0,0);
+    //Setup Renderer
+    Mod->pRender->Init();
 
-  //Setup Renderer
-  Mod.pRender->Init();
+    SetTimer(hWnd,0,16,NULL);
 
-  SetTimer(hWnd,0,16,NULL);
+    if (GetFocus())
+      SetCursorPos(1280/2,720/2);
 
-  //Main loop
-  while(!done)									
-  {
-    if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	
+    //Main loop
+    while(!done)									
     {
-      if (msg.message==WM_QUIT)				
-        done=TRUE;							
-      else									
+      if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	
       {
-        TranslateMessage(&msg);				
-        DispatchMessage(&msg);				
+        if (msg.message==WM_QUIT)				
+          done=TRUE;							
+        else									
+        {
+          TranslateMessage(&msg);				
+          DispatchMessage(&msg);				
+        }
+      }
+      else
+      {
+        time_now = GetTickCount();
+        //movement_timer = time_now;
+
+        if (Step){
+          pEngine->Step(fps,input,mouse,nFrameCount);
+          Step = false;
+        }
+        
+        //while (abs((long) (time_now - GetTickCount())) < 16){
+        pEngine->Render();
+        if (GetFocus())
+          SetCursorPos(1280/2,720/2);
+        //}
+        //movement_timer = clock();
+        ms = abs(((ms + GetTickCount() - time_now) / 2));
+        fps = abs((int)(fps + (1000 / ms)) / 2);
+        if (fps > 200){
+          fps = 200;
+        }
+        nFrameCount++;
       }
     }
-    else
-    {
-      time_now = GetTickCount();
-      //movement_timer = time_now;
 
-      if (Step){
-        pEngine->Step(fps,input,nFrameCount);
-        Step = false;
-      }
-      
-      //while (abs((long) (time_now - GetTickCount())) < 16){
-      pEngine->Render();
-      //}
-      //movement_timer = clock();
-      ms = abs(((ms + GetTickCount() - time_now) / 2));
-      fps = abs((int)(fps + (1000 / ms)) / 2);
-      if (fps > 200){
-        fps = 200;
-      }
-      nFrameCount++;
-    }
-  }
+    //shutdown console (closes console log file, this is why this is done before the renderer, incase it fails)
+    Mod->pConsole->Log(_T("Number of unfreed memory allocations: %d"),C_NORMAL,Track);
+
+    delete Mod->pConsole;
+
+    //delete the engine itself
+    delete pEngine;
+
+    //shutdown the render object
+    Mod->pRender->KillWindow();
+    Mod->pRender->CloseRenderer();
+    delete Mod->pRender;
 
 
+    delete input;
+    free(Mod);
 
-  //shutdown console (closes console log file, this is why this is done before the renderer, incase it fails)
-  Mod.pConsole->Log(_T("Number of unfreed memory allocations: %d"),C_NORMAL,Track);
-
-
-  delete Mod.pConsole;
-
-  //delete the engine itself
-  delete pEngine;
-
-  //shutdown the render object
-  Mod.pRender->KillWindow();
-  Mod.pRender->CloseRenderer();
-  delete Mod.pRender;
-
-
-  delete input;
-
-  return (msg.wParam);							// Exit The Program
+    return (msg.wParam);							// Exit The Program
 
   }catch(exception e){
-    delete Mod.pConsole;
-    return 1;
+    delete Mod->pConsole;
+    free(Mod);
   }
+
+  return 1;
 }
 
 
@@ -190,7 +195,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
       break;
     case WM_SIZE:								// Resize The OpenGL Window
       {
-
+        Mod->pRender->UpdateSize(HIWORD(lParam),LOWORD(lParam));
       }
       break;
     case WM_TIMER:
@@ -198,6 +203,11 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
         Step = true;
         TickCount++;
         SetTimer(hWnd,0,16,NULL);
+      }
+      break;
+    case WM_MOUSEMOVE:
+      {
+        mouse = lParam;
       }
   }
 

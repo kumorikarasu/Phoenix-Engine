@@ -71,7 +71,7 @@
           this.Progress = new System.Windows.Forms.ToolStripProgressBar();
           this.splitContainer1 = new System.Windows.Forms.SplitContainer();
           this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-          this.MainGraphicPanel = new DoubleBufferPanel();//new System.Windows.Forms.Panel();
+          this.MainGraphicPanel = new System.Windows.Forms.Panel();
           this.menuStrip1.SuspendLayout();
           this.toolStrip1.SuspendLayout();
           this.statusStrip1.SuspendLayout();
@@ -89,7 +89,7 @@
             this.helpToolStripMenuItem});
           this.menuStrip1.Location = new System.Drawing.Point(0, 0);
           this.menuStrip1.Name = "menuStrip1";
-          this.menuStrip1.Size = new System.Drawing.Size(963, 24);
+          this.menuStrip1.Size = new System.Drawing.Size(966, 24);
           this.menuStrip1.TabIndex = 0;
           this.menuStrip1.Text = "menuStrip1";
           // 
@@ -208,7 +208,7 @@
             this.toolStripButton3});
           this.toolStrip1.Location = new System.Drawing.Point(0, 24);
           this.toolStrip1.Name = "toolStrip1";
-          this.toolStrip1.Size = new System.Drawing.Size(963, 25);
+          this.toolStrip1.Size = new System.Drawing.Size(966, 25);
           this.toolStrip1.TabIndex = 2;
           this.toolStrip1.Text = "toolStrip1";
           // 
@@ -446,7 +446,7 @@
             this.Progress});
           this.statusStrip1.Location = new System.Drawing.Point(0, 671);
           this.statusStrip1.Name = "statusStrip1";
-          this.statusStrip1.Size = new System.Drawing.Size(963, 22);
+          this.statusStrip1.Size = new System.Drawing.Size(966, 22);
           this.statusStrip1.TabIndex = 3;
           this.statusStrip1.Text = "Progress";
           // 
@@ -476,8 +476,8 @@
           // splitContainer1.Panel2
           // 
           this.splitContainer1.Panel2.Controls.Add(this.MainGraphicPanel);
-          this.splitContainer1.Size = new System.Drawing.Size(963, 622);
-          this.splitContainer1.SplitterDistance = 321;
+          this.splitContainer1.Size = new System.Drawing.Size(966, 622);
+          this.splitContainer1.SplitterDistance = 259;
           this.splitContainer1.TabIndex = 0;
           // 
           // propertyGrid1
@@ -487,17 +487,17 @@
                       | System.Windows.Forms.AnchorStyles.Right)));
           this.propertyGrid1.Location = new System.Drawing.Point(2, 3);
           this.propertyGrid1.Name = "propertyGrid1";
-          this.propertyGrid1.Size = new System.Drawing.Size(316, 616);
+          this.propertyGrid1.Size = new System.Drawing.Size(254, 616);
           this.propertyGrid1.TabIndex = 0;
           this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
           // 
           // MainGraphicPanel
           // 
-          this.MainGraphicPanel.BackColor = System.Drawing.Color.Black;
+          this.MainGraphicPanel.BackColor = System.Drawing.SystemColors.WindowText;
           this.MainGraphicPanel.Dock = System.Windows.Forms.DockStyle.Fill;
           this.MainGraphicPanel.Location = new System.Drawing.Point(0, 0);
           this.MainGraphicPanel.Name = "MainGraphicPanel";
-          this.MainGraphicPanel.Size = new System.Drawing.Size(638, 622);
+          this.MainGraphicPanel.Size = new System.Drawing.Size(703, 622);
           this.MainGraphicPanel.TabIndex = 0;
           this.MainGraphicPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MainGraphicPanel_Paint);
           this.MainGraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainGraphicPanel_MouseDown);
@@ -508,7 +508,7 @@
           // 
           this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
           this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-          this.ClientSize = new System.Drawing.Size(963, 693);
+          this.ClientSize = new System.Drawing.Size(966, 693);
           this.Controls.Add(this.splitContainer1);
           this.Controls.Add(this.statusStrip1);
           this.Controls.Add(this.toolStrip1);
@@ -578,9 +578,9 @@
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filmRollToolStripMenuItem;
-        public System.Windows.Forms.Panel MainGraphicPanel;
         private System.Windows.Forms.ToolStripMenuItem animationSummaryToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton MoveImageTool;
+        public System.Windows.Forms.Panel MainGraphicPanel;
         //public DoubleBufferPanel MainGraphicPanel;
     }
 }
