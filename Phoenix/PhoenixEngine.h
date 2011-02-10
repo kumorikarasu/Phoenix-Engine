@@ -28,6 +28,8 @@ class PhEngine
     PhConsole*        pConsole;
 
 
+    float prevmousex; float mousex;
+    float prevmousey; float mousey;
 
     bool* input;
     long long nFrameCount;
@@ -36,10 +38,10 @@ class PhEngine
 
   public:
     PhEngine(){};
-    PhEngine(Modules &Module);
+    PhEngine(Modules *Module);
     ~PhEngine();
 
-    void Step(float _fps,bool _input[256], long long _nFrameCount);
+    void Step(float _fps,bool _input[256], long mouse, long long _nFrameCount);
     void Render();
 };
 

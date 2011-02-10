@@ -15,6 +15,7 @@ using System.IO.Compression;
 
 namespace HitBox_Editor
 {
+
   public partial class HitBoxEditor : Form
   {
     public Film_Roll filmRoll;
@@ -31,56 +32,74 @@ namespace HitBox_Editor
       MoveImage
     }
 
-    System.Windows.Forms.Timer PlayAnimationTimer;
-    int CurX, CurY;
-    int MouseX, MouseY;
-    float ScaleX,ScaleY;
-    bool MouseDown;
-    Bitmap bp;
-    ToolType Tool;
-    bool DisplayGrid;
-    public int currentFrame;
-    int maxFrame;
-    AutoResetEvent playAnimation;
-    bool StopAnimation;
-    private PropertyGridCharacter p;
-    private  Summary SummaryBox;
-    private  string saveFilePath;
-    private  string imageFilePath;
-    HitBox hitBox;
-    int resizing;
+    private int     curX, curY;
+    private int     mouseX, mouseY;
+    private int     resizing;
+    private int     maxFrame;
+    private float   scaleX,scaleY;
+    private bool    mouseDown;
+    private bool    displayGrid;
+    private bool    stopAnimation;
+    private string  saveFilePath;
+    private string  imageFilePath;
+    private Vector2   drawOffSet;
+    private Vector2   drawVelocity;
+    private Summary summaryBox;
+    private Bitmap  bp;
+    private HitBox  hitBox;
+    private HitBox  storedHitbox;
+    private ToolType tool;
+    private AutoResetEvent playAnimation;
+    private PropertyGridCharacter propertyGrid;
+    private System.Windows.Forms.Timer playAnimationTimer;
+
+    public int      currentFrame;
 
     public HitBoxEditor()
     {
-      filmRoll = null;
       InitializeComponent();
-      CurX = 0;
-      CurY = 0;
-      MouseX = 0;
-      MouseY = 0;
-      ScaleX = 1;
-      ScaleY = 1;
-      DisplayGrid = true;
-      currentFrame = 0;
-      StopAnimation = false;
-      PlayAnimationTimer = new System.Windows.Forms.Timer();
-      SummaryBox = new Summary();
-      saveFilePath = "";
-      resizing = 0;
+
+      currentFrame  = 0;
+
+      curX          = 0;
+      curY          = 0;
+      mouseX        = 0;
+      mouseY        = 0;
+      scaleX        = 1;
+      scaleY        = 1;
+      resizing      = 0;
+      saveFilePath  = "";
+      filmRoll      = null;
+      storedHitbox  = null;
+      displayGrid   = true;
+      stopAnimation = false;
+
+      summaryBox    = new Summary();
+      drawOffSet    = new Vector2(0,0);
+      drawVelocity  = new Vector2(0,0);
+      playAnimationTimer = new System.Windows.Forms.Timer();
     }
 
     private void Form1_Load(object sender, EventArgs e)
     {
-      p = new PropertyGridCharacter();
-      propertyGrid1.SelectedObject = p;
+      propertyGrid = new PropertyGridCharacter();
+      propertyGrid1.SelectedObject = propertyGrid;
 
-      Graphics g;
       bp = new Bitmap(this.ClientRectangle.Width, this.ClientRectangle.Height,
-        System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-      g = Graphics.FromImage(bp);
+                      System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+      var g = Graphics.FromImage(bp);
+
       var myPen = new System.Drawing.Pen(System.Drawing.Color.Green);
-      g.DrawLine(myPen, MainGraphicPanel.Width / 2 + CurX, 0, MainGraphicPanel.Width / 2 + CurX, MainGraphicPanel.Height);
-      g.DrawLine(myPen, 0, MainGraphicPanel.Height / 2 + CurY, MainGraphicPanel.Width, MainGraphicPanel.Height / 2 + CurY);
+
+      g.DrawLine(myPen, MainGraphicPanel.Width / 2 + curX,
+                        0,
+                        MainGraphicPanel.Width / 2 + curX, 
+                        MainGraphicPanel.Height);
+      g.DrawLine(myPen, 0, 
+                        MainGraphicPanel.Height / 2 + curY,
+                        MainGraphicPanel.Width,
+                        MainGraphicPanel.Height / 2 + curY);
+
       myPen.Dispose();
       g.Dispose();
     }
@@ -101,22 +120,24 @@ namespace HitBox_Editor
       System.Drawing.Graphics g = e.Graphics;
 
       if (player != null){
-        if (ToggleHitbox.Checked){
-          foreach(var i in player.sprites[currentFrame].hitBoxes){
-            i.Draw(g, new Point(MainGraphicPanel.Width,MainGraphicPanel.Height));
-          }
-        }
 
         Image image = player.GetImage(currentFrame);
         if (image != null)
           g.DrawImage(image, 
-                      CurX + player.sprites[currentFrame].pos.X + (MainGraphicPanel.Width / 2) - image.Width / 2 * ScaleX,
-                      CurY + player.sprites[currentFrame].pos.Y + (MainGraphicPanel.Height / 2) - image.Height / 2 * ScaleY,
-                      image.Width * ScaleX,image.Height * ScaleY);
+                      curX + player.sprites[currentFrame].pos.X + drawOffSet.X + (MainGraphicPanel.Width / 2) - image.Width / 2 * scaleX,
+                      curY + player.sprites[currentFrame].pos.Y + drawOffSet.Y + (MainGraphicPanel.Height / 2) - image.Height / 2 * scaleY,
+                      image.Width * scaleX,image.Height * scaleY);
+
+        
+        if (ToggleHitbox.Checked){
+          foreach(var i in player.sprites[currentFrame].hitBoxes){
+            i.Draw(g, new Point(MainGraphicPanel.Width + (int)drawOffSet.X, MainGraphicPanel.Height + (int)drawOffSet.Y));
+          }
+        }
 
       }
 
-      if (DisplayGrid){
+      if (displayGrid){
         var myPen = new System.Drawing.Pen(System.Drawing.Color.Green);
         myPen.Width = 1;
         g.DrawLine(myPen,(int) (MainGraphicPanel.Width / 2), 0, MainGraphicPanel.Width / 2, MainGraphicPanel.Height);
@@ -139,9 +160,9 @@ namespace HitBox_Editor
     private void MainGraphicPanel_MouseDown(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Left){
-        MouseDown = true;
-        MouseX = MousePosition.X;
-        MouseY = MousePosition.Y;
+        mouseDown = true;
+        mouseX = MousePosition.X;
+        mouseY = MousePosition.Y;
       }
       
       if (e.Button == MouseButtons.Right){
@@ -152,24 +173,24 @@ namespace HitBox_Editor
         MainGraphicPanel.Invalidate();
       }
 
-      if (MouseDown && Tool == ToolType.AddHB && player != null){
+      if (mouseDown && tool == ToolType.AddHB && player != null){
         hitBox = new HitBox(player.sprites[currentFrame], new Point(MainGraphicPanel.Width,MainGraphicPanel.Height));
-        var p = MainGraphicPanel.PointToClient(new Point(MouseX,MouseY));
+        var p = MainGraphicPanel.PointToClient(new Point(mouseX,mouseY));
         hitBox.x = p.X;
         hitBox.y = p.Y;
       }
 
-      if (MouseDown && Tool == ToolType.AddAHB && player != null){
+      if (mouseDown && tool == ToolType.AddAHB && player != null){
         hitBox = new HitBox(player.sprites[currentFrame], new Point(MainGraphicPanel.Width,MainGraphicPanel.Height));
         hitBox.type = 1;
-        var p = MainGraphicPanel.PointToClient(new Point(MouseX,MouseY));
+        var p = MainGraphicPanel.PointToClient(new Point(mouseX,mouseY));
         hitBox.x = p.X;
         hitBox.y = p.Y;
       }
 
-      if (MouseDown && Tool == ToolType.Select){
+      if (mouseDown && tool == ToolType.Select && player != null){
         foreach(var hb in player.sprites[currentFrame].hitBoxes){
-          var p = MainGraphicPanel.PointToClient(new Point(MouseX,MouseY));
+          var p = MainGraphicPanel.PointToClient(new Point(mouseX,mouseY));
           if (hb.CheckCollision(p)){
             player.sprites[currentFrame].hitBoxes.ForEach(i => { i.selected = false; }); 
             hb.selected = true;
@@ -182,13 +203,13 @@ namespace HitBox_Editor
 
     private void MainGraphicPanel_MouseUp(object sender, MouseEventArgs e)
     {
-      if (MouseDown && (Tool == ToolType.AddHB || Tool == ToolType.AddAHB)){
+      if (mouseDown && (tool == ToolType.AddHB || tool == ToolType.AddAHB)){
         if (hitBox != null){
           hitBox.Correct();
           player.sprites[currentFrame].hitBoxes.ForEach(i => { i.selected = false; }); 
           player.sprites[currentFrame].hitBoxes.Add(hitBox);
           hitBox.selected = true;
-          Tool = ToolType.Select;
+          tool = ToolType.Select;
           EditTool.Checked = true;
           AddATool.Checked = false;
           AddTool.Checked = false;
@@ -199,33 +220,33 @@ namespace HitBox_Editor
       }
 
       resizing = 0;
-      MouseDown = false;
+      mouseDown = false;
     }
 
     private void MainGraphicPanel_MouseMove(object sender, MouseEventArgs e)
     {
-      if (MouseDown && Tool == ToolType.Move)
+      if (mouseDown && tool == ToolType.Move)
       {
-        CurX += MousePosition.X - MouseX;
-        CurY += MousePosition.Y - MouseY;
-        MouseX = MousePosition.X;
-        MouseY = MousePosition.Y;
-        if (CurX > MainGraphicPanel.Width)
-          CurX = MainGraphicPanel.Width;
-        if (CurX < -MainGraphicPanel.Width)
-          CurX = -MainGraphicPanel.Width;
-        if (CurY > MainGraphicPanel.Height)
-          CurY = MainGraphicPanel.Height;
-        if (CurY < -MainGraphicPanel.Height)
-          CurY = -MainGraphicPanel.Height;
+        curX += MousePosition.X - mouseX;
+        curY += MousePosition.Y - mouseY;
+        mouseX = MousePosition.X;
+        mouseY = MousePosition.Y;
+        if (curX > MainGraphicPanel.Width)
+          curX = MainGraphicPanel.Width;
+        if (curX < -MainGraphicPanel.Width)
+          curX = -MainGraphicPanel.Width;
+        if (curY > MainGraphicPanel.Height)
+          curY = MainGraphicPanel.Height;
+        if (curY < -MainGraphicPanel.Height)
+          curY = -MainGraphicPanel.Height;
         MainGraphicPanel.Invalidate();
       }
-      if (MouseDown && Tool == ToolType.MoveImage){
+      if (mouseDown && tool == ToolType.MoveImage){
         var pos = player.sprites[currentFrame].pos;
-        int x = pos.X += MousePosition.X - MouseX;
-        int y = pos.Y += MousePosition.Y - MouseY;
-        MouseX = MousePosition.X;
-        MouseY = MousePosition.Y;
+        int x = pos.X += MousePosition.X - mouseX;
+        int y = pos.Y += MousePosition.Y - mouseY;
+        mouseX = MousePosition.X;
+        mouseY = MousePosition.Y;
         if (x > MainGraphicPanel.Width)
           x = MainGraphicPanel.Width;
         if (x < -MainGraphicPanel.Width)
@@ -238,107 +259,107 @@ namespace HitBox_Editor
         MainGraphicPanel.Invalidate();
       }
 
-      if (MouseDown && (Tool == ToolType.AddHB || Tool == ToolType.AddAHB) && hitBox != null){
+      if (mouseDown && (tool == ToolType.AddHB || tool == ToolType.AddAHB) && hitBox != null){
         var p = MainGraphicPanel.PointToClient(new Point(MousePosition.X,MousePosition.Y));
         hitBox.xx = p.X;
         hitBox.yy = p.Y;
         MainGraphicPanel.Invalidate();
       }
 
-      if (Tool == ToolType.Select){
+      if (tool == ToolType.Select && player != null){
         var result = player.sprites[currentFrame].hitBoxes.SingleOrDefault(i => i.selected == true);
         if (result != null){
           var p = MainGraphicPanel.PointToClient(new Point(MousePosition.X, MousePosition.Y));
           int corner = result.CheckCorners(p);
           if (resizing != 5 && (corner == 7 /*top left*/ || resizing == 7)) {
             MainGraphicPanel.Cursor = Cursors.SizeNWSE;
-            if (MouseDown){
-              result.x += MousePosition.X - MouseX;
-              result.y += MousePosition.Y - MouseY;
-              MouseX = MousePosition.X;
-              MouseY = MousePosition.Y;
+            if (mouseDown){
+              result.x += MousePosition.X - mouseX;
+              result.y += MousePosition.Y - mouseY;
+              mouseX = MousePosition.X;
+              mouseY = MousePosition.Y;
               MainGraphicPanel.Invalidate();
               resizing = 7;
             }
           }else
           if (resizing != 5 && (corner == 9 /*top right*/ || resizing == 9)) {
             MainGraphicPanel.Cursor = Cursors.SizeNESW;
-            if (MouseDown){
-              result.xx += MousePosition.X - MouseX;
-              result.y += MousePosition.Y - MouseY;
-              MouseX = MousePosition.X;
-              MouseY = MousePosition.Y;
+            if (mouseDown){
+              result.xx += MousePosition.X - mouseX;
+              result.y += MousePosition.Y - mouseY;
+              mouseX = MousePosition.X;
+              mouseY = MousePosition.Y;
               MainGraphicPanel.Invalidate();
               resizing = 9;
             }
           }else
           if (resizing != 5 && (corner == 3 /*bottom right*/ || resizing == 3)) {
             MainGraphicPanel.Cursor = Cursors.SizeNWSE;
-            if (MouseDown){
-              result.xx += MousePosition.X - MouseX;
-              result.yy += MousePosition.Y - MouseY;
-              MouseX = MousePosition.X;
-              MouseY = MousePosition.Y;
+            if (mouseDown){
+              result.xx += MousePosition.X - mouseX;
+              result.yy += MousePosition.Y - mouseY;
+              mouseX = MousePosition.X;
+              mouseY = MousePosition.Y;
               MainGraphicPanel.Invalidate();
               resizing = 3;
             }
           }else
           if (resizing != 5 && (corner == 1 /*bottom left*/ || resizing == 1)) {
             MainGraphicPanel.Cursor = Cursors.SizeNESW;
-            if (MouseDown){
-              result.x += MousePosition.X - MouseX;
-              result.yy += MousePosition.Y - MouseY;
-              MouseX = MousePosition.X;
-              MouseY = MousePosition.Y;
+            if (mouseDown){
+              result.x += MousePosition.X - mouseX;
+              result.yy += MousePosition.Y - mouseY;
+              mouseX = MousePosition.X;
+              mouseY = MousePosition.Y;
               MainGraphicPanel.Invalidate();
               resizing = 1;
             }
           }else
           if (resizing != 5 && (corner == 2 /*bottom*/ || resizing == 2)) {
             MainGraphicPanel.Cursor = Cursors.SizeNS;
-            if (MouseDown){
-              result.yy += MousePosition.Y - MouseY;
-              MouseY = MousePosition.Y;
+            if (mouseDown){
+              result.yy += MousePosition.Y - mouseY;
+              mouseY = MousePosition.Y;
               MainGraphicPanel.Invalidate();
               resizing = 2;
             }
           }else
           if (resizing != 5 && (corner == 8 /*top*/ || resizing == 8)) {
             MainGraphicPanel.Cursor = Cursors.SizeNS;
-            if (MouseDown){
-              result.y += MousePosition.Y - MouseY;
-              MouseY = MousePosition.Y;
+            if (mouseDown){
+              result.y += MousePosition.Y - mouseY;
+              mouseY = MousePosition.Y;
               MainGraphicPanel.Invalidate();
               resizing = 8;
             }
           }else
           if (resizing != 5 && (corner == 6 /*right*/ || resizing == 6)) {
             MainGraphicPanel.Cursor = Cursors.SizeWE;
-            if (MouseDown){
-              result.xx += MousePosition.X - MouseX;
-              MouseX = MousePosition.X;
-              MouseY = MousePosition.Y;
+            if (mouseDown){
+              result.xx += MousePosition.X - mouseX;
+              mouseX = MousePosition.X;
+              mouseY = MousePosition.Y;
               MainGraphicPanel.Invalidate();
               resizing = 6;
             }
           }else
           if (resizing != 5 && (corner == 4 /*left*/ || resizing == 4)) {
             MainGraphicPanel.Cursor = Cursors.SizeWE;
-            if (MouseDown){
-              result.x += MousePosition.X - MouseX;
-              MouseX = MousePosition.X;
-              MouseY = MousePosition.Y;
+            if (mouseDown){
+              result.x += MousePosition.X - mouseX;
+              mouseX = MousePosition.X;
+              mouseY = MousePosition.Y;
               MainGraphicPanel.Invalidate();
               resizing = 4;
             }
-          } else if (MouseDown && (resizing == 0 || resizing == 5)) {
+          } else if (mouseDown && (resizing == 0 || resizing == 5)) {
             MainGraphicPanel.Cursor = Cursors.SizeAll;
-            result.x += MousePosition.X - MouseX;
-            result.y += MousePosition.Y - MouseY;
-            result.xx += MousePosition.X - MouseX;
-            result.yy += MousePosition.Y - MouseY;
-            MouseX = MousePosition.X;
-            MouseY = MousePosition.Y;
+            result.x += MousePosition.X - mouseX;
+            result.y += MousePosition.Y - mouseY;
+            result.xx += MousePosition.X - mouseX;
+            result.yy += MousePosition.Y - mouseY;
+            mouseX = MousePosition.X;
+            mouseY = MousePosition.Y;
             MainGraphicPanel.Invalidate();
             resizing = 5;
           } else {
@@ -358,14 +379,14 @@ namespace HitBox_Editor
     private void MoveImageTool_Click(object sender, EventArgs e)
     {
       if (MoveImageTool.Checked){
-        Tool = ToolType.MoveImage;
+        tool = ToolType.MoveImage;
         MainGraphicPanel.Cursor = Cursors.Hand;
         MoveTool.Checked = false;
         EditTool.Checked = false;
         AddATool.Checked = false;
         AddTool.Checked = false;
       }else{
-        Tool = ToolType.None;
+        tool = ToolType.None;
         MainGraphicPanel.Cursor = Cursors.Default;
       }
     }
@@ -373,35 +394,35 @@ namespace HitBox_Editor
     private void MoveTool_Click(object sender, EventArgs e)
     {
       if (MoveTool.Checked){
-        Tool = ToolType.Move;
+        tool = ToolType.Move;
         MainGraphicPanel.Cursor = Cursors.Hand;
         MoveImageTool.Checked = false;
         EditTool.Checked = false;
         AddATool.Checked = false;
         AddTool.Checked = false;
       }else{
-        Tool = ToolType.None;
+        tool = ToolType.None;
         MainGraphicPanel.Cursor = Cursors.Default;
       }
     }
 
     private void Grid_Click(object sender, EventArgs e)
     {
-      DisplayGrid = !DisplayGrid;
+      displayGrid = !displayGrid;
       MainGraphicPanel.Invalidate();
     }
 
     private void EditTool_Click(object sender, EventArgs e)
     {
       if (EditTool.Checked){
-        Tool = ToolType.Select;
+        tool = ToolType.Select;
         MoveImageTool.Checked = false;
         MoveTool.Checked = false;
         AddATool.Checked = false;
         AddTool.Checked = false;
         MainGraphicPanel.Cursor = Cursors.Cross;
       }else{
-        Tool = ToolType.None;
+        tool = ToolType.None;
         MainGraphicPanel.Cursor = Cursors.Default;
       }
     }
@@ -409,14 +430,14 @@ namespace HitBox_Editor
     private void AddTool_Click(object sender, EventArgs e)
     {
       if (AddTool.Checked){
-        Tool = ToolType.AddHB;
+        tool = ToolType.AddHB;
         MoveImageTool.Checked = false;
         MoveTool.Checked = false;
         EditTool.Checked = false;
         AddATool.Checked = false;
         MainGraphicPanel.Cursor = Cursors.SizeAll;
       }else{
-        Tool = ToolType.None;
+        tool = ToolType.None;
         MainGraphicPanel.Cursor = Cursors.Default;
       }
     }
@@ -424,14 +445,14 @@ namespace HitBox_Editor
     private void AddATool_Click(object sender, EventArgs e)
     {
       if (AddATool.Checked){
-        Tool = ToolType.AddAHB;
+        tool = ToolType.AddAHB;
         MoveImageTool.Checked = false;
         MoveTool.Checked = false;
         EditTool.Checked = false;
         AddTool.Checked = false;
         MainGraphicPanel.Cursor = Cursors.SizeAll;
       }else{
-        Tool = ToolType.None;
+        tool = ToolType.None;
         MainGraphicPanel.Cursor = Cursors.Default;
       }
 
@@ -488,18 +509,19 @@ namespace HitBox_Editor
     {
       SaveProperties();
       UpdateFrame(currentFrame + 1);
+      drawOffSet = new Vector2(0,0);
       LoadProperties();
     }
 
-    private void LoadProperties()
+    public void LoadProperties()
     {
       if (player != null){
-        p = player.GetGrid(currentFrame);
-        propertyGrid1.SelectedObject = p;
+        propertyGrid = player.GetGrid(currentFrame);
+        propertyGrid1.SelectedObject = propertyGrid;
       }
     }
 
-    private void SaveProperties()
+    public void SaveProperties()
     {
     }
 
@@ -507,6 +529,7 @@ namespace HitBox_Editor
     {
       SaveProperties();
       UpdateFrame(currentFrame - 1);
+      drawOffSet = new Vector2(0,0);
       LoadProperties();
     }
 
@@ -515,6 +538,7 @@ namespace HitBox_Editor
       SaveProperties();
       var frame = Int32.Parse(FrameMoveBox.Text);
       UpdateFrame(frame);
+      drawOffSet = new Vector2(0,0);
       LoadProperties();
     }
 
@@ -545,20 +569,47 @@ namespace HitBox_Editor
       }
 
       if (e.Modifiers == Keys.Control && e.KeyCode == Keys.F){
-        if (SummaryBox == null)
-          SummaryBox = new Summary(this);
+        if (summaryBox == null)
+          summaryBox = new Summary(this);
 
-        if (!SummaryBox.Visible){
-          SummaryBox.Show();
+        if (!summaryBox.Visible){
+          summaryBox.Show();
         }else{
-          SummaryBox.Hide();
+          summaryBox.Hide();
         }
       }
 
-      if (Tool == ToolType.Move){
+      if (e.Modifiers == Keys.Control && e.KeyCode == Keys.C){
+        foreach(var hb in player.sprites[currentFrame].hitBoxes){
+          var p = MainGraphicPanel.PointToClient(new Point(mouseX,mouseY));
+          if (hb.selected){
+            storedHitbox = hb;
+          }
+        }
+      }
+
+      if (e.Modifiers == Keys.Control && e.KeyCode == Keys.V){
+        if (storedHitbox != null){
+          player.sprites[currentFrame].hitBoxes.ForEach(n => n.selected = false);
+          var hit = new HitBox();
+          hit.x = storedHitbox.x;
+          hit.y = storedHitbox.y;
+          hit.xx = storedHitbox.xx;
+          hit.yy = storedHitbox.yy;
+          hit.type = storedHitbox.type;
+          hit.xoff = storedHitbox.xoff;
+          hit.yoff = storedHitbox.yoff;
+          hit.selected = true;
+          player.sprites[currentFrame].hitBoxes.Add(hit);
+          MainGraphicPanel.Invalidate();
+        }
+        
+      }
+
+      if (tool == ToolType.Move){
         if (e.KeyCode == Keys.Left)
-          if (CurX > 0)
-            CurX--;
+          if (curX > 0)
+            curX--;
       }
     }
 
@@ -569,42 +620,71 @@ namespace HitBox_Editor
 
     private void toolStripButton2_Click(object sender, EventArgs e)
     {
+      /*
       ScaleY *= 1.10f;
       ScaleX *= 1.10f;
       MainGraphicPanel.Invalidate();
+      */
     }
 
     private void toolStripButton3_Click(object sender, EventArgs e)
     {
-      ScaleX = 1;
-      ScaleY = 1;
+      scaleX = 1;
+      scaleY = 1;
       MainGraphicPanel.Invalidate();
     }
 
     private void toolStripButton1_Click(object sender, EventArgs e)
     {
+      int startFrame;
       if (player != null){
-        if (PlayAnimationTimer.Enabled == false){
+        if (playAnimationTimer.Enabled == false){
 
          // System.Threading.Timer t = null;
-          StopAnimation = false;
+          stopAnimation = false;
+          startFrame = currentFrame;
+          drawOffSet = new Vector2(0,0);
+          drawVelocity = new Vector2(0,0);
 
-          PlayAnimationTimer = new System.Windows.Forms.Timer();
-          PlayAnimationTimer.Interval = 1000 / Int32.Parse(playspeed.Text);
-          PlayAnimationTimer.Enabled = true;
-          PlayAnimationTimer.Tick += new System.EventHandler((object sender2, EventArgs e2) => {
+          playAnimationTimer = new System.Windows.Forms.Timer();
+          playAnimationTimer.Interval = 1000 / Int32.Parse(playspeed.Text);
+          playAnimationTimer.Enabled = true;
+          playAnimationTimer.Tick += new System.EventHandler((object sender2, EventArgs e2) => {
 
-            if (p.JumpToImage != -1 && p.JumpToImage <= player.imageLength && p.JumpToImage > 1) {
-              currentFrame = p.JumpToImage - 1;
+            var j = player.props[currentFrame];
+            drawVelocity.X += j.VelocityX;
+            drawVelocity.Y += j.VelocityY;
+            drawOffSet.X += drawVelocity.X;
+            drawOffSet.Y += drawVelocity.Y;
+
+            drawVelocity.Y += 0.5f;
+            if (drawVelocity.Y > 0 && drawOffSet.Y > 0)
+              drawVelocity.Y = 0;
+
+            SaveProperties();
+            if (propertyGrid.JumpToImage != -1 && propertyGrid.JumpToImage <= player.imageLength && propertyGrid.JumpToImage > 1) {
+              currentFrame = propertyGrid.JumpToImage - 1;
             }
             
             if (!UpdateFrame(currentFrame + 1))
-              PlayAnimationTimer.Enabled = false;;
+              playAnimationTimer.Enabled = false;;
+            LoadProperties();
+
+            var i = player.props[currentFrame];
+            if (i.EndFrame == true) {
+              playAnimationTimer.Enabled = false;
+              SaveProperties();
+              drawOffSet = new Vector2(0,0);
+              currentFrame = startFrame;
+              LoadProperties();
+            }
 
           });
 
         }else{
-          PlayAnimationTimer.Enabled = false;
+          playAnimationTimer.Enabled = false;
+          drawOffSet = new Vector2(0,0);
+          drawVelocity = new Vector2(0,0);
         }
       }
     }
@@ -674,8 +754,8 @@ namespace HitBox_Editor
                 var saver2 = new XmlSerializer(typeof(List<Sprite>));
 
                 writer.Write(imageFilePath);
-                writer.Write("\r\n" + CurX);
-                writer.Write("\r\n" + CurY);
+                writer.Write("\r\n" + curX);
+                writer.Write("\r\n" + curY);
                 saver.Serialize(datawriter, player.props);
                 saver2.Serialize(spritewriter, player.sprites);
               }
@@ -762,8 +842,8 @@ namespace HitBox_Editor
           string line = reader.ReadLine();
 
           imageFilePath = reader.ReadLine();
-          CurX = Int32.Parse(reader.ReadLine());
-          CurY = Int32.Parse(reader.ReadLine());
+          curX = Int32.Parse(reader.ReadLine());
+          curY = Int32.Parse(reader.ReadLine());
           LoadPath(imageFilePath);
 
           line = reader.ReadLine();
@@ -895,10 +975,10 @@ namespace HitBox_Editor
         if (e.ChangedItem.Label == "BeginFrame"){
           string name = player.getName(currentFrame);
           if (name != null && name != ""){
-            SummaryBox.Remove(name);
-            SummaryBox.Add(name);
+            summaryBox.Remove(name);
+            summaryBox.Add(name);
           }else{
-            p.BeginFrame = false;
+            propertyGrid.BeginFrame = false;
             FrameNumber.Text = "Error: Attack Name Required";
           }
         }
@@ -906,4 +986,13 @@ namespace HitBox_Editor
 
     }
   }
+
+  public class Vector2{
+    public Vector2(float X, float Y){
+      this.X = X;
+      this.Y = Y;
+    }
+    public float X,Y;
+  }
+
 }

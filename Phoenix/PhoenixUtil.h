@@ -36,7 +36,7 @@ class Vertex2
 {
 
 public:
-  int x,y;
+  float x,y;
   Color c;
 
   Vertex2(){};
@@ -52,11 +52,13 @@ public:
 class Vertex3
 {
 public:
-  int x,y,z;
+  float x,y,z;
   Color c;
 
   Vertex3(){};
   Vertex3(int x,int y, int z){this->x = x; this->y = y; this->z = z;}
+  Vertex3(int x,int y, int z, Color& c)
+    {this->x = x; this->y = y; this->z = z; this->c = c;}
   //Vertex3(int x,int y, Color& c){this->x = x; this->y = y;this->c=c;}
 
   //overloading operators

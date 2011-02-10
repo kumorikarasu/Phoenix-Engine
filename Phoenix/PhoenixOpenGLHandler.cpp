@@ -8,9 +8,14 @@
 #include "stdio.h"
 namespace PhoenixCore{
 
+void PhOpenGLHandler::BuildTexture(PhTexture* _pTexture)
+{
+}
+
 void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
 {
 
+  /*
   int depthType;
 
   glGenTextures(1, &(_pTexture->m_id));
@@ -32,7 +37,7 @@ void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
       depthType = GL_RGB;
       break;
   }
-
+  */
   //texture blending
   //	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ONE);
 
@@ -153,48 +158,50 @@ void PhOpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2,
 }
 
 
-void PhOpenGLHandler::DrawCube(Vertex3& pos, float size, float rotation){
-
+void PhOpenGLHandler::DrawCube(Vertex3& pos, float size, float rotation, Color& c)
+{
+  glPushMatrix();
   glTranslatef((GLfloat)pos.x,(GLfloat)pos.y,(GLfloat)pos.z);
   glRotatef(rotation,1.0f,1.0f,1.0f);
 
   glBegin(GL_QUADS);
-		glColor3f(0.0f,1.0f,0.0f);			// Set The Color To Green
+		glColor3f(c.r,c.g,c.b);			// Set The Color To Green
 		glVertex3f( 1.0f, 1.0f,-1.0f);			// Top Right Of The Quad (Top)
 		glVertex3f(-1.0f, 1.0f,-1.0f);			// Top Left Of The Quad (Top)
 		glVertex3f(-1.0f, 1.0f, 1.0f);			// Bottom Left Of The Quad (Top)
 		glVertex3f( 1.0f, 1.0f, 1.0f);			// Bottom Right Of The Quad (Top)
 
-		glColor3f(1.0f,0.5f,0.0f);			// Set The Color To Orange
+		//glColor3f(1.0f,0.5f,0.0f);			// Set The Color To Orange
 		glVertex3f( 1.0f,-1.0f, 1.0f);			// Top Right Of The Quad (Bottom)
 		glVertex3f(-1.0f,-1.0f, 1.0f);			// Top Left Of The Quad (Bottom)
 		glVertex3f(-1.0f,-1.0f,-1.0f);			// Bottom Left Of The Quad (Bottom)
 		glVertex3f( 1.0f,-1.0f,-1.0f);			// Bottom Right Of The Quad (Bottom)
 
-		glColor3f(1.0f,0.0f,0.0f);			// Set The Color To Red
+		//glColor3f(1.0f,0.0f,0.0f);			// Set The Color To Red
 		glVertex3f( 1.0f, 1.0f, 1.0f);			// Top Right Of The Quad (Front)
 		glVertex3f(-1.0f, 1.0f, 1.0f);			// Top Left Of The Quad (Front)
 		glVertex3f(-1.0f,-1.0f, 1.0f);			// Bottom Left Of The Quad (Front)
 		glVertex3f( 1.0f,-1.0f, 1.0f);			// Bottom Right Of The Quad (Front)
 
-		glColor3f(1.0f,1.0f,0.0f);			// Set The Color To Yellow
+		//glColor3f(1.0f,1.0f,0.0f);			// Set The Color To Yellow
 		glVertex3f( 1.0f,-1.0f,-1.0f);			// Bottom Left Of The Quad (Back)
 		glVertex3f(-1.0f,-1.0f,-1.0f);			// Bottom Right Of The Quad (Back)
 		glVertex3f(-1.0f, 1.0f,-1.0f);			// Top Right Of The Quad (Back)
 		glVertex3f( 1.0f, 1.0f,-1.0f);			// Top Left Of The Quad (Back)
 
-		glColor3f(0.0f,0.0f,1.0f);			// Set The Color To Blue
+		//glColor3f(0.0f,0.0f,1.0f);			// Set The Color To Blue
 		glVertex3f(-1.0f, 1.0f, 1.0f);			// Top Right Of The Quad (Left)
 		glVertex3f(-1.0f, 1.0f,-1.0f);			// Top Left Of The Quad (Left)
 		glVertex3f(-1.0f,-1.0f,-1.0f);			// Bottom Left Of The Quad (Left)
 		glVertex3f(-1.0f,-1.0f, 1.0f);			// Bottom Right Of The Quad (Left)
   
-		glColor3f(1.0f,0.0f,1.0f);			// Set The Color To Violet
+		//glColor3f(1.0f,0.0f,1.0f);			// Set The Color To Violet
 		glVertex3f( 1.0f, 1.0f,-1.0f);			// Top Right Of The Quad (Right)
 		glVertex3f( 1.0f, 1.0f, 1.0f);			// Top Left Of The Quad (Right)
 		glVertex3f( 1.0f,-1.0f, 1.0f);			// Bottom Left Of The Quad (Right)
 		glVertex3f( 1.0f,-1.0f,-1.0f);			// Bottom Right Of The Quad (Right)
   glEnd();
+  glPopMatrix();
 }
 
 void PhOpenGLHandler::EnableBlendMode(){
@@ -395,8 +402,6 @@ int PhOpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height,
     }
 
     glViewport(0, 0, width, height);  		// Reset The Current Viewport
-
-    Begin2D();
   }
 
 
@@ -406,6 +411,8 @@ int PhOpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height,
 */
 
 int PhOpenGLHandler::Init(){
+
+  RenderMode = -1;
 
   glShadeModel(GL_SMOOTH);  //enable smooth shading
 
@@ -428,28 +435,34 @@ int PhOpenGLHandler::Init(){
 
 //switch to 2D drawing
 void PhOpenGLHandler::Begin2D(){
-  glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+  glMatrixMode(GL_PROJECTION);  // Select The Projection Matrix
   glLoadIdentity();							// Reset The Projection Matrix
 
   // Calculate The Aspect Ratio Of The Window
   //gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
   gluOrtho2D (0, width, height, 0);
 
-  glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
+  glMatrixMode(GL_MODELVIEW);		// Select The Modelview Matrix
   glLoadIdentity();							// Reset The Modelview Matrix
+  RenderMode = 2;
 }
 
 //switch to 3D drawing
 void PhOpenGLHandler::Begin3D(){
-  glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+  glMatrixMode(GL_PROJECTION);  // Select The Projection Matrix
   glLoadIdentity();							// Reset The Projection Matrix
 
   // Calculate The Aspect Ratio Of The Window
-  gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
+  gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.01f,100.0f);
+  glScalef(0.5,0.5,0.5);
+
   //gluOrtho2D (0, width, height, 0);
 
-  glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
+  glMatrixMode(GL_MODELVIEW);	  // Select The Modelview Matrix
   glLoadIdentity();							// Reset The Modelview Matrix
+
+  glTranslatef(0,-2,0);
+  RenderMode = 1;
 }
 
 
@@ -558,6 +571,43 @@ void PhOpenGLHandler::DrawText(Vertex2 _pos, const TCHAR *fmt, ...)
   // Draws The Display List Text
   glCallLists(_tcslen(text), GL_UNSIGNED_SHORT, text);	
   glPopAttrib();								// Pops The Display List Bits
+}
+
+void  PhOpenGLHandler::UpdateSize(int height, int width)
+{
+  this->oldwidth = width;
+  this->oldheight = height;
+}
+
+void  PhOpenGLHandler::Push2D()
+{
+  glPushMatrix();
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  Begin2D();
+  glMatrixMode(GL_MODELVIEW);
+}
+
+void  PhOpenGLHandler::Pop2D()
+{
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
+  glMatrixMode(GL_MODELVIEW);
+  glPopMatrix();
+}
+
+void PhOpenGLHandler::CamTranslate(float x, float y, float z)
+{
+  ::glTranslatef(x ,y, z);
+}
+void PhOpenGLHandler::CamRotate(float angle, float x, float y, float z)
+{
+  ::glRotatef(angle, x ,y, z);
+  //gluLookAt(3,3,3,x,y,z,0,1,0);
+}
+void PhOpenGLHandler::CamScale(float x, float y, float z)
+{
+  ::glScalef(x ,y, z);
 }
 
 }
