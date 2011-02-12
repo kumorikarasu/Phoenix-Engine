@@ -117,42 +117,90 @@ namespace HitBox_Editor
 
     private void MainGraphicPanel_Paint(object sender, PaintEventArgs e)
     {
+      string args = "str";
+      {
+        string returnvalue;
+        returnvalue = args + " = Console.ReadLine()";
+        Console.WriteLine(returnvalue);
+        //return returnvalue
+      }
+      args = "mystring   ,     100       , FILE";
+      {
+        string result = "";
+        var x = args.Split(',');
+        var s = x.Select(n => n.Trim());
+        result = "" + s.ElementAt(2) + ".Read(" + s.ElementAt(0) + ".ToCharArray(), 0, " + s.ElementAt(1) + ")";
+
+        Console.WriteLine(result);
+      }
+      //fopen("filename", "r");
+      args = "\"filename\", \"r\"";
+      {
+        string result = "";
+        var x = args.Split(',');
+        var s = x.Select(n => n.Trim());
+        result = "new FileStream(" + s.ElementAt(0) + ", FileMode.Open)";
+        Console.WriteLine(result);
+      }
+      args = "File";
+      {
+        string result = "";
+        result = "" + args + ".Close()";
+      }
+      args = "string";
+      {
+        string result;
+        result = "Int32.Parse(" + args + ")";
+        Console.WriteLine(result);
+
+      }
+
+      Int32 f = 45;
+      var a = f.GetType();
+      
+      args = "string";
+      {
+        string result;
+        result = args + ".Length()";
+        Console.WriteLine(result);
+
+      }
       System.Drawing.Graphics g = e.Graphics;
 
-      if (player != null){
+      if(player != null) {
 
         Image image = player.GetImage(currentFrame);
-        if (image != null)
-          g.DrawImage(image, 
+        if(image != null)
+          g.DrawImage(image,
                       curX + player.sprites[currentFrame].pos.X + drawOffSet.X + (MainGraphicPanel.Width / 2) - image.Width / 2 * scaleX,
                       curY + player.sprites[currentFrame].pos.Y + drawOffSet.Y + (MainGraphicPanel.Height / 2) - image.Height / 2 * scaleY,
-                      image.Width * scaleX,image.Height * scaleY);
+                      image.Width * scaleX, image.Height * scaleY);
 
-        
-        if (ToggleHitbox.Checked){
-          foreach(var i in player.sprites[currentFrame].hitBoxes){
+
+        if(ToggleHitbox.Checked) {
+          foreach(var i in player.sprites[currentFrame].hitBoxes) {
             i.Draw(g, new Point(MainGraphicPanel.Width + (int)drawOffSet.X, MainGraphicPanel.Height + (int)drawOffSet.Y));
           }
         }
 
       }
 
-      if (displayGrid){
+      if(displayGrid) {
         var myPen = new System.Drawing.Pen(System.Drawing.Color.Green);
         myPen.Width = 1;
-        g.DrawLine(myPen,(int) (MainGraphicPanel.Width / 2), 0, MainGraphicPanel.Width / 2, MainGraphicPanel.Height);
-        g.DrawLine(myPen, 0,(int) (MainGraphicPanel.Height / 2), MainGraphicPanel.Width, (int) (MainGraphicPanel.Height / 2));
+        g.DrawLine(myPen, (int)(MainGraphicPanel.Width / 2), 0, MainGraphicPanel.Width / 2, MainGraphicPanel.Height);
+        g.DrawLine(myPen, 0, (int)(MainGraphicPanel.Height / 2), MainGraphicPanel.Width, (int)(MainGraphicPanel.Height / 2));
 
         myPen = new System.Drawing.Pen(System.Drawing.Color.Blue);
-        g.DrawLine(myPen, 0,(int) (MainGraphicPanel.Height / 2) + 50, MainGraphicPanel.Width, (int) (MainGraphicPanel.Height / 2) + 50);
+        g.DrawLine(myPen, 0, (int)(MainGraphicPanel.Height / 2) + 50, MainGraphicPanel.Width, (int)(MainGraphicPanel.Height / 2) + 50);
         myPen.Dispose();
       }
 
-      if (hitBox != null){
-            hitBox.Draw(g, new Point(MainGraphicPanel.Width,MainGraphicPanel.Height));
+      if(hitBox != null) {
+        hitBox.Draw(g, new Point(MainGraphicPanel.Width, MainGraphicPanel.Height));
       }
 
-      if (filmRoll != null)
+      if(filmRoll != null)
         filmRoll.panel2.Invalidate();
 
     }

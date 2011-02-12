@@ -72,6 +72,20 @@
           this.splitContainer1 = new System.Windows.Forms.SplitContainer();
           this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
           this.MainGraphicPanel = new System.Windows.Forms.Panel();
+          this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.toggleGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.toggleHitBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.toggleAttackHitBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+          this.movePlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.moveFrameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.editHitBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.addHitBosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.addAttackHitBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+          this.playAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.nextFrameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+          this.previousFrameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
           this.menuStrip1.SuspendLayout();
           this.toolStrip1.SuspendLayout();
           this.statusStrip1.SuspendLayout();
@@ -85,6 +99,7 @@
           // 
           this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.helpToolStripMenuItem});
           this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -504,6 +519,102 @@
           this.MainGraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainGraphicPanel_MouseMove);
           this.MainGraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainGraphicPanel_MouseUp);
           // 
+          // editToolStripMenuItem
+          // 
+          this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toggleGridToolStripMenuItem,
+            this.toggleHitBoxToolStripMenuItem,
+            this.toolStripSeparator6,
+            this.movePlayerToolStripMenuItem,
+            this.moveFrameToolStripMenuItem,
+            this.toggleAttackHitBoxToolStripMenuItem,
+            this.editHitBoxToolStripMenuItem,
+            this.addHitBosToolStripMenuItem,
+            this.addAttackHitBoxToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.playAnimationToolStripMenuItem,
+            this.nextFrameToolStripMenuItem,
+            this.previousFrameToolStripMenuItem});
+          this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+          this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+          this.editToolStripMenuItem.Text = "Edit";
+          // 
+          // toggleGridToolStripMenuItem
+          // 
+          this.toggleGridToolStripMenuItem.Name = "toggleGridToolStripMenuItem";
+          this.toggleGridToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.toggleGridToolStripMenuItem.Text = "Toggle Grid";
+          // 
+          // toggleHitBoxToolStripMenuItem
+          // 
+          this.toggleHitBoxToolStripMenuItem.Name = "toggleHitBoxToolStripMenuItem";
+          this.toggleHitBoxToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.toggleHitBoxToolStripMenuItem.Text = "Toggle HitBox";
+          // 
+          // toggleAttackHitBoxToolStripMenuItem
+          // 
+          this.toggleAttackHitBoxToolStripMenuItem.Name = "toggleAttackHitBoxToolStripMenuItem";
+          this.toggleAttackHitBoxToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.toggleAttackHitBoxToolStripMenuItem.Text = "Toggle Attack HitBox";
+          // 
+          // toolStripSeparator6
+          // 
+          this.toolStripSeparator6.Name = "toolStripSeparator6";
+          this.toolStripSeparator6.Size = new System.Drawing.Size(183, 6);
+          // 
+          // movePlayerToolStripMenuItem
+          // 
+          this.movePlayerToolStripMenuItem.Name = "movePlayerToolStripMenuItem";
+          this.movePlayerToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.movePlayerToolStripMenuItem.Text = "Move Object";
+          // 
+          // moveFrameToolStripMenuItem
+          // 
+          this.moveFrameToolStripMenuItem.Name = "moveFrameToolStripMenuItem";
+          this.moveFrameToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.moveFrameToolStripMenuItem.Text = "Move Frame";
+          // 
+          // editHitBoxToolStripMenuItem
+          // 
+          this.editHitBoxToolStripMenuItem.Name = "editHitBoxToolStripMenuItem";
+          this.editHitBoxToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.editHitBoxToolStripMenuItem.Text = "Edit HitBox";
+          // 
+          // addHitBosToolStripMenuItem
+          // 
+          this.addHitBosToolStripMenuItem.Name = "addHitBosToolStripMenuItem";
+          this.addHitBosToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.addHitBosToolStripMenuItem.Text = "Add HitBox";
+          // 
+          // addAttackHitBoxToolStripMenuItem
+          // 
+          this.addAttackHitBoxToolStripMenuItem.Name = "addAttackHitBoxToolStripMenuItem";
+          this.addAttackHitBoxToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.addAttackHitBoxToolStripMenuItem.Text = "Add Attack HitBox";
+          // 
+          // toolStripSeparator7
+          // 
+          this.toolStripSeparator7.Name = "toolStripSeparator7";
+          this.toolStripSeparator7.Size = new System.Drawing.Size(183, 6);
+          // 
+          // playAnimationToolStripMenuItem
+          // 
+          this.playAnimationToolStripMenuItem.Name = "playAnimationToolStripMenuItem";
+          this.playAnimationToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.playAnimationToolStripMenuItem.Text = "Play Animation";
+          // 
+          // nextFrameToolStripMenuItem
+          // 
+          this.nextFrameToolStripMenuItem.Name = "nextFrameToolStripMenuItem";
+          this.nextFrameToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.nextFrameToolStripMenuItem.Text = "Next Frame";
+          // 
+          // previousFrameToolStripMenuItem
+          // 
+          this.previousFrameToolStripMenuItem.Name = "previousFrameToolStripMenuItem";
+          this.previousFrameToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+          this.previousFrameToolStripMenuItem.Text = "Previous Frame";
+          // 
           // HitBoxEditor
           // 
           this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -581,6 +692,20 @@
         private System.Windows.Forms.ToolStripMenuItem animationSummaryToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton MoveImageTool;
         public System.Windows.Forms.Panel MainGraphicPanel;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toggleGridToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toggleHitBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem movePlayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveFrameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toggleAttackHitBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editHitBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addHitBosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addAttackHitBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem playAnimationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nextFrameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem previousFrameToolStripMenuItem;
         //public DoubleBufferPanel MainGraphicPanel;
     }
 }
