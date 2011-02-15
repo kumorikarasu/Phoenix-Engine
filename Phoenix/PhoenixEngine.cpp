@@ -4,10 +4,10 @@
 #include "PhoenixEngine.h"
 #include "PhoenixUtil.h"
 #include "PhoenixConsole.h"
+#include "PhoenixEntity.h"
 #include "PhoenixEntityManager.h"
 #include "PhoenixSprite.h"
-#include "AsPlayer.h"
-#include "AsHitBoxViewer.h"
+#include "AsProperties.h"
 #include <tchar.h>
 
 using namespace PhoenixFight;
@@ -16,8 +16,8 @@ namespace PhoenixCore{
 float r = 0;
 float camx = -15,camy = 5,camz = 0;
 float camrotx = 00,camroty = 90;
+PhEntity* Player;
 
-AsPlayer* Player;
 
 //everything!
 void PhEngine::Step(float _fps, bool _input[256], long mouse, long long _nFrameCount)
@@ -26,7 +26,7 @@ void PhEngine::Step(float _fps, bool _input[256], long mouse, long long _nFrameC
   if (RunOnce){
 
     PhSprite* sp = new PhSprite(pTextureMan);
-    Player = new AsPlayer(sp);
+    Player = new PhEntity();
 
     
     mousex = LOWORD(mouse);
@@ -41,8 +41,8 @@ void PhEngine::Step(float _fps, bool _input[256], long mouse, long long _nFrameC
     RunOnce = false;
   }
 
-  camz = Player->getPos().y;
-  camx = Player->getPos().x - 10;
+//  camz = Player->getPos().y;
+//  camx = Player->getPos().x - 10;
 
   fps = _fps;
   input = _input;
@@ -107,7 +107,7 @@ void PhEngine::Step(float _fps, bool _input[256], long mouse, long long _nFrameC
     if (camrotx < -90) camrotx = -90;
  /// pRenderer->CamRotate(mousey - prevmousey, 1,0,0);
 
-  Player->InputBuffer->pushInput(input);
+//  Player->InputBuffer->pushInput(input);
 
   pEntityMan->Run();
 }

@@ -92,10 +92,9 @@
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AsHitBoxViewer.cpp" />
-    <ClCompile Include="AsPlayer.cpp" />
     <ClCompile Include="PhoenixConsole.cpp" />
     <ClCompile Include="PhoenixEngine.cpp" />
+    <ClCompile Include="PhoenixEntity.cpp" />
     <ClCompile Include="PhoenixMain.cpp" />
     <ClCompile Include="PhoenixSprite.cpp" />
     <ClCompile Include="PhoenixTexture.cpp" />
@@ -106,7 +105,6 @@
     <ClCompile Include="TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AsHitBoxViewer.h" />
     <ClInclude Include="dirent.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="PhoenixConsole.h" />
@@ -123,7 +121,6 @@
     <ClInclude Include="PhoenixRenderer.h" />
     <ClInclude Include="AsInputBuffer.h" />
     <ClInclude Include="AsNetplay.h" />
-    <ClInclude Include="AsPlayer.h" />
     <ClInclude Include="AsProperties.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TextureLoader.h" />

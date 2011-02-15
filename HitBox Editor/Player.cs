@@ -17,6 +17,7 @@ namespace HitBox_Editor
     const int DRAWSIZE = 3;
     const int CHECKSIZE = 5;
 
+
     [XmlIgnore]
     private int xset,yset;
 
@@ -198,6 +199,11 @@ namespace HitBox_Editor
       imageLength = 0;
       IDCount = 0;
     }
+
+    //Are these things not actually a player?
+    public bool projectile;
+    public int projectileHits;
+    public bool animation;
 
     ~Player(){
       foreach (var i in sprites){

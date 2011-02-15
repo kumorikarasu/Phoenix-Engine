@@ -60,14 +60,11 @@
     <ClCompile Include="PhoenixSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AsPlayer.cpp">
-      <Filter>Source Files\Fightan</Filter>
-    </ClCompile>
     <ClCompile Include="PhoenixUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AsHitBoxViewer.cpp">
-      <Filter>Source Files\Fightan</Filter>
+    <ClCompile Include="PhoenixEntity.cpp">
+      <Filter>Source Files\PhoenixEntity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +110,6 @@
     <ClInclude Include="AsNetplay.h">
       <Filter>Header Files\Fightan</Filter>
     </ClInclude>
-    <ClInclude Include="AsPlayer.h">
-      <Filter>Header Files\Fightan</Filter>
-    </ClInclude>
     <ClInclude Include="AsProperties.h">
       <Filter>Header Files\Fightan</Filter>
     </ClInclude>
@@ -127,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="dirent.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AsHitBoxViewer.h">
-      <Filter>Header Files\Fightan</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>

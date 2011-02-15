@@ -20,7 +20,6 @@ namespace HitBox_Editor
 
     int xOffset;
 
-
     [System.ComponentModel.Editor(
       typeof(FileProperty),
       typeof(System.Drawing.Design.UITypeEditor)),
@@ -178,12 +177,15 @@ namespace HitBox_Editor
     [CategoryAttribute("Attack States"), DescriptionAttribute("Will they fly back and slide along the ground, ie HOS j.d CH")]
     public bool Slides { get; set; }
 
+    [CategoryAttribute("Attack"), DescriptionAttribute("Links together with a scripted move, thus allowing us to have programable moves")]
+    public int SpecialAttackIdenifier { get; set; }
+
+
     [CategoryAttribute("Animation"), DescriptionAttribute("Delay the animation, meaning the next frame will have the same image")]
     public bool DelayAnimation { get; set; }
 
     [CategoryAttribute("Animation"), DescriptionAttribute("Jumps to a specified image number")]
     public int JumpToImage { get; set; }
-
 
   }
 }
