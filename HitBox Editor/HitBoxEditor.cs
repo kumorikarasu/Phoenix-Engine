@@ -508,19 +508,16 @@ namespace HitBox_Editor
 
     private void New_Click(object sender, EventArgs e)
     {
-      var dia = new NewDialog();
-      if (dia.ShowDialog() == DialogResult.OK){
-        var d = new FolderBrowserDialog();
-        if (d.ShowDialog() == DialogResult.OK){
-          imageFilePath = d.SelectedPath;
-          imageFilePath = System.IO.Path.Combine(Application.StartupPath, imageFilePath);
-          player = new Player();
-          FrameNumber.Visible = false;
-          Progress.Visible = true;
+      var d = new FolderBrowserDialog();
+      if (d.ShowDialog() == DialogResult.OK) {
+        imageFilePath = d.SelectedPath;
+        imageFilePath = System.IO.Path.Combine(Application.StartupPath, imageFilePath);
+        player = new Player();
+        FrameNumber.Visible = false;
+        Progress.Visible = true;
 
-          if (!LoadPath(imageFilePath))
-            return;
-        }
+        if (!LoadPath(imageFilePath))
+          return;
       }
     }
 
@@ -804,6 +801,10 @@ namespace HitBox_Editor
                 writer.Write(imageFilePath);
                 writer.Write("\r\n" + curX);
                 writer.Write("\r\n" + curY);
+                writer.Write("\r\n" + player.animation);
+                writer.Write("\r\n" + player.projectile);
+                writer.Write("\r\n" + player.projectileHits);
+                writer.Write("\r\n");
                 saver.Serialize(datawriter, player.props);
                 saver2.Serialize(spritewriter, player.sprites);
               }
@@ -891,6 +892,13 @@ namespace HitBox_Editor
 
           imageFilePath = reader.ReadLine();
           curX = Int32.Parse(reader.ReadLine());
+          curY = Int32.Parse(reader.ReadLine());
+          player.animation = Boolean.Parse(reader.ReadLine());
+          player.projectile = Boolean.Parse(reader.ReadLine());
+          player.projectile = Boolean.Parse(reader.ReadLine());
+
+          while(reader.ReadLine() != "\r\n");
+
           curY = Int32.Parse(reader.ReadLine());
           LoadPath(imageFilePath);
 
@@ -1032,6 +1040,14 @@ namespace HitBox_Editor
         }
       }
 
+    }
+
+    private void proportiesToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      PropertyWindow dia = new PropertyWindow();
+      if (dia.ShowDialog() == System.Windows.Forms.DialogResult.OK){
+
+      }
     }
   }
 

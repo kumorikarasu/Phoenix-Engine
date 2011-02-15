@@ -5,46 +5,51 @@
 #include "PhoenixSprite.h"
 #include "PhoenixRenderer.h"
 
-namespace PhoenixCore{
+#include <list>
 
-  class PhRenderObject;			//PhoenixRenderObject.h
-  class PhCollisionObject;		//PhoenixCollisionManager.h
-  class PhIRenderer;				//PhoenixRenderer.h
+namespace PhoenixCore
+{
   class Vertex2;					//PhoenixUtil.h
+
+  //The Components
+  //Mandatory
+  class PhVisual;
+  class PhCollision;
+
+  //Game Specific
+  class AsFrameData;
+  class AsAttackData;
+
+  //The Controller
+  class PhController;
 
   class PhEntity
   {
 
-  protected:
-    Vertex2				m_pos, m_accel;		//position and acceleration vectors
-    bool				  m_bAutoCollide;		//Tells the engine to automatically move an object outside of a collision if it detects one
-    bool          m_isDead;         //Tells the engine to remove an object on the next possible pass
+  private:
+    Vertex2				pos, m_accel;		//position and acceleration vectors
+    bool				  bAutoCollide;		//Tells the engine to automatically move an object outside of a collision if it detects one
+    bool          Dead;         //Tells the engine to remove an object on the next possible pass
 
-    PhRenderObject*	    m_pRenderObj;		//A Pointer to a Render Object
-    PhCollisionObject*	m_pColObj;			//Collision Data
+    AsFrameData*        pFrameData;
+    AsAttackData*       pAttackData;
+    PhVisual*           pVisual;
+    PhCollision*        pCollision;
+
+    std::list<PhController*> Controllers;
 
     PhTexture* pTexture;
     PhSprite* pSprite;     //A pointer to a Sprite Render Object (for sprites)
 
   public:
-    static const int EntityID = 100;		//Entity ID Number
-    bool isDead(){return m_isDead;}
+    bool isDead(){return Dead;}
     bool isDrawable(){return pSprite != NULL ? pSprite->Drawable() : false;}
 
-    PhEntity(){
-      m_isDead = 0;
-      m_pos.x = 0;
-      m_pos.y = 0;
-    }
-
-    virtual void Step() = 0;
-    virtual void Draw(PhIRenderer* pGDI){
-      pGDI->DrawTexture2D(pTexture,m_pos);//pSprite->GetNextSprite(),m_pos);
-    }
+    PhEntity();
+    ~PhEntity();
 
     //callback function
-    virtual void Collision(PhEntity* _pOther) = 0;
-
+    void (*Collision)(PhEntity* _pOther);
   };
 }
 
