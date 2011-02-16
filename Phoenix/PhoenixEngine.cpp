@@ -4,11 +4,13 @@
 #include "PhoenixEngine.h"
 #include "PhoenixUtil.h"
 #include "PhoenixConsole.h"
+#include "PhoenixController.h"
 #include "PhoenixEntity.h"
 #include "PhoenixEntityManager.h"
 #include "PhoenixSprite.h"
 #include "AsProperties.h"
 #include <tchar.h>
+#include <functional>
 
 using namespace PhoenixFight;
 namespace PhoenixCore{
@@ -28,11 +30,17 @@ void PhEngine::Step(float _fps, bool _input[256], long mouse, long long _nFrameC
     PhSprite* sp = new PhSprite(pTextureMan);
     Player = new PhEntity();
 
-    
     mousex = LOWORD(mouse);
     mousey = HIWORD(mouse);
     prevmousex = mousex;
     prevmousey = mousey;
+
+    /*
+    PhControllerFactory<PhEntity> f;
+    Player->AddController(PhControllerFactory<PhEntity>::Instance().[](PhEntity*) -> void {
+
+    });
+    */
 
     pEntityMan->AddEntity(Player); //add entity to game
 
@@ -43,6 +51,7 @@ void PhEngine::Step(float _fps, bool _input[256], long mouse, long long _nFrameC
 
 //  camz = Player->getPos().y;
 //  camx = Player->getPos().x - 10;
+
 
   fps = _fps;
   input = _input;

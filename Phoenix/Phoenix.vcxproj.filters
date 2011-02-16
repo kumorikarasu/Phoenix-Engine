@@ -66,6 +66,9 @@
     <ClCompile Include="PhoenixEntity.cpp">
       <Filter>Source Files\PhoenixEntity</Filter>
     </ClCompile>
+    <ClCompile Include="PhoenixController.cpp">
+      <Filter>Source Files\PhoenixEntity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h">
@@ -123,6 +126,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixController.h">
+      <Filter>Header Files\PhoenixEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="CircularList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
