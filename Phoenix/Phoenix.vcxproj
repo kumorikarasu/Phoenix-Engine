@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PhoenixConsole.cpp" />
+    <ClCompile Include="PhoenixController.cpp" />
     <ClCompile Include="PhoenixEngine.cpp" />
     <ClCompile Include="PhoenixEntity.cpp" />
     <ClCompile Include="PhoenixMain.cpp" />
@@ -105,9 +106,11 @@
     <ClCompile Include="TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CircularList.h" />
     <ClInclude Include="dirent.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="PhoenixConsole.h" />
+    <ClInclude Include="PhoenixController.h" />
     <ClInclude Include="PhoenixEngine.h" />
     <ClInclude Include="PhoenixGlobal.h" />
     <ClInclude Include="PhoenixMain.h" />

@@ -30,10 +30,10 @@ void PhEntityManager::Run()
   if (node->getObject() != NULL)
     while(node != NULL){
       PhEntity* ent = node->getObject();
-      if (ent->isDead()){
-        delete ent;
-        node = EntityList->remove(node);
-      }
+//      if (ent->isDead()){
+//        delete ent;
+//        node = EntityList->remove(node);
+//      }
       node = node->getNext();
     }
 
@@ -45,7 +45,7 @@ void PhEntityManager::Draw(PhIRenderer* pGDI)
   if (node->getObject() != NULL)
     while(node != NULL){
       PhEntity* ent = node->getObject();
-      if (ent->isDrawable()){}
+//      if (ent->isDrawable()){}
 
       node = node->getNext();
     }

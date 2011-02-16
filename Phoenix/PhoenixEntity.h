@@ -2,10 +2,10 @@
 #define _PHOENIXENTITY_H_
 
 #include "PhoenixUtil.h"
-#include "PhoenixSprite.h"
-#include "PhoenixRenderer.h"
+#include "PhoenixController.h"
 
 #include <list>
+#include <functional>
 
 namespace PhoenixCore
 {
@@ -21,35 +21,27 @@ namespace PhoenixCore
   class AsAttackData;
 
   //The Controller
-  class PhController;
-
   class PhEntity
   {
 
   private:
-    Vertex2				pos, m_accel;		//position and acceleration vectors
-    bool				  bAutoCollide;		//Tells the engine to automatically move an object outside of a collision if it detects one
-    bool          Dead;         //Tells the engine to remove an object on the next possible pass
-
     AsFrameData*        pFrameData;
     AsAttackData*       pAttackData;
     PhVisual*           pVisual;
     PhCollision*        pCollision;
 
-    std::list<PhController*> Controllers;
-
-    PhTexture* pTexture;
-    PhSprite* pSprite;     //A pointer to a Sprite Render Object (for sprites)
+    std::list<PhController<PhEntity>> Controllers;
+    std::function<void(PhEntity* _pOther)> Collision;
 
   public:
-    bool isDead(){return Dead;}
-    bool isDrawable(){return pSprite != NULL ? pSprite->Drawable() : false;}
 
     PhEntity();
     ~PhEntity();
 
-    //callback function
-    void (*Collision)(PhEntity* _pOther);
+    void AddController(std::function<int(PhEntity*)> f);
+    void RemoveController(std::function<int(PhEntity*)> f);
+    void RemoveController();
+
   };
 }
 
