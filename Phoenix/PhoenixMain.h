@@ -11,6 +11,4 @@
 #include <iostream>
 #include "PhoenixConsole.h"
 
-using namespace std;
-
 #endif

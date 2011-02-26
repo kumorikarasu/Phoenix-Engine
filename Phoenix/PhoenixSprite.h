@@ -6,7 +6,7 @@
 
 namespace PhoenixCore{
 
-class PhSprite
+class Sprite
 {
 private:
 
@@ -34,7 +34,7 @@ private:
   };
 
 
-  PhTextureManager* m_pTextureMan;
+  TextureManager* m_pTextureMan;
   int*        m_pTextures;
   int*        m_pTextureStart;
   int*        m_pTextureEnd;
@@ -51,8 +51,8 @@ private:
 public:
   PhAnimation     m_currentFrame;
 
-  PhSprite(PhTextureManager* _pTexMan);
-  ~PhSprite();
+  Sprite(TextureManager* _pTexMan);
+  ~Sprite();
   bool SetSize(int _size);
   void SetDelay(int _delay);
   bool AddSprite(TCHAR* _filename);

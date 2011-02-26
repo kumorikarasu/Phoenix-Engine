@@ -97,6 +97,7 @@
     <ClCompile Include="PhoenixEngine.cpp" />
     <ClCompile Include="PhoenixEntity.cpp" />
     <ClCompile Include="PhoenixMain.cpp" />
+    <ClCompile Include="PhoenixResource.cpp" />
     <ClCompile Include="PhoenixSprite.cpp" />
     <ClCompile Include="PhoenixTexture.cpp" />
     <ClCompile Include="PhoenixOpenGLHandler.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="PhoenixEngine.h" />
     <ClInclude Include="PhoenixGlobal.h" />
     <ClInclude Include="PhoenixMain.h" />
+    <ClInclude Include="PhoenixResource.h" />
     <ClInclude Include="PhoenixSprite.h" />
     <ClInclude Include="PhoenixTexture.h" />
     <ClInclude Include="PhoenixUtil.h" />
@@ -125,7 +127,6 @@
     <ClInclude Include="AsInputBuffer.h" />
     <ClInclude Include="AsNetplay.h" />
     <ClInclude Include="AsProperties.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="TextureLoader.h" />
   </ItemGroup>
   <ItemGroup>

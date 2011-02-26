@@ -8,11 +8,11 @@
 #include "stdio.h"
 namespace PhoenixCore{
 
-void PhOpenGLHandler::BuildTexture(PhTexture* _pTexture)
+void OpenGLHandler::BuildTexture(PhTexture* _pTexture)
 {
 }
 
-void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
+void OpenGLHandler::BindTexture(PhTexture* _pTexture)
 {
 
   /*
@@ -50,7 +50,7 @@ void PhOpenGLHandler::BindTexture(PhTexture* _pTexture)
 }
 
 
-void PhOpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos)
+void OpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos)
 {
   if (_pTexture != NULL){
   Vertex2 postopleft(pos.x - _pTexture->GetWidth() / 2,
@@ -112,7 +112,7 @@ void PhOpenGLHandler::DrawTexture2D(PhTexture* _pTexture, Vertex2& pos)
 }
 
 
-void PhOpenGLHandler::DrawLine(Vertex2& pos1, Vertex2& pos2)
+void OpenGLHandler::DrawLine(Vertex2& pos1, Vertex2& pos2)
 {
   glBegin(GL_LINES);
   glColor3f(pos1.c.r,pos1.c.g,pos1.c.b);
@@ -124,7 +124,7 @@ void PhOpenGLHandler::DrawLine(Vertex2& pos1, Vertex2& pos2)
 }
 
 
-void PhOpenGLHandler::DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3)
+void OpenGLHandler::DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3)
 {
   glBegin(GL_TRIANGLES);
   glColor3f(pos1.c.r,pos1.c.g,pos1.c.b);
@@ -139,7 +139,7 @@ void PhOpenGLHandler::DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3)
 }
 
 
-void PhOpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2, 
+void OpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2, 
                                     Vertex2& pos3, Vertex2& pos4)
 {
   glBegin(GL_QUADS);
@@ -158,7 +158,7 @@ void PhOpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2,
 }
 
 
-void PhOpenGLHandler::DrawCube(Vertex3& pos, float size, float rotation, Color& c)
+void OpenGLHandler::DrawCube(Vertex3& pos, float size, float rotation, Color& c)
 {
   glPushMatrix();
   glTranslatef((GLfloat)pos.x,(GLfloat)pos.y,(GLfloat)pos.z);
@@ -204,11 +204,11 @@ void PhOpenGLHandler::DrawCube(Vertex3& pos, float size, float rotation, Color& 
   glPopMatrix();
 }
 
-void PhOpenGLHandler::EnableBlendMode(){
+void OpenGLHandler::EnableBlendMode(){
   glEnable (GL_BLEND);
 }
 
-void PhOpenGLHandler::BlendMode(blend_mode bm)
+void OpenGLHandler::BlendMode(blend_mode bm)
 {
   if (bm == BM_ALPHA){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -219,13 +219,13 @@ void PhOpenGLHandler::BlendMode(blend_mode bm)
   }
 }
 
-void PhOpenGLHandler::DisableBlendMode()
+void OpenGLHandler::DisableBlendMode()
 {
   glDisable(GL_BLEND);
 }
 
 
-int PhOpenGLHandler::ClearBuffer()
+int OpenGLHandler::ClearBuffer()
 {
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -253,12 +253,12 @@ int PhOpenGLHandler::ClearBuffer()
   return true;
 }
 
-int	PhOpenGLHandler::SwapBuffer()
+int	OpenGLHandler::SwapBuffer()
 {
   return SwapBuffers(hDC);
 }
 
-int PhOpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height,
+int OpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height,
                                     int bits, bool fullscreenflag, int nCmdShow)
 {
   width = _width;
@@ -395,7 +395,7 @@ int PhOpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height,
 
 //resize the window (does not set scaling, so after initial setup,
 //                   this should not be used)
-  void PhOpenGLHandler::ReSizeWindow(int width, int height){
+  void OpenGLHandler::ReSizeWindow(int width, int height){
     if (height==0)								        // Prevent A Divide By Zero By
     {
       height=1;						              	// Making Height Equal One
@@ -410,7 +410,7 @@ int PhOpenGLHandler::CreateGameWindow(LPCWSTR title, int _width, int _height,
 /* - Returns true if succesful
 */
 
-int PhOpenGLHandler::Init(){
+int OpenGLHandler::Init(){
 
   RenderMode = -1;
 
@@ -434,7 +434,7 @@ int PhOpenGLHandler::Init(){
 }
 
 //switch to 2D drawing
-void PhOpenGLHandler::Begin2D(){
+void OpenGLHandler::Begin2D(){
   glMatrixMode(GL_PROJECTION);  // Select The Projection Matrix
   glLoadIdentity();							// Reset The Projection Matrix
 
@@ -448,7 +448,7 @@ void PhOpenGLHandler::Begin2D(){
 }
 
 //switch to 3D drawing
-void PhOpenGLHandler::Begin3D(){
+void OpenGLHandler::Begin3D(){
   glMatrixMode(GL_PROJECTION);  // Select The Projection Matrix
   glLoadIdentity();							// Reset The Projection Matrix
 
@@ -466,7 +466,7 @@ void PhOpenGLHandler::Begin3D(){
 }
 
 
-void PhOpenGLHandler::KillWindow(){
+void OpenGLHandler::KillWindow(){
 
   if (hRC)								                  // Do We Have A Rendering Context?
   {
@@ -505,13 +505,13 @@ void PhOpenGLHandler::KillWindow(){
   }
 }
 
-void PhOpenGLHandler::CloseRenderer(){
+void OpenGLHandler::CloseRenderer(){
 
   KillFont();										// Build The Font
 
 };
 
-void PhOpenGLHandler::BuildFont()								// Build Our Bitmap Font
+void OpenGLHandler::BuildFont()								// Build Our Bitmap Font
 {
   HFONT	font;										// Windows Font ID
   HFONT	oldfont;									// Used For Good House Keeping
@@ -539,14 +539,14 @@ void PhOpenGLHandler::BuildFont()								// Build Our Bitmap Font
   DeleteObject(font);									            // Delete The Font
 }
 
-void PhOpenGLHandler::KillFont() // Delete The Font List
+void OpenGLHandler::KillFont() // Delete The Font List
 {
   glDeleteLists(base, 96);			// Delete All 96 Characters
 }
 
 //cannot be over 254 characters
 // Custom GL "Print" Routine
-void PhOpenGLHandler::DrawText(Vertex2 _pos, const TCHAR *fmt, ...)
+void OpenGLHandler::DrawText(Vertex2 _pos, const TCHAR *fmt, ...)
 {
 
   TCHAR		text[256];						// Holds Our String
@@ -573,13 +573,13 @@ void PhOpenGLHandler::DrawText(Vertex2 _pos, const TCHAR *fmt, ...)
   glPopAttrib();								// Pops The Display List Bits
 }
 
-void  PhOpenGLHandler::UpdateSize(int height, int width)
+void  OpenGLHandler::UpdateSize(int height, int width)
 {
   this->oldwidth = width;
   this->oldheight = height;
 }
 
-void  PhOpenGLHandler::Push2D()
+void  OpenGLHandler::Push2D()
 {
   glPushMatrix();
   glMatrixMode(GL_PROJECTION);
@@ -588,7 +588,7 @@ void  PhOpenGLHandler::Push2D()
   glMatrixMode(GL_MODELVIEW);
 }
 
-void  PhOpenGLHandler::Pop2D()
+void  OpenGLHandler::Pop2D()
 {
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();
@@ -596,16 +596,16 @@ void  PhOpenGLHandler::Pop2D()
   glPopMatrix();
 }
 
-void PhOpenGLHandler::CamTranslate(float x, float y, float z)
+void OpenGLHandler::CamTranslate(float x, float y, float z)
 {
   ::glTranslatef(x ,y, z);
 }
-void PhOpenGLHandler::CamRotate(float angle, float x, float y, float z)
+void OpenGLHandler::CamRotate(float angle, float x, float y, float z)
 {
   ::glRotatef(angle, x ,y, z);
   //gluLookAt(3,3,3,x,y,z,0,1,0);
 }
-void PhOpenGLHandler::CamScale(float x, float y, float z)
+void OpenGLHandler::CamScale(float x, float y, float z)
 {
   ::glScalef(x ,y, z);
 }

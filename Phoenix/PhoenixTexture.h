@@ -9,13 +9,13 @@
 namespace PhoenixCore{
 
   class PhTexture;	//PhoenixTexture.h
-  class PhConsole;	//PhoenixConsole.h
-  class PhIRenderer;	//PhoenixRenderer.h
+  class Console;	//PhoenixConsole.h
+  class IRenderer;	//PhoenixRenderer.h
 
-  class PhTextureManager
+  class TextureManager
   {
   private:
-    PhIRenderer* pRenderer;
+    IRenderer* pRenderer;
 
     TextureLoader* TL;
 
@@ -24,8 +24,8 @@ namespace PhoenixCore{
 
   public:
 
-    PhTextureManager(PhConsole* _pConsole, PhIRenderer* _pRenderer);
-    ~PhTextureManager();
+    TextureManager(Console* _pConsole, IRenderer* _pRenderer);
+    ~TextureManager();
 
     PhTexture* Texture(TCHAR *_filename);
 
@@ -34,7 +34,7 @@ namespace PhoenixCore{
   class PhTexture
   {
 
-    friend class PhTextureManager;
+    friend class TextureManager;
 
     int	m_width;							// Image Width
     int	m_height;							// Image Height

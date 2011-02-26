@@ -1,31 +1,34 @@
+//Disable Conversion from Int to Float Warning
+#pragma warning ( disable : 4244)
+
 #pragma once
-#ifndef _PhEngine_H_
-#define _PhEngine_H_
+#ifndef _Engine_H_
+#define _Engine_H_
 
 namespace PhoenixCore{
 
 //do not include the header files unless you have to
-class PhIRenderer;		  //PhoenixRenderer.h
-class PhConsole;		    //PhoenixConsol.h
-class PhTextureManager;	//PhoenixTexture.h
-class PhEntityManager;  //PhoenixEntityManager.h
+class IRenderer;		  //PhoenixRenderer.h
+class Console;		    //PhoenixConsol.h
+class TextureManager;	//PhoenixTexture.h
+class EntityManager;  //PhoenixEntityManager.h
 
 struct Modules{
-  PhIRenderer*      pRender;
-  PhConsole*        pConsole;
-  PhTextureManager* pTextureMan;
-  PhEntityManager*  pEntityMan;
+  IRenderer*      pRender;
+  Console*        pConsole;
+  TextureManager* pTextureMan;
+  EntityManager*  pEntityMan;
 };
 
 //the main wrapper for the engine
-class PhEngine
+class Engine
 {
   private:
     //modules, for eas of access
-    PhIRenderer*		  pRenderer;
-    PhTextureManager*	pTextureMan;
-    PhEntityManager*  pEntityMan;
-    PhConsole*        pConsole;
+    IRenderer*		  pRenderer;
+    TextureManager*	pTextureMan;
+    EntityManager*  pEntityMan;
+    Console*        pConsole;
 
 
     float prevmousex; float mousex;
@@ -37,9 +40,9 @@ class PhEngine
     bool  RunOnce;
 
   public:
-    PhEngine(){};
-    PhEngine(Modules *Module);
-    ~PhEngine();
+    Engine(){};
+    Engine(Modules *Module);
+    ~Engine();
 
     void Step(float _fps,bool _input[256], long mouse, long long _nFrameCount);
     void Render();

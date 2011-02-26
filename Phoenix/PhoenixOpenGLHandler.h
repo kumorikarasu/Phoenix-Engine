@@ -9,7 +9,7 @@
 
 namespace PhoenixCore{
 
-class PhOpenGLHandler : public PhIRenderer
+class OpenGLHandler : public IRenderer
 {
 
   private:
@@ -58,13 +58,13 @@ class PhOpenGLHandler : public PhIRenderer
     virtual void CamScale(float x, float y, float z);
 
 
-    PhOpenGLHandler(){
+    OpenGLHandler(){
       hRC=NULL;
       hDC=NULL;
       hWnd=NULL;
     }
 
-    ~PhOpenGLHandler();
+    ~OpenGLHandler();
 };
 
 };

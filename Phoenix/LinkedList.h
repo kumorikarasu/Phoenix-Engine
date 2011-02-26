@@ -8,10 +8,12 @@
     - Functions -
 
     Constructor - creates the first node for the system
-    Destructor - Clears the list (deleting everything inside), then deletes itself
+    Destructor - Clears the list (deleting everything inside), 
+                  then deletes itself
     first (void) - returns the first node* in the list
     add (object) - Adds a new object to the end of the list.
-    remove (node) - deletes the object at the specified node and moves the list back, returns the previous node, or the first node in list
+    remove (node) - deletes the object at the specified node and moves the list
+                    back, returns the previous node, or the first node in list
     clear (void) - deletes everything inside of the list
 
     - usage syntax -
@@ -31,7 +33,8 @@ class Node
 {
 
   private:
-    template <class _Ty> friend class LinkedList; //allows the list to access private variables
+    //allows the list to access private variables
+    template <class _Ty> friend class LinkedList; 
     Node* pNext;
     Node* pPrev;
     _Ty* pObject;

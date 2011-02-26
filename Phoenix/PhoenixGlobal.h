@@ -19,7 +19,7 @@ static int TickCount = 1;
 #ifdef _DEBUG
 using namespace PhoenixCore;
 
-static PhConsole* DEBUGCONSOLE;
+static Console* DEBUGCONSOLE;
 
 inline void * __cdecl operator new(size_t size)
 {

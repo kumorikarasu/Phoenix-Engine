@@ -5,7 +5,14 @@
 
 namespace PhoenixCore{
 
-PhConsole::PhConsole()
+Console* Console::console = new Console();
+const Console* Console::Instance(){
+  if (console == NULL)
+    console = new Console();
+  return console;
+}
+
+Console::Console()
 {
   m_btoggle=false;
   m_logfile =	fopen("console_log.txt","a+");
@@ -14,13 +21,13 @@ PhConsole::PhConsole()
 }
 
 
-PhConsole::~PhConsole()
+Console::~Console()
 {
 //  fclose(m_logfile);	
 }
 
 
-void PhConsole::Draw(PhIRenderer * GDI)
+void Console::Draw(IRenderer * GDI)
 {
   if (this->m_btoggle){
     GDI->DrawRectangle(Vertex2(0,0,Color(0.5f,0.5f,0.5f,0.5f)),
@@ -29,7 +36,8 @@ void PhConsole::Draw(PhIRenderer * GDI)
                        Vertex2(0,200,Color(0.5f,0.5f,0.5f,0.5f)));
 
     if (m_lConsole.size() > 0){
-      list<sMessageLine>::reverse_iterator iter = m_lConsole.rbegin();
+      std::list<sMessageLine>::reverse_iterator iter = m_lConsole.rbegin();
+
 
       for (int i = 8; i>0; i--){
         if (iter->m_type == C_WARNING){
@@ -52,7 +60,7 @@ void PhConsole::Draw(PhIRenderer * GDI)
 
 
 //outputs a line to ONLY the file log
-void PhConsole::Log(const TCHAR* fmt, int _type, ...)
+void Console::Log(const TCHAR* fmt, int _type, ...)
 {
   sMessageLine line;
   va_list va;
@@ -63,9 +71,9 @@ void PhConsole::Log(const TCHAR* fmt, int _type, ...)
   //print the line
   _tcscat(line.m_text,_T("\n"));
 
-  m_logfile =	fopen("console_log.txt","a+");
-  fwprintf(m_logfile,line.m_text);
-  fclose(m_logfile);
+  console->m_logfile =	fopen("console_log.txt","a+");
+  fwprintf(console->m_logfile,line.m_text);
+  fclose(console->m_logfile);
 
   va_end(va);
 
@@ -75,7 +83,7 @@ void PhConsole::Log(const TCHAR* fmt, int _type, ...)
 
 
 //Outputs a line to both the screen console and the file console
-void PhConsole::Line(const TCHAR* fmt, int _type, ...)
+void Console::Line(const TCHAR* fmt, int _type, ...)
 {
   sMessageLine line;
   va_list va;
@@ -85,14 +93,14 @@ void PhConsole::Line(const TCHAR* fmt, int _type, ...)
   vswprintf(line.m_text,fmt,va);
   line.m_type = _type;
 
-  m_lConsole.push_back(line);
+  console->m_lConsole.push_back(line);
 
   //print the line
   _tcscat(line.m_text,_T("\n"));
 
-  m_logfile =	fopen("console_log.txt","a+");
-  fwprintf(m_logfile,line.m_text);
-  fclose(m_logfile);
+  console->m_logfile =	fopen("console_log.txt","a+");
+  fwprintf(console->m_logfile,line.m_text);
+  fclose(console->m_logfile);
 
   va_end(va);
 
