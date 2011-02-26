@@ -4,32 +4,32 @@
 
 namespace PhoenixCore{
 
-PhEntityManager::PhEntityManager()
+EntityManager::EntityManager()
 {
-  EntityList = new LinkedList<PhEntity>();
+  EntityList = new LinkedList<Entity>();
 }
 
-PhEntityManager::~PhEntityManager()
+EntityManager::~EntityManager()
 {
   delete this->EntityList;
 }
 
-void PhEntityManager::AddEntity(PhEntity* _pEntity)
+void EntityManager::AddEntity(Entity* _pEntity)
 {
   EntityList->add(_pEntity);
 }
 
-Node<PhEntity>* PhEntityManager::GetFirstNode()
+Node<Entity>* EntityManager::GetFirstNode()
 {
   return this->EntityList->first();
 }
 
-void PhEntityManager::Run()
+void EntityManager::Run()
 {
-  Node<PhEntity>* node = EntityList->first();
+  Node<Entity>* node = EntityList->first();
   if (node->getObject() != NULL)
     while(node != NULL){
-      PhEntity* ent = node->getObject();
+      Entity* ent = node->getObject();
 //      if (ent->isDead()){
 //        delete ent;
 //        node = EntityList->remove(node);
@@ -39,12 +39,12 @@ void PhEntityManager::Run()
 
 }
 
-void PhEntityManager::Draw(PhIRenderer* pGDI)
+void EntityManager::Draw(IRenderer* pGDI)
 {
-  Node<PhEntity>* node = EntityList->first();
+  Node<Entity>* node = EntityList->first();
   if (node->getObject() != NULL)
     while(node != NULL){
-      PhEntity* ent = node->getObject();
+      Entity* ent = node->getObject();
 //      if (ent->isDrawable()){}
 
       node = node->getNext();

@@ -1,75 +1,58 @@
+ /* PhoenixController.h
+  * (c) Sean Stacey, Feb 2011
+  *
+  * The controller object of the engine.
+  * 
+  * Entities have controllers added to them. These controllers act on the
+  * object each frame. So something like an AI controller, or Input controller.
+  */
+
 #ifndef _PHOENIXCONTROLLER_H_
 #define _PHOENIXCONTROLLER_H_
-#include <functional>
+
 #include "CircularList.h"
+#include <functional>
 
 namespace PhoenixCore{
 
-  template<class _Ty>
-  class PhController
+  class Entity;
+
+  class Controller
   {
   private:
-    std::function<int(_Ty*)> f;
+    std::function<int(Entity*)> f;
     int refCount;
-    PhController* next;
+    Controller* next;
 
   public: 
-    template<class _Ty> friend class PhControllerFactory;
+    friend class ControllerFactory;
+    friend class Entity;
 
-    PhController(std::function<int(_Ty*)> f)
-    {
-      refCount = 1;
-      this->f = f;
-    }
-
-    PhController operator() (_Ty* e)
-    {
-      f(e);
-    }
-    void free(){
-      --refCount;
-    }
+    Controller(std::function<int(Entity*)> f);
+    int operator() (Entity* e);
+    Controller* AssignEntity(Entity* e);
+    void RemoveEntity(Entity* e);
   };
 
-  template<class _Ty>
-  class PhControllerFactory
+  // ControllerFactory Class
+  // Singleton
+  class ControllerFactory
   {
   private:
-    static PhControllerFactory* instance;
-    CircularList<_Ty*> List;
+    static ControllerFactory* instance;
+    CircularList<Controller>* List;
+    CircularList<Controller>::iterator Iter;
+
+  protected:
+    ControllerFactory();
+    ~ControllerFactory();
 
   public:
-    PhControllerFactory()
-    {
-    }
+    Controller* CreateController(std::function<int(Entity*)> f);
+    void GarbageCollect();
 
-    PhController* CreateController(std::function<int(_Ty*)> f)
-    {
-      PhController<_Ty>* c = new PhController<_Ty>(f);
-      controllers.push_back(c);
-    }
-
-    void GarbageCollect()
-    {
-      /*
-      if (endController != currentController){
-        ++currentController;
-        if ((*currentController)->refCount == 0)
-          delete (*currentController);
-      }else{
-        currentController = controllers.begin();
-        endController = controllers.end();
-      }
-      */
-
-    }
-
-    PhControllerFactory* Instance()
-    {
-      if (!instance)
-        instance = new PhControllerFactory<_Ty>();
-      return instance;
-    }
+    static ControllerFactory* Instance();
   };
+
 } /*PhoenixCore*/
 #endif /*_PHOENIXCONTROLLER_H_*/

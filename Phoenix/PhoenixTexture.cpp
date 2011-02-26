@@ -1,6 +1,7 @@
 #include "PhoenixGlobal.h"
 #include "PhoenixTexture.h"
 #include "PhoenixConsole.h"
+#include "PhoenixRenderer.h"
 #include <tchar.h>
 #include <atlconv.h>
 
@@ -9,7 +10,7 @@ namespace PhoenixCore{
 
 // checks if the texture has be loaded already, if it has,
 // it returns it, otherwise it attempts to load it
-PhTexture* PhTextureManager::Texture(TCHAR* _filename)
+PhTexture* TextureManager::Texture(TCHAR* _filename)
 {
 
   //the texture pointer we will return
@@ -34,7 +35,7 @@ PhTexture* PhTextureManager::Texture(TCHAR* _filename)
   // currently just support uncompressed TGA
   glTexture tex;
   if (! TL->LoadTextureFromDisk(_filename,&tex)){
-    PhConsole::Console->Line(_T("Unable to load %s"),C_ERROR,_filename);
+    Console::Line(_T("Unable to load %s"),C_ERROR,_filename);
     TL->FreeTexture(&tex);
     delete pTexture;
     pTexture = NULL;
@@ -58,7 +59,7 @@ PhTexture* PhTextureManager::Texture(TCHAR* _filename)
 
 }
 
-PhTextureManager::~PhTextureManager()
+TextureManager::~TextureManager()
 {
 
   //delete all textures that have been loaded
@@ -83,7 +84,7 @@ PhTextureManager::~PhTextureManager()
   delete TL;
 }
 
-PhTextureManager::PhTextureManager(PhConsole* _pConsole, PhIRenderer* _pRenderer)
+TextureManager::TextureManager(Console* _pConsole, IRenderer* _pRenderer)
 {
   pRenderer = _pRenderer;
 

@@ -5,22 +5,22 @@ namespace PhoenixCore{
 
 #include "LinkedList.h"
 
-  class PhEntity; //PhoenixEntity.h
+  class Entity; //PhoenixEntity.h
 
-  class PhEntityManager
+  class EntityManager
   {
   private:
-    LinkedList<PhEntity>* EntityList;
+    LinkedList<Entity>* EntityList;
 
   public:
 
-    PhEntityManager();
-    ~PhEntityManager();
+    EntityManager();
+    ~EntityManager();
 
-    void AddEntity(PhEntity* _pEntity);
-    Node<PhEntity>* GetFirstNode();
+    void AddEntity(Entity* _pEntity);
+    Node<Entity>* GetFirstNode();
     void Run();
-    void Draw(PhIRenderer* pGDI);
+    void Draw(IRenderer* pGDI);
 
   };
 }

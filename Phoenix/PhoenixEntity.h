@@ -4,7 +4,7 @@
 #include "PhoenixUtil.h"
 #include "PhoenixController.h"
 
-#include <list>
+#include <vector>
 #include <functional>
 
 namespace PhoenixCore
@@ -21,26 +21,30 @@ namespace PhoenixCore
   class AsAttackData;
 
   //The Controller
-  class PhEntity
+  class Entity
   {
 
   private:
+    bool dead;
+
     AsFrameData*        pFrameData;
     AsAttackData*       pAttackData;
     PhVisual*           pVisual;
     PhCollision*        pCollision;
 
-    std::list<PhController<PhEntity>> Controllers;
-    std::function<void(PhEntity* _pOther)> Collision;
+    std::vector<Controller*> Controllers;
+    std::function<void(Entity* _pOther)> Collision;
 
   public:
 
-    PhEntity();
-    ~PhEntity();
+    Entity();
+    ~Entity();
 
-    void AddController(std::function<int(PhEntity*)> f);
-    void RemoveController(std::function<int(PhEntity*)> f);
+    Controller* AddController(Controller* c);
+    void RemoveController(Controller* c);
     void RemoveController();
+    bool isDead();
+    void Kill();
 
   };
 }

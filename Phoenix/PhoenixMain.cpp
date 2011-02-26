@@ -9,7 +9,6 @@
 
 using namespace PhoenixCore;
 
-PhConsole* PhConsole::Console;
 Modules* Mod;
 HWND hWnd = 0;
 long mouse;
@@ -40,20 +39,18 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
   try{
     //Render Object
-    Mod->pRender = new PhOpenGLHandler();
+    Mod->pRender = new OpenGLHandler();
 
     //Console Object
-    Mod->pConsole = new PhConsole();
-    PhConsole::Console = Mod->pConsole;
+    Mod->pConsole = new Console();
 
 #ifdef _DEBUG
-    DEBUGCONSOLE = Mod->pConsole;
     DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //renderer
     DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //console
 #endif
 
     //Engine Handler
-    PhEngine* pEngine = new PhEngine(Mod); //we can then just pass all the modules at once
+    Engine* pEngine = new Engine(Mod); //we can then just pass all the modules at once
 
 
     //Frame Rate

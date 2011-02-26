@@ -6,7 +6,7 @@
 
 namespace PhoenixCore{
 
-bool PhSprite::SetSize(int _size)
+bool Sprite::SetSize(int _size)
 {
   if (m_pTextures == NULL){
     m_nSpriteLength = _size;
@@ -15,7 +15,7 @@ bool PhSprite::SetSize(int _size)
   return 0;
 }
 
-PhSprite::PhSprite(PhTextureManager* _pTexMan)
+Sprite::Sprite(TextureManager* _pTexMan)
 {
   m_pTextureMan = _pTexMan;
   m_pTextures = NULL;
@@ -29,7 +29,7 @@ PhSprite::PhSprite(PhTextureManager* _pTexMan)
   Corrupt = false;
 }
 
-PhTexture* PhSprite::GetNextSprite()
+PhTexture* Sprite::GetNextSprite()
 {
   if (m_pTextures == NULL)
     return NULL;
@@ -49,7 +49,7 @@ PhTexture* PhSprite::GetNextSprite()
   return tex;
 }
 
-PhTexture* PhSprite::GetPreviousSprite()
+PhTexture* Sprite::GetPreviousSprite()
 {
   if (m_pTextures == NULL)
     return NULL;
@@ -70,7 +70,7 @@ PhTexture* PhSprite::GetPreviousSprite()
 }
 
 
-bool PhSprite::AddSprite(TCHAR* _filename)
+bool Sprite::AddSprite(TCHAR* _filename)
 {
   if (m_pTextures == NULL){
     if (m_nSpriteLength == 0)
@@ -80,7 +80,7 @@ bool PhSprite::AddSprite(TCHAR* _filename)
     m_pTextureStart = m_pTextures;
   }
   if (m_nSpriteLoadIndex >= m_nSpriteLength){
-    PhConsole::Console->Line(_T("Sprite Full %s"),
+    Console::Line(_T("Sprite Full %s"),
                             C_WARNING, _filename);
     return false;
   }
@@ -90,7 +90,7 @@ bool PhSprite::AddSprite(TCHAR* _filename)
     Corrupt = true;
     return false;
   }
-  PhConsole::Console->Line(_T("Sprite Frame Added:%d"),
+  Console::Line(_T("Sprite Frame Added:%d"),
                           C_NORMAL, m_nSpriteLoadIndex);
   m_pTextureEnd = &m_pTextures[m_nSpriteLoadIndex];
   m_nSpriteLoadIndex++;
@@ -98,24 +98,24 @@ bool PhSprite::AddSprite(TCHAR* _filename)
   return true;
 }
 
-PhSprite::~PhSprite()
+Sprite::~Sprite()
 {
   free(m_pTextureStart);
 }
 
-void PhSprite::SetDelay(int _delay)
+void Sprite::SetDelay(int _delay)
 {
   m_nDelay = _delay;
 }
 
-void PhSprite::Init(){
+void Sprite::Init(){
 }
 
-bool PhSprite::Drawable(){
+bool Sprite::Drawable(){
   return !Corrupt;
 }
 
-bool PhSprite::LoadDirectory(TCHAR* _path)
+bool Sprite::LoadDirectory(TCHAR* _path)
 {
    WIN32_FIND_DATA ffd;
    LARGE_INTEGER filesize;
@@ -165,13 +165,13 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
       if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
       {
          //_tprintf(TEXT("  %s   <DIR>\n"), ffd.cFileName);
-         PhConsole::Console->Line(ffd.cFileName,C_NORMAL);
+         Console::Line(ffd.cFileName,C_NORMAL);
       }
       else
       {
          filesize.LowPart = ffd.nFileSizeLow;
          filesize.HighPart = ffd.nFileSizeHigh;
-         PhConsole::Console->Line(ffd.cFileName,C_NORMAL);
+         Console::Line(ffd.cFileName,C_NORMAL);
          //_tprintf(TEXT("  %s   %ld bytes\n"), ffd.cFileName, filesize.QuadPart);
       }
       TCHAR fileext[10];
@@ -246,7 +246,7 @@ bool PhSprite::LoadDirectory(TCHAR* _path)
 }
 
 
-PhTexture* PhSprite::GetNextAdvancedSprite(int _state)
+PhTexture* Sprite::GetNextAdvancedSprite(int _state)
 {
   if (m_nState == _state){
 
@@ -272,7 +272,7 @@ PhTexture* PhSprite::GetNextAdvancedSprite(int _state)
   }else{
 
     // check if the texture already exists in the map
-    map<int, PhAnimation>::iterator p = m_mapSprite.find(_state);
+    std::map<int, PhAnimation>::iterator p = m_mapSprite.find(_state);
 
     if( p != m_mapSprite.end() )
     {

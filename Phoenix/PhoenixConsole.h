@@ -3,15 +3,13 @@
 #define _CONSOLE_H_
 
 #include "PhoenixWindows.h"
-#include "PhoenixMain.h"
 
-#include "PhoenixRenderer.h"
 #include <time.h>
 #include <list>
 
 namespace PhoenixCore{
 
-class PhIRenderer;
+class IRenderer;
 
 enum error_type {C_NORMAL, C_ERROR, C_WARNING};
 
@@ -21,29 +19,34 @@ struct sMessageLine
   int m_type;
 };
 
-class PhConsole
+class Console
 {
 private:
   bool m_btoggle;
   std::list<sMessageLine> m_lConsole;
   FILE *m_logfile;
+  static Console* console;
 
   public:
 
-  static PhConsole* Console;
 
-  void Line(const TCHAR* fmt, int _type, ...);	//Outputs a line to the console and textfile
-  void Log(const TCHAR* fmt, int _type, ...);	//Outputs a line to the TextFile
+  //Outputs a line to the console and textfile
+  static void Line(const TCHAR* fmt, int _type, ...);	
 
-  void Draw(PhIRenderer * GDI);
+  //Outputs a line to the TextFile
+  static void Log(const TCHAR* fmt, int _type, ...);	
+
+  void Draw(IRenderer * GDI);
 
   void On(){m_btoggle=1;}
   void Off(){m_btoggle=0;}
 
   bool getToggle(){return m_btoggle;}
 
-  PhConsole();
-  ~PhConsole();
+  const Console* Instance();
+
+  Console();
+  ~Console();
 };
 
 };
