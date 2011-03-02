@@ -8,6 +8,8 @@
 #include "PhoenixEntity.h"
 #include "PhoenixEntityManager.h"
 #include "PhoenixSprite.h"
+#include "CImg.h"
+#include "PhoenixResource.h"
 #include "AsProperties.h"
 #include "CircularList.h"
 #include <tchar.h>
@@ -28,7 +30,9 @@ namespace PhoenixCore{
 
     if (RunOnce){
 
-      Sprite* sp = new Sprite(pTextureMan);
+      //Sprite* sp = new Sprite(pResourceMan);
+
+      
       Player = new Entity();
 
       mousex = LOWORD(mouse);
@@ -154,15 +158,18 @@ namespace PhoenixCore{
     //DRAW FRAME TIME
     //  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),"RenderTime: %4.2f: Frame Number: %d",fps,nFrameCount);
 
+    /*
     glRotatef(camrotx,1.0,0.0,0.0);  //rotate our camera on the x-axis (left and right)
     glRotatef(camroty,0.0,1.0,0.0);  //rotate our camera on the y-axis (up and down)
     glTranslated(-camx,-camy,-camz); //translate the screen to the position of our camera
 
+    */
     //TEST
 
     //pRenderer->Begin3D();
 
     //3D
+    /*
     for(int i = 0;i<1000;i++){
       for (int j = 0; j < 20; j+=4){
         pRenderer->DrawCube(Vertex3(i * 2,0,j,Color(1.0f,1.0f,0.0f)),0,0,Color(1, (i - 1) % 2, (i - 1) % 2));
@@ -176,11 +183,14 @@ namespace PhoenixCore{
     */
 
     float fvViewMatrix[ 16 ]; 
-    glGetFloatv( GL_MODELVIEW_MATRIX, fvViewMatrix );
+   // glGetFloatv( GL_MODELVIEW_MATRIX, fvViewMatrix );
 
     pEntityMan->Draw(pRenderer);
 
     pRenderer->Push2D();
+
+    auto id = pResourceMan->Aquire<Texture>("testkey","C:\\TEST.BMP");
+    pRenderer->DrawTexture2D(id,Vertex2(100,100));
 
     pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),_T("FPS: %3.0f"),fps);
 
@@ -232,12 +242,14 @@ namespace PhoenixCore{
   {
     pConsole = Module->pConsole;
     pRenderer = Module->pRender;
-    pTextureMan = Module->pTextureMan;
     pEntityMan = Module->pEntityMan;
+
+    //setup factory objects
+    DataFactory::GD = pRenderer;
+    pResourceMan = new Resource<std::string, IResource>();
 
     fps = 0;
 
-    pTextureMan = new TextureManager(pConsole,pRenderer);
     pEntityMan = new EntityManager();
 
     RunOnce = true;
@@ -250,7 +262,6 @@ namespace PhoenixCore{
   //destructor
   Engine::~Engine()
   {
-    delete pTextureMan;
   }
 
 };

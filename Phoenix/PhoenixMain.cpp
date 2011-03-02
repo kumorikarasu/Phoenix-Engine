@@ -3,6 +3,8 @@
 #include "PhoenixGlobal.h"
 #include "PhoenixEngine.h"
 #include "PhoenixConsole.h"
+#include "PhoenixIResource.h"
+#include "PhoenixResource.h"
 //OpenGL (ONLY file that should have to include this (other then .cpp ofcourse))
 #include "PhoenixOpenGLHandler.h" 
 #include <time.h>
@@ -40,6 +42,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
   try{
     //Render Object
     Mod->pRender = new OpenGLHandler();
+
 
     //Console Object
     Mod->pConsole = new Console();

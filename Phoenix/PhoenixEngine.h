@@ -9,14 +9,14 @@ namespace PhoenixCore{
 
 //do not include the header files unless you have to
 class IRenderer;		  //PhoenixRenderer.h
+class IResource;
 class Console;		    //PhoenixConsol.h
-class TextureManager;	//PhoenixTexture.h
+template<typename _Key, typename _Ty> class Resource;	//PhoenixTexture.h
 class EntityManager;  //PhoenixEntityManager.h
 
 struct Modules{
   IRenderer*      pRender;
   Console*        pConsole;
-  TextureManager* pTextureMan;
   EntityManager*  pEntityMan;
 };
 
@@ -26,7 +26,7 @@ class Engine
   private:
     //modules, for eas of access
     IRenderer*		  pRenderer;
-    TextureManager*	pTextureMan;
+    Resource<std::string, IResource>*	pResourceMan;
     EntityManager*  pEntityMan;
     Console*        pConsole;
 

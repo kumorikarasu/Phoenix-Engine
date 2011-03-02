@@ -114,6 +114,7 @@
     <ClInclude Include="PhoenixController.h" />
     <ClInclude Include="PhoenixEngine.h" />
     <ClInclude Include="PhoenixGlobal.h" />
+    <ClInclude Include="PhoenixIResource.h" />
     <ClInclude Include="PhoenixMain.h" />
     <ClInclude Include="PhoenixResource.h" />
     <ClInclude Include="PhoenixSprite.h" />
