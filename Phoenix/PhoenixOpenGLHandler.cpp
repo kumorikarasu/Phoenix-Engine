@@ -10,7 +10,34 @@ namespace PhoenixCore{
 
 void OpenGLHandler::BuildTexture(Texture* _pTexture)
 {
+    GLuint texture, depthType;
+    ::glGenTextures(1,&texture); //create a new image in OGL
 
+    _pTexture->id = texture;
+
+    switch(_pTexture->GetBpp())
+    {
+    case 4:
+      depthType = GL_RGBA;
+      break;
+    case 3:
+    default:
+      depthType = GL_RGB;
+      break;
+    }
+
+    ::glBindTexture(GL_TEXTURE_2D,texture);
+    ::glTexEnvf( GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+    //linear filtering
+    ::glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+    ::glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    //wrap edges
+    ::glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+    ::glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+    
+    ::gluBuild2DMipmaps(GL_TEXTURE_2D, 3, _pTexture->GetWidth(), 
+       _pTexture->GetHeight(), depthType, GL_FLOAT, _pTexture->GetData());
 }
 
 void OpenGLHandler::BindTexture(int texture)
@@ -60,7 +87,7 @@ void OpenGLHandler::DrawTexture2D(Texture* _pTexture, Vertex2& pos)
   glEnable( GL_TEXTURE_2D );
 
   //bind the texture to the renderer
-  glBindTexture(GL_TEXTURE_2D, _pTexture->m_id);
+  glBindTexture(GL_TEXTURE_2D, _pTexture->GetTextureId());
 
 
 

@@ -6,6 +6,7 @@
 
 namespace PhoenixCore{
 
+  /*
 class Sprite
 {
 private:
@@ -64,7 +65,7 @@ public:
   bool LoadDirectory(TCHAR* _path);
 
 };
-
+i*/
 };
 
 #endif

@@ -3,6 +3,7 @@
 #include "PhoenixConsole.h"
 #include "PhoenixUtil.h"
 
+/*
 
 namespace PhoenixCore{
 
@@ -287,3 +288,5 @@ PhTexture* Sprite::GetNextAdvancedSprite(int _state)
 }
 
 };
+
+*/

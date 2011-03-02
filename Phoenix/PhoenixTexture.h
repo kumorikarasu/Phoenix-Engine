@@ -4,13 +4,13 @@
 
 #include <map>
 #include <string>
-#include "TextureLoader.h"
+#include "PhoenixIResource.h"
 
 namespace PhoenixCore{
 
   class DataFactory;
 
-  class Texture
+  class Texture : public IResource
   {
     friend class DataFactory;
     
@@ -21,6 +21,7 @@ namespace PhoenixCore{
 
     // Refrence counter (number of times texture has been accessed
     unsigned int refCount;	
+    float* data;
 
   public:
 
@@ -34,6 +35,7 @@ namespace PhoenixCore{
     int GetWidth() const { return width; }
     int GetHeight() const { return height; }
     int GetTextureId() const { return id; }
+    float* GetData() const { return data; }
   };
 };
 
