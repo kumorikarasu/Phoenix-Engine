@@ -1,0 +1,66 @@
+Frame Settings
+
+B - Autoguard/Gaurd Point
+B - Head invicible
+B - Body Invicible
+B - Foot invicible
+B - Projectile invicible
+B - Projectile Gaurd
+B - Super Armor
+B - clash
+B - FRC
+B - Superflash
+
+Attack Settings
+
+V - Attack Name
+V - Level
+V - Damage
+V - Min Damage
+V - Gaurd Damage
+V - Proration
+V - Blockstun
+V - Hitstun
+V - Metergain
+V - Metercost
+B - Grab
+B - High
+B - Low
+B - Air Unblockable
+B - Unblockable
+B - Jump Cancelable
+B - Attack Cancelable
+
+V - Total number of frames
+(when this is set, the next X number of frames are part of this attack, and this value cannot be changed)
+
+Animation Settings
+
+B - Delay Animation
+X - End of Animation
+X - Current Frame Number
+
+Input
+B - A
+B - B
+B - C
+B - D
+B - E
+B - F
+v - Input String
+numpad notation, charge in the form [direction-frames]
+360,720,1080 = special case since you can start from any direction
+
+
+Buttons
+Previous Frame
+Next Frame
+Save Character
+Load Character
+
+
+
+
+
+
+In the main game window, you will have a picture of the current frame your on, you can set your hitboxes with the left mouse button, and attack hit boxes with the right mouse button, clicking on a box will select it (to move it around and adjust the size), esc to go back to insert mode
