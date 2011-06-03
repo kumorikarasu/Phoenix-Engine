@@ -4,8 +4,9 @@
 
 #include "PhoenixRenderer.h"
 
-#include <gl\gl.h>								// Header File For The OpenGL32 Library
-#include <gl\glu.h>								// Header File For The GLu32 Library
+#include <gl\glew.h>
+//#include <gl\gl.h>								// Header File For The OpenGL32 Library
+//#include <gl\glu.h>								// Header File For The GLu32 Library
 
 namespace PhoenixCore{
 
@@ -27,7 +28,7 @@ class OpenGLHandler : public IRenderer
     void	KillWindow();
     void	CloseRenderer();
     void	BindTexture(int texture);
-    void  BuildTexture(Texture* _pTexture);
+    void  BuildTexture(Texture<texturetype>* _pTexture);
     int		ClearBuffer();
     int		SwapBuffer();
     void	BuildFont(void);
@@ -46,17 +47,22 @@ class OpenGLHandler : public IRenderer
     void	DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3);
     void	DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4);
     void  DrawCube(Vertex3& pos, float size, float rotation, Color& c);
-    void	DrawTexture2D(Texture* _pTexture, Vertex2& pos);
+    void	DrawTexture2D(Texture<texturetype>* _pTexture, Vertex2& pos);
+    void  BeginTexture(Texture<texturetype>* _pTexture);
+    void  EndTexture();
     void	DrawText(Vertex2 _pos, const TCHAR *fmt, ...);
 
     void  Push2D();
     void  Pop2D();
 
     //Camera Functions
-    virtual void CamTranslate(float x, float y, float z);
-    virtual void CamRotate(float angle,float  x, float y, float z);
-    virtual void CamScale(float x, float y, float z);
+    void CamTranslate(float x, float y, float z);
+    void CamRotate(float angle,float  x, float y, float z);
+    void CamScale(float x, float y, float z);
 
+    //VBO
+    bool BuildVBO(VBO* vbo, int Type);
+    void DrawVBO(VBO* vbo, Vertex3 pos);
 
     OpenGLHandler(){
       hRC=NULL;

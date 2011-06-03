@@ -45,6 +45,8 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <CustomBuildAfterTargets Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     </CustomBuildAfterTargets>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\DEV\Phoenix Depend\glew-1.6.0\lib;E:\DEV\Phoenix Depend\lpng152\projects\vstudio\Debug;E:\DEV\Phoenix Depend\zlib\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\DEV\Phoenix Depend\lpng152;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -60,7 +62,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCPMTD.LIB %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;zdll.lib;libpng15.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>Hafxcwd.lib Libcmtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -97,6 +99,7 @@
     <ClCompile Include="PhoenixEngine.cpp" />
     <ClCompile Include="PhoenixEntity.cpp" />
     <ClCompile Include="PhoenixMain.cpp" />
+    <ClCompile Include="PhoenixDataFactory.cpp" />
     <ClCompile Include="PhoenixResource.cpp" />
     <ClCompile Include="PhoenixSprite.cpp" />
     <ClCompile Include="PhoenixTexture.cpp" />
@@ -104,14 +107,15 @@
     <ClCompile Include="PhoenixEntityManager.cpp" />
     <ClCompile Include="AsInputBuffer.cpp" />
     <ClCompile Include="PhoenixUtil.cpp" />
+    <ClCompile Include="template.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CImg.h" />
     <ClInclude Include="CircularList.h" />
     <ClInclude Include="dirent.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="PhoenixConsole.h" />
     <ClInclude Include="PhoenixController.h" />
+    <ClInclude Include="PhoenixDataFactory.h" />
     <ClInclude Include="PhoenixEngine.h" />
     <ClInclude Include="PhoenixGlobal.h" />
     <ClInclude Include="PhoenixIResource.h" />
@@ -120,6 +124,7 @@
     <ClInclude Include="PhoenixSprite.h" />
     <ClInclude Include="PhoenixTexture.h" />
     <ClInclude Include="PhoenixUtil.h" />
+    <ClInclude Include="PhoenixVBO.h" />
     <ClInclude Include="PhoenixWindows.h" />
     <ClInclude Include="PhoenixEntity.h" />
     <ClInclude Include="PhoenixEntityManager.h" />

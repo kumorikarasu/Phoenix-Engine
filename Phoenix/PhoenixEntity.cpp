@@ -10,7 +10,7 @@ namespace PhoenixCore{
   }
 
   //Controllers
-  ///Adds a new controller to the entity, returns the entity
+  ///Adds a new controller to the entity, returns the controller
   Controller* Entity::AddController(Controller* c)
   {
     Controllers.push_back(c);

@@ -3,12 +3,14 @@
 #include "PhoenixOpenGLHandler.h"
 #include "PhoenixUtil.h"
 #include "PhoenixTexture.h"
+#include "PhoenixVBO.h"
 #include <tchar.h>
 
 #include "stdio.h"
+
 namespace PhoenixCore{
 
-void OpenGLHandler::BuildTexture(Texture* _pTexture)
+void OpenGLHandler::BuildTexture(Texture<texturetype>* _pTexture)
 {
     GLuint texture, depthType;
     ::glGenTextures(1,&texture); //create a new image in OGL
@@ -28,6 +30,7 @@ void OpenGLHandler::BuildTexture(Texture* _pTexture)
 
     ::glBindTexture(GL_TEXTURE_2D,texture);
     ::glTexEnvf( GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+
     //linear filtering
     ::glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
     ::glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -36,48 +39,17 @@ void OpenGLHandler::BuildTexture(Texture* _pTexture)
     ::glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     ::glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
     
-    ::gluBuild2DMipmaps(GL_TEXTURE_2D, 3, _pTexture->GetWidth(), 
-       _pTexture->GetHeight(), depthType, GL_FLOAT, _pTexture->GetData());
+    ::gluBuild2DMipmaps(GL_TEXTURE_2D, 4, _pTexture->GetWidth(), 
+       _pTexture->GetHeight(), depthType, GL_UNSIGNED_BYTE, _pTexture->GetData());
 }
 
 void OpenGLHandler::BindTexture(int texture)
 {
   glBindTexture(GL_TEXTURE_2D, texture);
-  /*
-  int depthType;
-
-  glGenTextures(1, &(_pTexture->m_id));
-
-  // Linear filters
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-
-  switch(_pTexture->GetBpp())
-  {
-    case 32:
-      depthType = GL_RGBA;
-      break;
-    case 24:
-    default:
-      depthType = GL_RGB;
-      break;
-  }
-  */
-  //texture blending
-  //	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ONE);
-
-  //gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pTexture->m_width, 
-  //  pTexture->m_height, depthType, GL_UNSIGNED_BYTE, pTexture->m_data);
-
-  //glTexImage2D(GL_TEXTURE_2D, 0, depthType, _pTexture->GetWidth(), 
-  // _pTexture->GetHeight(), 0, depthType, GL_UNSIGNED_BYTE, _pTexture->m_data);
-
 }
 
 
-void OpenGLHandler::DrawTexture2D(Texture* _pTexture, Vertex2& pos)
+void OpenGLHandler::DrawTexture2D(Texture<texturetype>* _pTexture, Vertex2& pos)
 {
   if (_pTexture != NULL){
   Vertex2 postopleft(pos.x - _pTexture->GetWidth() / 2,
@@ -87,9 +59,7 @@ void OpenGLHandler::DrawTexture2D(Texture* _pTexture, Vertex2& pos)
   glEnable( GL_TEXTURE_2D );
 
   //bind the texture to the renderer
-  glBindTexture(GL_TEXTURE_2D, _pTexture->GetTextureId());
-
-
+  glBindTexture(GL_TEXTURE_2D, _pTexture->GetResourceId());
 
   //set color to default
   glColor3f(1,1,1);
@@ -97,18 +67,22 @@ void OpenGLHandler::DrawTexture2D(Texture* _pTexture, Vertex2& pos)
   glBegin(GL_QUADS);
   // Front Face
   // Bottom Left Of The Texture and Quad
-  glTexCoord2f(0.0f, 1.0f); glVertex3d(postopleft.x, postopleft.y,  0.0f);	
+  glTexCoord2f(0.0f, 1.0f);
+  glVertex3d(postopleft.x, postopleft.y,  0.0f);	
 
   // Bottom Right Of The Texture and Quad
-  glTexCoord2f(1.0f, 1.0f); glVertex3d(postopleft.x + _pTexture->GetWidth() * 2,
+  glTexCoord2f(1.0f, 1.0f);
+  glVertex3d(postopleft.x + _pTexture->GetWidth() * 2,
     postopleft.y,  0.0f);
 
   // Top Right Of The Texture and Quad
-  glTexCoord2f(1.0f, 0.0f); glVertex3d(postopleft.x + _pTexture->GetWidth() * 2,
+  glTexCoord2f(1.0f, 0.0f);
+  glVertex3d(postopleft.x + _pTexture->GetWidth() * 2,
     postopleft.y + _pTexture->GetHeight() * 2,  0.0f);	
 
   // Top Left Of The Texture and Quad
-  glTexCoord2f(0.0f, 0.0f); glVertex3d(postopleft.x,  
+  glTexCoord2f(0.0f, 0.0f);
+  glVertex3d(postopleft.x,  
     postopleft.y + _pTexture->GetHeight() * 2,  0.0f);	
 
   glEnd();
@@ -171,15 +145,19 @@ void OpenGLHandler::DrawRectangle(Vertex2& pos1, Vertex2& pos2,
 {
   glBegin(GL_QUADS);
   glColor4f(pos1.c.r,pos1.c.g,pos1.c.b,pos1.c.a);
+  glTexCoord2f(0.0f, 1.0f);
   glVertex3f( (GLfloat) pos1.x, (GLfloat)  pos1.y, 0.0f);
 
   glColor4f(pos2.c.r,pos2.c.g,pos2.c.b,pos2.c.a);
+  glTexCoord2f(1.0f, 1.0f);
   glVertex3f( (GLfloat) pos2.x, (GLfloat) pos2.y, 0.0f);
 
   glColor4f(pos3.c.r,pos3.c.g,pos3.c.b,pos3.c.a);
+  glTexCoord2f(1.0f, 0.0f);
   glVertex3f( (GLfloat) pos3.x, (GLfloat) pos3.y, 0.0f);
 
   glColor4f(pos4.c.r,pos4.c.g,pos4.c.b,pos4.c.a);
+  glTexCoord2f(0.0f, 0.0f);
   glVertex3f( (GLfloat) pos4.x, (GLfloat) pos4.y, 0.0f);
   glEnd();
 }
@@ -457,6 +435,8 @@ int OpenGLHandler::Init(){
 
   BuildFont();  // Build The Font
 
+  glewInit();
+
   return true;
 }
 
@@ -636,5 +616,84 @@ void OpenGLHandler::CamScale(float x, float y, float z)
 {
   ::glScalef(x ,y, z);
 }
+
+void  OpenGLHandler::BeginTexture(Texture<texturetype>* _pTexture)
+{
+  //enable 2D texturing
+  glEnable( GL_TEXTURE_2D );
+  //bind the texture to the renderer
+  glBindTexture(GL_TEXTURE_2D, _pTexture->GetResourceId());
+  //set color to default
+  glColor3f(1,1,1);
+}
+
+void  OpenGLHandler::EndTexture()
+{
+  glDisable(GL_TEXTURE_2D);
+}
+
+bool  OpenGLHandler::BuildVBO(VBO* vbo, int Type){
+  GLuint id, id2;
+  ::glGenBuffersARB(1, &id);
+  ::glBindBufferARB(GL_ARRAY_BUFFER_ARB, id);
+  ::glBufferDataARB(GL_ARRAY_BUFFER_ARB, vbo->GetSize() * 3 * sizeof(GLfloat), vbo->GetData(), Type);
+
+  ::glGenBuffersARB(1, &id2);
+  ::glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, id2);
+  ::glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, vbo->GetIndexesSize() * 3 * sizeof(GLint), vbo->GetIndexes(), Type);
+
+  int buffer = 0;
+  glGetBufferParameterivARB(GL_ARRAY_BUFFER_ARB, GL_BUFFER_SIZE_ARB, &buffer);
+  if (vbo->GetSize() * 3 * sizeof(GLfloat) != buffer){
+    glDeleteBuffersARB(1, &id);
+    id = 0;
+  }
+
+  if (Type == GL_STATIC_DRAW_ARB || Type == GL_STATIC_READ_ARB || Type == GL_STATIC_COPY_ARB){
+    ::glFlush();
+    vbo->GetVertexVector().clear();
+  }
+
+  vbo->id = id;
+  vbo->faceid = id2;
+  vbo->Create();
+
+  return true;
+}
+
+void OpenGLHandler::DrawVBO(VBO* vbo, Vertex3 pos){
+	float shininess = 15.0f;
+	float diffuseColor[3] = {0.929524f, 0.796542f, 0.178823f};
+	float specularColor[4] = {1.00000f, 0.980392f, 0.549020f, 1.0f};
+  
+  glPushMatrix();
+  ::glTranslatef(1,1,1);
+  ::glScalef(1.5f,1.5f,1.5f);
+  glBindBufferARB(GL_ARRAY_BUFFER_ARB, vbo->GetResourceId());
+  glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, vbo->GetIndexesID());
+
+	// set specular and shiniess using glMaterial (gold-yellow)
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess); // range 0 ~ 128
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specularColor);
+
+  //set color
+  glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+  glColor3fv(diffuseColor);
+
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glVertexPointer(3, GL_FLOAT, 0, 0);
+ // ,vbo->GetData());
+ // glIndexPointer(GL_UNSIGNED_BYTE, 0, 0);
+
+  glDrawElements(GL_TRIANGLES, vbo->GetIndexesSize(), GL_UNSIGNED_INT, 0);
+  //glDrawArrays(GL_TRIANGLES, 0, vbo->GetSize());
+
+  glDisableClientState(GL_VERTEX_ARRAY);
+
+  glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+  glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
+  glPopMatrix();
+}
+
 
 }

@@ -19,14 +19,14 @@ static int TickCount = 1;
 #ifdef _DEBUG
 using namespace PhoenixCore;
 
-static Console* DEBUGCONSOLE;
+static Console* DEBUGCONSOLE = Console::Instance();
 
 inline void * __cdecl operator new(size_t size)
 {
   void *ptr = (void *)malloc(size);
   //AddTrack((DWORD)ptr, size, file, line);
   if (DEBUGCONSOLE)
-    DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL);
+    DEBUGCONSOLE->Log(_T("CREATED"),Console::C_NORMAL);
   Track++;
   return(ptr);
 };
@@ -35,7 +35,7 @@ inline void __cdecl operator delete(void *p)
 {
   //RemoveTrack((DWORD)p);
   if (DEBUGCONSOLE)
-    DEBUGCONSOLE->Log(_T("DELETED\n"),C_NORMAL);
+    DEBUGCONSOLE->Log(_T("DELETED"),Console::C_NORMAL);
   Track--;
   free(p);
 };
@@ -46,7 +46,7 @@ inline void * __cdecl operator new[](size_t size)
   void *ptr = (void *)malloc(size);
   //AddTrack((DWORD)ptr, size, file, line);
   if (DEBUGCONSOLE)
-    DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL);
+    DEBUGCONSOLE->Log(_T("CREATED"),Console::C_NORMAL);
   Track++;
   return(ptr);
 };
@@ -55,7 +55,7 @@ inline void __cdecl operator delete[](void *p)
 {
   //RemoveTrack((DWORD)p);
   if (DEBUGCONSOLE)
-    DEBUGCONSOLE->Log(_T("DELETED\n"),C_NORMAL);
+    DEBUGCONSOLE->Log(_T("DELETED"),Console::C_NORMAL);
   Track--;
   free(p);
 };

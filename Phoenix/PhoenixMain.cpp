@@ -1,3 +1,4 @@
+#include "PhoenixUtil.h"
 #include "PhoenixWindows.h"
 #include "PhoenixMain.h"
 #include "PhoenixGlobal.h"
@@ -8,6 +9,8 @@
 //OpenGL (ONLY file that should have to include this (other then .cpp ofcourse))
 #include "PhoenixOpenGLHandler.h" 
 #include <time.h>
+
+#define FPSSAMPLESIZE 512
 
 using namespace PhoenixCore;
 
@@ -29,6 +32,8 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
   int		drawRes = 0;
 
   long long	nFrameCount = 0;
+  unsigned int actualfps[FPSSAMPLESIZE] = {0};
+  int index = 0;
 
   //INIT ENGINE HERE
 
@@ -45,11 +50,9 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
 
     //Console Object
-    Mod->pConsole = new Console();
+    Mod->pConsole = Console::Instance();
 
 #ifdef _DEBUG
-    DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //renderer
-    DEBUGCONSOLE->Log(_T("CREATED\n"),C_NORMAL); //console
 #endif
 
     //Engine Handler
@@ -86,11 +89,12 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
       }
       else
       {
+        nFrameCount++;
         time_now = GetTickCount();
         //movement_timer = time_now;
 
         if (Step){
-          pEngine->Step(fps,input,mouse,nFrameCount);
+          pEngine->Step(average(actualfps, FPSSAMPLESIZE),input,mouse,nFrameCount);
           Step = false;
         }
         
@@ -101,18 +105,17 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
         //}
         //movement_timer = clock();
         ms = abs(((ms + GetTickCount() - time_now) / 2));
-        fps = abs((int)(fps + (1000 / ms)) / 2);
-        if (fps > 200){
-          fps = 200;
-        }
-        nFrameCount++;
+        actualfps[index] = abs((int)((1000 / ms)));
+        if (actualfps[index] > 2000)
+          actualfps[index] = 2000;
+        index++;
+        if (index >= FPSSAMPLESIZE)
+          index = 0;
       }
     }
 
     //shutdown console (closes console log file, this is why this is done before the renderer, incase it fails)
-    Mod->pConsole->Log(_T("Number of unfreed memory allocations: %d"),C_NORMAL,Track);
-
-    delete Mod->pConsole;
+    Mod->pConsole->Log(_T("Number of unfreed memory allocations: %d"),Console::C_NORMAL,Track);
 
     //delete the engine itself
     delete pEngine;
@@ -202,7 +205,14 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
       {
         Step = true;
         TickCount++;
-        SetTimer(hWnd,0,16,NULL);
+        /*
+        if (TickCount % 16 == 8){
+          SetTimer(hWnd,0,17,NULL);
+        }else{
+          SetTimer(hWnd,0,16,NULL);
+        }
+        */
+          SetTimer(hWnd,0,30,NULL);
       }
       break;
     case WM_MOUSEMOVE:

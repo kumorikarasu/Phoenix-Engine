@@ -1,6 +1,7 @@
 #include "PhoenixGlobal.h"
 #include "PhoenixRenderer.h"
 #include "PhoenixTexture.h"
+#include "PhoenixVBO.h"
 #include "PhoenixEngine.h"
 #include "PhoenixUtil.h"
 #include "PhoenixConsole.h"
@@ -8,12 +9,13 @@
 #include "PhoenixEntity.h"
 #include "PhoenixEntityManager.h"
 #include "PhoenixSprite.h"
-#include "CImg.h"
 #include "PhoenixResource.h"
 #include "AsProperties.h"
 #include "CircularList.h"
 #include <tchar.h>
 #include <functional>
+
+int x,y;
 
 using namespace PhoenixFight;
 namespace PhoenixCore{
@@ -25,13 +27,14 @@ namespace PhoenixCore{
 
 
   //everything!
-  void Engine::Step(float _fps, bool _input[256], long mouse, long long _nFrameCount)
+  void Engine::Step(unsigned int _fps, bool _input[256], long mouse, long long _nFrameCount)
   {
 
     if (RunOnce){
 
       //Sprite* sp = new Sprite(pResourceMan);
 
+      x = 100; y = 100;
       
       Player = new Entity();
 
@@ -87,46 +90,56 @@ namespace PhoenixCore{
 
       input[192] = false;
     }
-    if (input['A']){
-    float xrotrad, yrotrad;
-    yrotrad = ((camroty - 90) / 180 * 3.141592654f);
-    camx += float(sin(yrotrad)) ;
-    camz -= float(cos(yrotrad)) ;
-    }
-    if (input['D']){
-    float xrotrad, yrotrad;
-    yrotrad = ((camroty + 90) / 180 * 3.141592654f);
-    camx += float(sin(yrotrad)) ;
-    camz -= float(cos(yrotrad)) ;
-    }
-    if (input['W']){
-    // pRenderer->CamTranslate(0,0,1);
-    float xrotrad, yrotrad;
-    yrotrad = (camroty / 180 * 3.141592654f);
-    xrotrad = (camrotx / 180 * 3.141592654f); 
-    camx += (float(sin(yrotrad)) * cos(xrotrad));
-    camz -= (float(cos(yrotrad)) * cos(xrotrad));
-    camy -= float(sin(xrotrad)) ;
-    }
 
-    if (input['S']){
-    // pRenderer->CamTranslate(0,0,-1);
-    float xrotrad, yrotrad;
-    yrotrad = (camroty / 180 * 3.141592654f);
-    xrotrad = (camrotx / 180 * 3.141592654f); 
-    camx -= (float(sin(yrotrad)) * cos(xrotrad));
-    camz += (float(cos(yrotrad)) * cos(xrotrad));
-    camy += float(sin(xrotrad)) ;
-    }
+    if (!pConsole->getToggle()){
+      if (input['A']){
+        float xrotrad, yrotrad;
+        yrotrad = ((camroty - 90) / 180 * 3.141592654f);
+        camx += float(sin(yrotrad)) ;
+        camz -= float(cos(yrotrad)) ;
+        x -= 10;
+      }
+      if (input['D']){
+        float xrotrad, yrotrad;
+        yrotrad = ((camroty + 90) / 180 * 3.141592654f);
+        camx += float(sin(yrotrad)) ;
+        camz -= float(cos(yrotrad)) ;
+        x += 10;
+      }
 
-    //pRenderer->CamRotate(mousex * 5, 0,1,0);
-    camroty += mousex / 4;
-    if (camroty > 360) camroty -= 360;
-    if (camroty < 0) camroty += 360;
-    camrotx += mousey / 4;
-    if (camrotx > 90) camrotx = 90;
-    if (camrotx < -90) camrotx = -90;
-    /// pRenderer->CamRotate(mousey - prevmousey, 1,0,0);
+      if (input['W']){
+        // pRenderer->CamTranslate(0,0,1);
+        float xrotrad, yrotrad;
+        yrotrad = (camroty / 180 * 3.141592654f);
+        xrotrad = (camrotx / 180 * 3.141592654f); 
+        camx += (float(sin(yrotrad)) * cos(xrotrad));
+        camz -= (float(cos(yrotrad)) * cos(xrotrad));
+        camy -= float(sin(xrotrad)) ;
+        y -= 10;
+      }
+
+      if (input['S']){
+        // pRenderer->CamTranslate(0,0,-1);
+        float xrotrad, yrotrad;
+        yrotrad = (camroty / 180 * 3.141592654f);
+        xrotrad = (camrotx / 180 * 3.141592654f); 
+        camx -= (float(sin(yrotrad)) * cos(xrotrad));
+        camz += (float(cos(yrotrad)) * cos(xrotrad));
+        camy += float(sin(xrotrad)) ;
+        y += 10;
+      }
+
+      //pRenderer->CamRotate(mousex * 5, 0,1,0);
+      camroty += mousex / 4;
+      if (camroty > 360) camroty -= 360;
+      if (camroty < 0) camroty += 360;
+      camrotx += mousey / 4;
+      if (camrotx > 90) camrotx = 90;
+      if (camrotx < -90) camrotx = -90;
+      /// pRenderer->CamRotate(mousey - prevmousey, 1,0,0);
+    }else{
+      pConsole->Input(input);
+    }
 
     //  Player->InputBuffer->pushInput(input);
 
@@ -158,44 +171,49 @@ namespace PhoenixCore{
     //DRAW FRAME TIME
     //  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),"RenderTime: %4.2f: Frame Number: %d",fps,nFrameCount);
 
-    /*
-    glRotatef(camrotx,1.0,0.0,0.0);  //rotate our camera on the x-axis (left and right)
-    glRotatef(camroty,0.0,1.0,0.0);  //rotate our camera on the y-axis (up and down)
-    glTranslated(-camx,-camy,-camz); //translate the screen to the position of our camera
+    //Mouse look
+    pRenderer->CamRotate(camrotx,1.0,0.0,0.0);
+    pRenderer->CamRotate(camroty,0.0,1.0,0.0);
+    //WASD Movement
+    pRenderer->CamTranslate(-camx,-camy,-camz);
 
-    */
     //TEST
-
-    //pRenderer->Begin3D();
 
     //3D
     /*
     for(int i = 0;i<1000;i++){
-      for (int j = 0; j < 20; j+=4){
+      for (int j = 0; j < 60; j+=4){
         pRenderer->DrawCube(Vertex3(i * 2,0,j,Color(1.0f,1.0f,0.0f)),0,0,Color(1, (i - 1) % 2, (i - 1) % 2));
         pRenderer->DrawCube(Vertex3(i * 2,0,j + 2,Color(1.0f,1.0f,0.0f)),0,0,Color(1, i % 2, i % 2));
       }
     }
-    /*
-    pRenderer->DrawCube(Vertex3(6,0,3,Color(1.0f,1.0f,0.0f)),0,0,Color(1,1,0));
-    pRenderer->DrawCube(Vertex3(3,0,6,Color(1.0f,1.0f,0.0f)),0,0,Color(1,0,1));
-    pRenderer->DrawCube(Vertex3(6,0,6,Color(1.0f,1.0f,0.0f)),0,0,Color(0,0,1));
     */
+    pRenderer->DrawCube(Vertex3(16,10,13,Color(1.0f,1.0f,0.0f)),0,0,Color(1,1,0));
+    pRenderer->DrawCube(Vertex3(13,10,16,Color(1.0f,1.0f,0.0f)),0,0,Color(1,0,1));
+    pRenderer->DrawCube(Vertex3(16,10,16,Color(1.0f,1.0f,0.0f)),0,0,Color(0,0,1));
 
     float fvViewMatrix[ 16 ]; 
    // glGetFloatv( GL_MODELVIEW_MATRIX, fvViewMatrix );
 
     pEntityMan->Draw(pRenderer);
 
-    pRenderer->Push2D();
 
-    auto id = pResourceMan->Aquire<Texture>("testkey","C:\\TEST.BMP");
-    pRenderer->DrawTexture2D(id,Vertex2(100,100));
+    auto vbo = pResourceMan->Aquire<VBO>("razuleVBO",L"C:\\untitled.obj");
+    if (! vbo->HasBeenCreated()){
+      pRenderer->BuildVBO(vbo, VBO::STATIC_DRAW);
+    }
+    pRenderer->DrawVBO(vbo, Vertex3());
+
+
+    pRenderer->Push2D();
+    auto id = pResourceMan->Aquire<Texture<unsigned char>>("testkey",L"C:\\test.png");
+   // pRenderer->DrawTexture2D(id,Vertex2(x,y));
+
 
     pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),_T("FPS: %3.0f"),fps);
 
-    for (int i = 0; i < 16; i+=4)
-      pRenderer->DrawText(Vertex2(10,40 + i * 8,Color(0,1,0)),_T("%.3f,%.3f,%.3f,%.3f"),fvViewMatrix[i],fvViewMatrix[i + 1],fvViewMatrix[i + 2],fvViewMatrix[i + 3]);
+    //for (int i = 0; i < 16; i+=4)
+    //  pRenderer->DrawText(Vertex2(10,40 + i * 8,Color(0,1,0)),_T("%.3f,%.3f,%.3f,%.3f"),fvViewMatrix[i],fvViewMatrix[i + 1],fvViewMatrix[i + 2],fvViewMatrix[i + 3]);
 
 
     //DRAW SPRITES
@@ -207,13 +225,16 @@ namespace PhoenixCore{
     //							Vertex2(100+i,0,Color(0.0f,0.0f,1.0f)));
 
 
+    pRenderer->BeginTexture(id);
     if (input[32]){
-      pRenderer->DrawRectangle(Vertex2(10,10,Color(0.5f,0.5f,0.5f,0.5f)),
-        Vertex2(110,10,Color(0.5f,0.5f,0.5f,0.5f)),
-        Vertex2(110,110,Color(0.5f,0.5f,0.5f,0.5f)),
-        Vertex2(10,110,Color(0.5f,0.5f,0.5f,0.5f)));
-
+      pRenderer->DrawRectangle(
+        Vertex2(100,100,Color(1)),
+        Vertex2(410,100,Color(0)),
+        Vertex2(410,410,Color(1)),
+        Vertex2(100,410,Color(0)));
     }
+
+    pRenderer->EndTexture();
     pRenderer->DrawLine(Vertex2(0,600,Color(0.0f,1.0f,0.0f)),
       Vertex2(1280,600,Color(1.0f,1.0f,0.0f))
       );
@@ -245,8 +266,8 @@ namespace PhoenixCore{
     pEntityMan = Module->pEntityMan;
 
     //setup factory objects
-    DataFactory::GD = pRenderer;
     pResourceMan = new Resource<std::string, IResource>();
+    pResourceMan->AssignRenderer(pRenderer);
 
     fps = 0;
 

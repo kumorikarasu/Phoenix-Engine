@@ -6,10 +6,13 @@
 #include <string>
 #include "PhoenixIResource.h"
 
+#define texturetype unsigned char
+
 namespace PhoenixCore{
 
   class DataFactory;
 
+  template <class _Ty>
   class Texture : public IResource
   {
     friend class DataFactory;
@@ -21,7 +24,7 @@ namespace PhoenixCore{
 
     // Refrence counter (number of times texture has been accessed
     unsigned int refCount;	
-    float* data;
+    _Ty* data;
 
   public:
 
@@ -29,13 +32,16 @@ namespace PhoenixCore{
     unsigned int		id;		// texture id
 
     Texture() {};
-    ~Texture() {};
+    ~Texture() {
+      if (data != NULL)
+        delete data;
+    };
 
     int GetBpp() const { return bpp; }
     int GetWidth() const { return width; }
     int GetHeight() const { return height; }
-    int GetTextureId() const { return id; }
-    float* GetData() const { return data; }
+    int GetResourceId() const { return id; }
+    _Ty* GetData() const { return data; }
   };
 };
 

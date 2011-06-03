@@ -44,7 +44,7 @@ class Engine
     Engine(Modules *Module);
     ~Engine();
 
-    void Step(float _fps,bool _input[256], long mouse, long long _nFrameCount);
+    void Step(unsigned int _fps,bool _input[256], long mouse, long long _nFrameCount);
     void Render();
 };
 

@@ -66,7 +66,13 @@
     <ClCompile Include="PhoenixController.cpp">
       <Filter>Source Files\PhoenixEntity</Filter>
     </ClCompile>
+    <ClCompile Include="PhoenixDataFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PhoenixResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="template.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,10 +137,13 @@
     <ClInclude Include="PhoenixResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CImg.h">
+    <ClInclude Include="PhoenixIResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhoenixIResource.h">
+    <ClInclude Include="PhoenixDataFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixVBO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
