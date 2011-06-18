@@ -1,71 +1,94 @@
 #ifndef _PHOENIXSPRITE_H_
 #define _PHOENIXSPRITE_H_
 #include <tchar.h>
-#include <map>
-#include "PhoenixTexture.h"
+#include <vector>
+#include "PhoenixVisual.h"
+#include "PhoenixIResource.h"
 
 namespace PhoenixCore{
 
-  /*
-class Sprite
-{
-private:
+  template <class _Ty>
+  class Sprite : public Visual<Sprite<_Ty>>, IResource
+  {
+  private:
+    typedef typename std::vector<_Ty*> container;
+    typedef typename container::iterator it;
 
-  struct PhFrame{
-    int xMovement;
-    int yMovement;
-    int hbtl;
-    int hbtr;
-    int hbbl;
-    int hbbr;
-    int ahbtl;
-    int ahbtr;
-    int ahbbl;
-    int ahbbr;
-    int Flags;
+    container textureList;
+    it texturePos;
+
+  public:
+    Sprite();
+    ~Sprite();
+    bool AddSprite(_Ty* texture);
+    _Ty* GetPreviousFrame();
+    _Ty* GetNextFrame();
+    _Ty* GetFrame();
+    _Ty* GetFrame(int frame);
+    int GetLength();
   };
 
-  struct PhAnimation{
-    int nStartFrame;
-    int nFrames;
-    int xoffset;
-    int yoffset;
-    int delay;
-    PhFrame frame[300];
-  };
+  template<class _Ty>
+  int Sprite<_Ty>::GetLength(){
+    return textureList.size();
+  }
 
+  template<class _Ty>
+  Sprite<_Ty>::Sprite()
+  {
+    texturePos = textureList.begin();
+  }
 
-  TextureManager* m_pTextureMan;
-  int*        m_pTextures;
-  int*        m_pTextureStart;
-  int*        m_pTextureEnd;
-  int         m_nDelay;
-  int         m_nSpriteIndex;
-  int         m_nSpriteLength;
-  int         m_nSpriteLoadIndex;
-  int         m_nSpriteFrame; // Current frame that is displayed noscreen
-  bool        Corrupt;
-  int         m_nState;       // Current frame state, used when switching states
+  template<class _Ty>
+  Sprite<_Ty>::~Sprite()
+  {
 
-  std::map<int, PhAnimation> m_mapSprite;
+  }
 
-public:
-  PhAnimation     m_currentFrame;
+  template<class _Ty>
+  bool Sprite<_Ty>::AddSprite(_Ty* texture)
+  {
+    textureList.push_back(texture);
+    texturePos = textureList.begin();
+  }
 
-  Sprite(TextureManager* _pTexMan);
-  ~Sprite();
-  bool SetSize(int _size);
-  void SetDelay(int _delay);
-  bool AddSprite(TCHAR* _filename);
-  PhTexture* GetPreviousSprite();
-  PhTexture* GetNextSprite();
-  PhTexture* GetNextAdvancedSprite(int _state);
-  void Init();
-  bool Drawable();
-  bool LoadDirectory(TCHAR* _path);
+  template<class _Ty>
+  _Ty* Sprite<_Ty>::GetPreviousFrame()
+  {
+    if (texturePos != textureList.begin()){
+      ++texturePos;
+      return *texturePos;
+    }
+    return NULL;
+  }
 
-};
-i*/
+  template<class _Ty>
+  _Ty* Sprite<_Ty>::GetNextFrame()
+  {
+    if (texturePos != textureList.end()){
+      ++texturePos;
+      return *texturePos;
+    }
+    return NULL;
+  }
+
+  template<class _Ty>
+  _Ty* Sprite<_Ty>::GetFrame()
+  {
+    return *texturePos;
+  }
+
+  //Sets the position pointer to that frame and returns it
+  template<class _Ty>
+  _Ty* Sprite<_Ty>::GetFrame(int frame)
+  {
+    if (frame < textureList.size()){
+      texturePos = textureList.begin() + frame;
+      return *texturePos;
+    }
+
+    return NULL;
+  }
 };
 
 #endif

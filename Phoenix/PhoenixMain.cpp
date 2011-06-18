@@ -48,7 +48,6 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
     //Render Object
     Mod->pRender = new OpenGLHandler();
 
-
     //Console Object
     Mod->pConsole = Console::Instance();
 

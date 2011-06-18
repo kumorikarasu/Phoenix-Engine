@@ -72,9 +72,6 @@
     <ClCompile Include="PhoenixResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="template.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h">
@@ -144,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PhoenixVBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoenixVisual.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

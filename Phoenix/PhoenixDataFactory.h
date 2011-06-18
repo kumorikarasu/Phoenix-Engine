@@ -10,6 +10,7 @@
 #include "PhoenixOpenGLHandler.h"
 #include "PhoenixTexture.h"
 #include "PhoenixVBO.h"
+#include "PhoenixSprite.h"
 #include "PhoenixConsole.h"
 
 namespace PhoenixCore{
@@ -19,9 +20,6 @@ namespace PhoenixCore{
 
   class DataFactory
   {
-  public:
-    static IRenderer* GD;
-
   private:
     template<typename _Key, typename _Ty> friend class Resource;
 
@@ -53,7 +51,6 @@ namespace PhoenixCore{
       }else{
         Console::Instance()->Line(L"Texture %s", Console::C_NORMAL, path.c_str());
       }
-      GD->BuildTexture(tex);
       return tex;
     }
     return NULL;
