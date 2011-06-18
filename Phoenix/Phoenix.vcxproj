@@ -59,6 +59,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>F:\DEV\Phoenix Depend\lpng152;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCPMTD.LIB %(AdditionalOptions)</AdditionalOptions>
@@ -67,6 +68,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>F:\DEV\Phoenix Depend\glew-1.6.0\lib;F:\DEV\Phoenix Depend\lpng152\projects\vstudio\Debug;F:\DEV\Phoenix Depend\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,7 +109,6 @@
     <ClCompile Include="PhoenixEntityManager.cpp" />
     <ClCompile Include="AsInputBuffer.cpp" />
     <ClCompile Include="PhoenixUtil.cpp" />
-    <ClCompile Include="template.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CircularList.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="PhoenixTexture.h" />
     <ClInclude Include="PhoenixUtil.h" />
     <ClInclude Include="PhoenixVBO.h" />
+    <ClInclude Include="PhoenixVisual.h" />
     <ClInclude Include="PhoenixWindows.h" />
     <ClInclude Include="PhoenixEntity.h" />
     <ClInclude Include="PhoenixEntityManager.h" />

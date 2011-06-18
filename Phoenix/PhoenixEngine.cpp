@@ -10,6 +10,7 @@
 #include "PhoenixEntityManager.h"
 #include "PhoenixSprite.h"
 #include "PhoenixResource.h"
+#include "PhoenixDataFactory.h"
 #include "AsProperties.h"
 #include "CircularList.h"
 #include <tchar.h>
@@ -65,6 +66,7 @@ namespace PhoenixCore{
 
       RunOnce = false;
     }
+    ///---------------------------------------//// END INIT PHASE
 
     //  camz = Player->getPos().y;
     //  camx = Player->getPos().x - 10;
@@ -130,6 +132,7 @@ namespace PhoenixCore{
       }
 
       //pRenderer->CamRotate(mousex * 5, 0,1,0);
+      /*
       camroty += mousex / 4;
       if (camroty > 360) camroty -= 360;
       if (camroty < 0) camroty += 360;
@@ -137,6 +140,7 @@ namespace PhoenixCore{
       if (camrotx > 90) camrotx = 90;
       if (camrotx < -90) camrotx = -90;
       /// pRenderer->CamRotate(mousey - prevmousey, 1,0,0);
+      */
     }else{
       pConsole->Input(input);
     }
@@ -198,11 +202,13 @@ namespace PhoenixCore{
     pEntityMan->Draw(pRenderer);
 
 
+    /*
     auto vbo = pResourceMan->Aquire<VBO>("razuleVBO",L"C:\\untitled.obj");
     if (! vbo->HasBeenCreated()){
       pRenderer->BuildVBO(vbo, VBO::STATIC_DRAW);
     }
     pRenderer->DrawVBO(vbo, Vertex3());
+    */
 
 
     pRenderer->Push2D();
@@ -224,8 +230,9 @@ namespace PhoenixCore{
     //							Vertex2(200+i,200+fps,Color(1.0f,0.0f,0.0f)),
     //							Vertex2(100+i,0,Color(0.0f,0.0f,1.0f)));
 
+    if (id != 0)
+      pRenderer->BeginTexture(id);
 
-    pRenderer->BeginTexture(id);
     if (input[32]){
       pRenderer->DrawRectangle(
         Vertex2(100,100,Color(1)),
@@ -267,7 +274,7 @@ namespace PhoenixCore{
 
     //setup factory objects
     pResourceMan = new Resource<std::string, IResource>();
-    pResourceMan->AssignRenderer(pRenderer);
+    pResourceMan->AssignDataFactory(new DataFactory());
 
     fps = 0;
 
