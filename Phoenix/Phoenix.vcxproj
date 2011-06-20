@@ -102,9 +102,6 @@
     <ClCompile Include="PhoenixEntity.cpp" />
     <ClCompile Include="PhoenixMain.cpp" />
     <ClCompile Include="PhoenixDataFactory.cpp" />
-    <ClCompile Include="PhoenixResource.cpp" />
-    <ClCompile Include="PhoenixSprite.cpp" />
-    <ClCompile Include="PhoenixTexture.cpp" />
     <ClCompile Include="PhoenixOpenGLHandler.cpp" />
     <ClCompile Include="PhoenixEntityManager.cpp" />
     <ClCompile Include="AsInputBuffer.cpp" />

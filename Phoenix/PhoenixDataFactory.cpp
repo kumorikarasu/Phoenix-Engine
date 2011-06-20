@@ -4,8 +4,6 @@
 namespace PhoenixCore
 {
 
-  IRenderer* DataFactory::GD = NULL;
-
   bool DataFactory::loadPngImage(const wchar_t *name, int &outWidth, int &outHeight, int &outBpp, bool &outHasAlpha, unsigned char **outData) {
     png_structp png_ptr;
     png_infop info_ptr;

@@ -1,16 +1,14 @@
+#include "PhoenixSprite.h"
 #include "PhoenixGlobal.h"
 #include "PhoenixRenderer.h"
-#include "PhoenixTexture.h"
-#include "PhoenixVBO.h"
+#include "PhoenixResource.h"
+#include "PhoenixDataFactory.h"
 #include "PhoenixEngine.h"
 #include "PhoenixUtil.h"
 #include "PhoenixConsole.h"
 #include "PhoenixController.h"
 #include "PhoenixEntity.h"
 #include "PhoenixEntityManager.h"
-#include "PhoenixSprite.h"
-#include "PhoenixResource.h"
-#include "PhoenixDataFactory.h"
 #include "AsProperties.h"
 #include "CircularList.h"
 #include <tchar.h>
@@ -28,7 +26,7 @@ namespace PhoenixCore{
 
 
   //everything!
-  void Engine::Step(unsigned int _fps, bool _input[256], long mouse, long long _nFrameCount)
+  void Engine::Step(double _fps, bool _input[256], long mouse, long long _nFrameCount)
   {
 
     if (RunOnce){
@@ -39,17 +37,31 @@ namespace PhoenixCore{
       
       Player = new Entity();
 
+      /*
       mousex = LOWORD(mouse);
       mousey = HIWORD(mouse);
       prevmousex = mousex;
       prevmousey = mousey;
+      */
 
       ControllerFactory::Instance()->
-        CreateController([](Entity* p) -> int {
+        CreateController([](Entity* e) -> int {
+          auto p = e->GetSprite()->GetPosition();
+          p.y+=10;
+          p.x++;
+          e->GetSprite()->SetPosition(p);
           return 0;
       })->AssignEntity(Player);
 
-      pEntityMan->AddEntity(Player); //add entity to game
+      auto PlayerSprite = new Sprite<Texture>();
+      auto tex = pResourceMan->Aquire<Texture>("Player1", L"D:\\DEV\\Reimu\\data_character_reimu_attackA000.png");
+      pRenderer->BuildTexture(tex);
+      PlayerSprite->AddVisual(tex);
+      Player->AssignSprite(PlayerSprite);
+
+
+      //pEntityMan->AddEntity(Player); 
+      pEntityMan->AddDrawableEntity(Player); //add entity to game
 
       /*
       Controller<Entity>* a = ControllerFactory<Entity>::Instance()->CreateController([](Entity* e) -> int {
@@ -60,7 +72,6 @@ namespace PhoenixCore{
 
 
 
-      Player->RemoveController();
 
       pRenderer->Begin3D();
 
@@ -76,10 +87,12 @@ namespace PhoenixCore{
     input = _input;
     nFrameCount = _nFrameCount;
 
+    /*
     prevmousex = pRenderer->getWidth() / 2;
     prevmousey = pRenderer->getHeight()/ 2;
     mousex = LOWORD(mouse) - prevmousex + 8;
     mousey = HIWORD(mouse) - prevmousey + 30;
+    */
     /// mousex = ((mousex / ((pRenderer->getWidth() - 30) / 2)) - 1.0112);
     /// mousey = ((mousey / ((pRenderer->getHeight() + 30) / 2)) - 1 + 0.12f);
 
@@ -176,8 +189,8 @@ namespace PhoenixCore{
     //  pRenderer->DrawText(Vertex2(10,20,Color(0,1,0)),"RenderTime: %4.2f: Frame Number: %d",fps,nFrameCount);
 
     //Mouse look
-    pRenderer->CamRotate(camrotx,1.0,0.0,0.0);
-    pRenderer->CamRotate(camroty,0.0,1.0,0.0);
+    //pRenderer->CamRotate(camrotx,1.0,0.0,0.0);
+    //pRenderer->CamRotate(camroty,0.0,1.0,0.0);
     //WASD Movement
     pRenderer->CamTranslate(-camx,-camy,-camz);
 
@@ -199,7 +212,6 @@ namespace PhoenixCore{
     float fvViewMatrix[ 16 ]; 
    // glGetFloatv( GL_MODELVIEW_MATRIX, fvViewMatrix );
 
-    pEntityMan->Draw(pRenderer);
 
 
     /*
@@ -212,7 +224,12 @@ namespace PhoenixCore{
 
 
     pRenderer->Push2D();
-    auto id = pResourceMan->Aquire<Texture<unsigned char>>("testkey",L"C:\\test.png");
+
+    pEntityMan->Draw(pRenderer);
+
+    auto id = pResourceMan->Aquire<Texture>("testkey",L"C:\\test.png");
+    if (!id->isBound()) pRenderer->BuildTexture(id);
+
    // pRenderer->DrawTexture2D(id,Vertex2(x,y));
 
 

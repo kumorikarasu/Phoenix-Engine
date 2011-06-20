@@ -91,7 +91,7 @@ namespace PhoenixCore
   {
     std::wstring str = path.substr(path.find_last_of('.') + 1);
     if (str.compare(L"png") == 0) {
-      return DF->LoadData<Texture<unsigned char>>(path);
+      return DF->LoadData<Texture>(path);
     }
     if (str.compare(L"obj") == 0){
       return DF->LoadData<VBO>(path);

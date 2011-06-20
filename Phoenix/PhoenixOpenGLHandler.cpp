@@ -10,12 +10,13 @@
 
 namespace PhoenixCore{
 
-void OpenGLHandler::BuildTexture(Texture<texturetype>* _pTexture)
+void OpenGLHandler::BuildTexture(Texture* _pTexture)
 {
     GLuint texture, depthType;
     ::glGenTextures(1,&texture); //create a new image in OGL
 
     _pTexture->id = texture;
+    _pTexture->bound = true;
 
     switch(_pTexture->GetBpp())
     {
@@ -49,7 +50,7 @@ void OpenGLHandler::BindTexture(int texture)
 }
 
 
-void OpenGLHandler::DrawTexture2D(Texture<texturetype>* _pTexture, Vertex2& pos)
+void OpenGLHandler::DrawTexture2D(Texture* _pTexture, Vertex2& pos)
 {
   if (_pTexture != NULL){
   Vertex2 postopleft(pos.x - _pTexture->GetWidth() / 2,
@@ -617,7 +618,7 @@ void OpenGLHandler::CamScale(float x, float y, float z)
   ::glScalef(x ,y, z);
 }
 
-void  OpenGLHandler::BeginTexture(Texture<texturetype>* _pTexture)
+void  OpenGLHandler::BeginTexture(Texture* _pTexture)
 {
   //enable 2D texturing
   glEnable( GL_TEXTURE_2D );

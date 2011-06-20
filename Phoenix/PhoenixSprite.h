@@ -1,11 +1,17 @@
+#pragma once
+
 #ifndef _PHOENIXSPRITE_H_
 #define _PHOENIXSPRITE_H_
+
 #include <tchar.h>
 #include <vector>
 #include "PhoenixVisual.h"
 #include "PhoenixIResource.h"
+#include "PhoenixUtil.h"
 
 namespace PhoenixCore{
+
+  class Texture;
 
   template <class _Ty>
   class Sprite : public Visual<Sprite<_Ty>>, IResource
@@ -16,16 +22,25 @@ namespace PhoenixCore{
 
     container textureList;
     it texturePos;
+    Vertex2 pos;
 
   public:
     Sprite();
     ~Sprite();
-    bool AddSprite(_Ty* texture);
+    bool AddVisual(_Ty* texture);
     _Ty* GetPreviousFrame();
     _Ty* GetNextFrame();
     _Ty* GetFrame();
     _Ty* GetFrame(int frame);
     int GetLength();
+
+    Vertex2& GetPosition(){
+      return pos;
+    }
+
+    void SetPosition(Vertex2& pos){
+      this->pos = pos;
+    }
   };
 
   template<class _Ty>
@@ -34,8 +49,16 @@ namespace PhoenixCore{
   }
 
   template<class _Ty>
-  Sprite<_Ty>::Sprite()
+  inline Sprite<_Ty>::Sprite() : Visual(VISUAL_NONE)
   {
+    pos = Vertex2(0,0);
+    texturePos = textureList.begin();
+  }
+
+  template<>
+  inline Sprite<Texture>::Sprite() : Visual(VISUAL_IMAGE)
+  {
+    pos = Vertex2(0,0);
     texturePos = textureList.begin();
   }
 
@@ -46,10 +69,11 @@ namespace PhoenixCore{
   }
 
   template<class _Ty>
-  bool Sprite<_Ty>::AddSprite(_Ty* texture)
+  bool Sprite<_Ty>::AddVisual(_Ty* texture)
   {
     textureList.push_back(texture);
     texturePos = textureList.begin();
+    return true;
   }
 
   template<class _Ty>

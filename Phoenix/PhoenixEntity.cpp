@@ -1,10 +1,14 @@
 
 #include "PhoenixEntity.h"
+#include "PhoenixController.h"
 
 namespace PhoenixCore{
   Entity::Entity(){
     dead = false;
+    pVisual = false;
+    pCollision = false;
   }
+
   Entity::~Entity(){
 
   }
@@ -40,12 +44,29 @@ namespace PhoenixCore{
     Controllers.clear();
   }
 
+  void Entity::RunControllers(){
+    for(auto it = Controllers.begin(); it < Controllers.end(); it++){
+      auto e = (*it);
+      e->f(this);
+    }
+  }
+
   bool Entity::isDead()
   {
     return dead;
   }
+
+  Sprite<Texture>* Entity::GetSprite()
+  {
+    return pVisual;
+  }
+
   void Entity::Kill()
   {
     dead = true;
+  }
+
+  void Entity::AssignSprite(Sprite<Texture>* sprite){
+    this->pVisual = sprite;
   }
 }
