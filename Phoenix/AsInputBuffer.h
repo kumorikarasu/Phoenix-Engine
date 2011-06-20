@@ -41,14 +41,18 @@ namespace PhoenixFight{
   {
   private:
     /// Input buffer length
-    static const int nMaxFrames = 1;
+    static const int nMaxFrames = 30;
+
     /// Number of input buttons (A,B,C,D,E,F and S)
     static const int nNumberofButtons = 7;
 
     /// Input lookup table, used when setting the key config
     unsigned int nInputLUT[256];
 
-    /// A buffer of input directions (circular array)
+	/// Input Values 32 possible
+	unsigned int nInputTable[32] 
+
+    /// A buffer of inputs (circular array)
     long* nInput;
 
     //input array index location 
