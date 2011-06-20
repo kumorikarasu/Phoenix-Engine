@@ -28,7 +28,7 @@ class OpenGLHandler : public IRenderer
     void	KillWindow();
     void	CloseRenderer();
     void	BindTexture(int texture);
-    void  BuildTexture(Texture<texturetype>* _pTexture);
+    void  BuildTexture(Texture* _pTexture);
     int		ClearBuffer();
     int		SwapBuffer();
     void	BuildFont(void);
@@ -47,8 +47,8 @@ class OpenGLHandler : public IRenderer
     void	DrawTriangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3);
     void	DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4);
     void  DrawCube(Vertex3& pos, float size, float rotation, Color& c);
-    void	DrawTexture2D(Texture<texturetype>* _pTexture, Vertex2& pos);
-    void  BeginTexture(Texture<texturetype>* _pTexture);
+    void	DrawTexture2D(Texture* _pTexture, Vertex2& pos);
+    void  BeginTexture(Texture* _pTexture);
     void  EndTexture();
     void	DrawText(Vertex2 _pos, const TCHAR *fmt, ...);
 

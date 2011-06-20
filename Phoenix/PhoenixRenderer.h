@@ -7,7 +7,7 @@
 
 namespace PhoenixCore{
 
-template<class _Ty> class Texture;	//PhoenixTexture.h
+class Texture;	//PhoenixTexture.h
 class VBO;
 #define texturetype unsigned char
 
@@ -39,7 +39,7 @@ class IRenderer
     virtual void	KillWindow() = 0;
     virtual void	CloseRenderer() = 0;
     virtual void	BindTexture(int texture) = 0;
-    virtual void  BuildTexture(Texture<texturetype>* _pTexture) = 0;
+    virtual void  BuildTexture(Texture* _pTexture) = 0;
     virtual int		ClearBuffer()=0;
     virtual int		SwapBuffer()=0;
     virtual void	BuildFont(void)=0;
@@ -60,8 +60,8 @@ class IRenderer
     virtual void	DrawRectangle(Vertex2& pos1, Vertex2& pos2, Vertex2& pos3, Vertex2& pos4)=0;
     virtual void  DrawCube(Vertex3& pos, float size, float rotation, Color& c) = 0;
     virtual void	DrawText(Vertex2 _pos, const TCHAR *fmt, ...)=0;
-    virtual void	DrawTexture2D(Texture<texturetype>* _pTexture, Vertex2& pos) = 0;
-    virtual void  BeginTexture(Texture<texturetype>* _pTexture)=0;
+    virtual void	DrawTexture2D(Texture* _pTexture, Vertex2& pos) = 0;
+    virtual void  BeginTexture(Texture* _pTexture)=0;
     virtual void  EndTexture()=0;
 
     virtual void  Push2D()=0;

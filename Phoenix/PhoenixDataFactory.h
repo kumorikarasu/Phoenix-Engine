@@ -10,7 +10,6 @@
 #include "PhoenixOpenGLHandler.h"
 #include "PhoenixTexture.h"
 #include "PhoenixVBO.h"
-#include "PhoenixSprite.h"
 #include "PhoenixConsole.h"
 
 namespace PhoenixCore{
@@ -20,13 +19,14 @@ namespace PhoenixCore{
 
   class DataFactory
   {
+  public:
   private:
     template<typename _Key, typename _Ty> friend class Resource;
 
     //Yup...
     template<class _Ty>
     static _Ty* LoadData(std::wstring path) {return NULL;}
-    template<> static Texture<texturetype>* LoadData<Texture<texturetype>>(std::wstring path); 
+    template<> static Texture* LoadData<Texture>(std::wstring path); 
     template<> static VBO* LoadData<VBO>(std::wstring path);
 
     static bool loadPngImage(const wchar_t *name, int &outWidth, int &outHeight,
@@ -36,15 +36,15 @@ namespace PhoenixCore{
   };
 
   template<>
-  static Texture<uchar>* DataFactory::LoadData<Texture<uchar>>(std::wstring path)
+  static Texture* DataFactory::LoadData<Texture>(std::wstring path)
   {
-    Texture<uchar>* tex;
+    Texture* tex;
     TCHAR extention[10];
     ExtensionFromFilename((TCHAR*) path.c_str(), extention);
 
     if (wcscmp(extention, L"png") == 0){
       bool alphachan;
-      tex = new Texture<uchar>();
+      tex = new Texture();
       if (!loadPngImage(path.c_str(), tex->width, tex->height, tex->bpp, alphachan, &tex->data)){
         Console::Instance()->Line(L"Texture %s", Console::C_WARNING, path.c_str());
         return NULL;

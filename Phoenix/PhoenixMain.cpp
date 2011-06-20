@@ -93,23 +93,23 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
         //movement_timer = time_now;
 
         if (Step){
-          pEngine->Step(average(actualfps, FPSSAMPLESIZE),input,mouse,nFrameCount);
+          pEngine->Step(ms,input,mouse,nFrameCount);
           Step = false;
         }
         
         //while (abs((long) (time_now - GetTickCount())) < 16){
         pEngine->Render();
-        if (GetFocus())
-          SetCursorPos(1280/2,720/2);
+        //if (GetFocus())
+          //SetCursorPos(1280/2,720/2);
         //}
         //movement_timer = clock();
-        ms = abs(((ms + GetTickCount() - time_now) / 2));
-        actualfps[index] = abs((int)((1000 / ms)));
-        if (actualfps[index] > 2000)
-          actualfps[index] = 2000;
-        index++;
-        if (index >= FPSSAMPLESIZE)
-          index = 0;
+        ms = GetTickCount() - time_now;
+       // actualfps[index] = abs((int)((1000 / ms)));
+        //if (actualfps[index] > 2000)
+          //actualfps[index] = 2000;
+        //index++;
+        //if (index >= FPSSAMPLESIZE)
+          //index = 0;
       }
     }
 

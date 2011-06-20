@@ -42,9 +42,6 @@
     <ClCompile Include="PhoenixMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PhoenixTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PhoenixOpenGLHandler.cpp">
       <Filter>Source Files\PhoenixRenderer</Filter>
     </ClCompile>
@@ -53,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="AsInputBuffer.cpp">
       <Filter>Source Files\Fightan</Filter>
-    </ClCompile>
-    <ClCompile Include="PhoenixSprite.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhoenixUtil.cpp">
       <Filter>Source Files</Filter>
@@ -67,9 +61,6 @@
       <Filter>Source Files\PhoenixEntity</Filter>
     </ClCompile>
     <ClCompile Include="PhoenixDataFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PhoenixResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

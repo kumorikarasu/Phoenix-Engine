@@ -11,6 +11,7 @@ namespace PhoenixCore{
   {
   private:
     LinkedList<Entity>* EntityList;
+    LinkedList<Entity>* DrawList;
 
   public:
 
@@ -18,6 +19,7 @@ namespace PhoenixCore{
     ~EntityManager();
 
     void AddEntity(Entity* _pEntity);
+    void AddDrawableEntity(Entity* _pEntity);
     Node<Entity>* GetFirstNode();
     void Run();
     void Draw(IRenderer* pGDI);
